@@ -1,4 +1,4 @@
-package org.czekalski.userkeycloak;
+package org.czekalski.userkeycloak.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
