@@ -1,0 +1,2 @@
+./standalone.sh -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/keycloak-6.0.1/bin/config
+
