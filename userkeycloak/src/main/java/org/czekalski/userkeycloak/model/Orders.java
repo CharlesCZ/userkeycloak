@@ -11,6 +11,8 @@ import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+
+@Table(name = "order_table")
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(exclude = "user",callSuper = true)
