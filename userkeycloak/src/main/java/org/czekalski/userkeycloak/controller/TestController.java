@@ -2,10 +2,14 @@ package org.czekalski.userkeycloak.controller;
 
 
 
+import org.czekalski.userkeycloak.model.Orders;
+import org.czekalski.userkeycloak.repository.OrderRepository;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
 import org.keycloak.representations.AccessToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -17,7 +21,8 @@ import java.security.Principal;
 @RestController
 public class TestController {
 
-
+    @Autowired
+OrderRepository orderRepository;
 
     @GetMapping("/index")
     public String index(){
@@ -41,10 +46,15 @@ public class TestController {
     public String test1(@AuthenticationPrincipal Principal currentUser){
       Principal user= (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         SimpleKeycloakAccount  details = (SimpleKeycloakAccount) SecurityContextHolder.getContext().getAuthentication().getDetails();
         AccessToken accessToken= details.getKeycloakSecurityContext().getToken();
 
+
+        Orders order1=new Orders();
+        order1.setNazwa("nowe zamowienie2");
+        order1.setId(orderRepository.save(order1).getId());
+        orderRepository.save(order1);
         return "test1";
     }
 }

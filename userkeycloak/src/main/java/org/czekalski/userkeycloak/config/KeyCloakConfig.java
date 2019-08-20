@@ -82,6 +82,7 @@ KeycloakConfigResolver keycloakConfigResolver;
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             super.configure(http);
+            http.headers().frameOptions().disable();
             http
                     .csrf().disable()
                     .authorizeRequests()
