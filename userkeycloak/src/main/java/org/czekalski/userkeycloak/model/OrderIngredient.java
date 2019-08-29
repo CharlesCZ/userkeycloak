@@ -25,7 +25,7 @@ public class OrderIngredient {
 
     @ManyToOne
     @JoinColumn(name = "order_dish_id")
-private OrderDish orderDish;
+    private OrderDish orderDish;
 
     @ManyToOne
     @JoinColumn(name = "ingredient_id")

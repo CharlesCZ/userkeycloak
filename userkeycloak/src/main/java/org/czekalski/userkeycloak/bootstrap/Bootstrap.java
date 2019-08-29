@@ -1,5 +1,5 @@
 package org.czekalski.userkeycloak.bootstrap;
-import org.czekalski.userkeycloak.model.Orders;
+import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.repository.OrderRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -21,8 +21,8 @@ private final OrderRepository orderRepository;
     @Override
     public void run(String... args) throws Exception {
 
-        Orders order1=new Orders();
-        order1.setNazwa("nowe zamowienie");
+        Order order1=new Order();
+        order1.setDescription("nowe zamowienie");
         order1.setId(orderRepository.save(order1).getId());
         orderRepository.save(order1);
 
