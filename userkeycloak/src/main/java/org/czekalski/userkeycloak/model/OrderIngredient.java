@@ -2,6 +2,9 @@ package org.czekalski.userkeycloak.model;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -9,10 +12,16 @@ import java.math.BigDecimal;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+
+
+
 @Data
 @Table(name = "order_ingredient_table")
 @Entity
-public class OrderIngredient {
+@EqualsAndHashCode(exclude = {"ingredient","orderDish"},callSuper = true)
+@Audited
+@EntityListeners(AuditingEntityListener.class)
+public class OrderIngredient extends AuditBase{
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")

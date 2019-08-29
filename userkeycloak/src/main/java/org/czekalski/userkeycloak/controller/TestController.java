@@ -2,7 +2,7 @@ package org.czekalski.userkeycloak.controller;
 
 
 
-import org.czekalski.userkeycloak.model.Orders;
+import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.repository.OrderRepository;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
@@ -51,8 +51,8 @@ OrderRepository orderRepository;
         AccessToken accessToken= details.getKeycloakSecurityContext().getToken();
 
 
-        Orders order1=new Orders();
-        order1.setNazwa("nowe zamowienie2");
+        Order order1=new Order();
+        order1.setDescription("nowe zamowienie2");
         order1.setId(orderRepository.save(order1).getId());
         orderRepository.save(order1);
         return "test1";

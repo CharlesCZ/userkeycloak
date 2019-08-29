@@ -2,6 +2,7 @@ package org.czekalski.userkeycloak.model;
 
 
 import lombok.Data;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
@@ -9,8 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
-
+@Audited(targetAuditMode = NOT_AUDITED)
 @Table(name = "order_address_table")
 @Data
 @Entity
@@ -31,8 +33,7 @@ public class OrderAddress {
     private String telephone;
 
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
+    @Column(nullable =false,name="user_id")
     private String user;
 
     @OneToMany(mappedBy = "orderAddress")

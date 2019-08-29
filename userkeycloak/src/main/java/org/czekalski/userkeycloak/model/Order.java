@@ -19,7 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "order_table")
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(exclude = {"user","orderAddress","status"},callSuper = true)
+@EqualsAndHashCode(exclude = {"user","orderAddress","status","orderDishes"},callSuper = true)
 @Entity
 @Audited
 @EntityListeners(AuditingEntityListener.class)
@@ -42,17 +42,17 @@ public class Order extends AuditBase {
     @Column(name = "delivery_time")
     private Timestamp deliveryTime;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
+
+   @Column(nullable =false,name="user_id")
     private String user;
 
     @ManyToOne
     @JoinColumn(name = "order_address_id")
     private OrderAddress orderAddress;
 
-    @ManyToOne
-    @JoinColumn(name="status_id")
     private Status status;
+
+    private Boolean payed;
 
     @OneToMany(mappedBy = "order")
     private Set<OrderDish> orderDishes=new HashSet<>();
