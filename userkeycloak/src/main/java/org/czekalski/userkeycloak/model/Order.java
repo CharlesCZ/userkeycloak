@@ -39,7 +39,6 @@ public class Order extends AuditBase {
     @Column(name = "payment_kind")
     private PaymentKind paymentKind;
 
-
     @Column(name = "delivery_time")
     private Timestamp deliveryTime;
 
