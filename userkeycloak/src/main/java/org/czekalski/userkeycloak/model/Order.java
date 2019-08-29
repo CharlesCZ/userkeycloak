@@ -43,8 +43,6 @@ public class Order extends AuditBase {
     @Column(name = "delivery_time")
     private Timestamp deliveryTime;
 
-
-
     @ManyToOne
     @JoinColumn(name="user_id")
     private String user;
