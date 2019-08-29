@@ -1,9 +1,6 @@
 package org.czekalski.userkeycloak.bootstrap;
 import org.czekalski.userkeycloak.model.*;
-import org.czekalski.userkeycloak.repository.DishRepository;
-import org.czekalski.userkeycloak.repository.OrderAddressRepository;
-import org.czekalski.userkeycloak.repository.OrderDishRepository;
-import org.czekalski.userkeycloak.repository.OrderRepository;
+import org.czekalski.userkeycloak.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,14 +18,19 @@ public class Bootstrap implements CommandLineRunner {
     private final OrderAddressRepository orderAddressRepository;
 private final DishRepository dishRepository;
 private final OrderDishRepository orderDishRepository;
-    public Bootstrap(OrderRepository orderRepository, OrderAddressRepository orderAddressRepository, DishRepository dishRepository, OrderDishRepository orderDishRepository) {
+private final IngredientRepository ingredientRepository;
+private final OrderIngredientRepository orderIngredientRepository;
+
+    public Bootstrap(OrderRepository orderRepository, OrderAddressRepository orderAddressRepository, DishRepository dishRepository,
+                     OrderDishRepository orderDishRepository,IngredientRepository ingredientRepository,
+           OrderIngredientRepository orderIngredientRepository) {
 
         this.orderRepository = orderRepository;
-
-
         this.orderAddressRepository = orderAddressRepository;
         this.dishRepository = dishRepository;
         this.orderDishRepository = orderDishRepository;
+        this.ingredientRepository=ingredientRepository;
+        this.orderIngredientRepository=orderIngredientRepository;
     }
 
 
@@ -77,5 +79,31 @@ private final OrderDishRepository orderDishRepository;
         dish.getOrderDishes().add(orderDish);
 
 
+        Ingredient ingredient1=new Ingredient();
+        ingredient1.setName("ser");
+        ingredient1.setCost(new BigDecimal("0.60"));
+      ingredient1=  ingredientRepository.save(ingredient1);
+
+        Ingredient ingredient2=new Ingredient();
+        ingredient2.setName("oregano");
+        ingredient2.setCost(new BigDecimal("0.30"));
+        ingredient2=  ingredientRepository.save(ingredient2);
+
+        OrderIngredient orderIngredient1=new OrderIngredient();
+orderIngredient1.setIngredientDishOrderCost(ingredient1.getCost());
+orderIngredient1.setIngredient(ingredient1);
+orderIngredient1.setOrderDish(orderDish);
+orderIngredient1=orderIngredientRepository.save(orderIngredient1);
+
+orderDish.getOrderIngredients().add(orderIngredient1);
+
+        OrderIngredient orderIngredient2=new OrderIngredient();
+        orderIngredient2.setIngredientDishOrderCost(ingredient2.getCost());
+        orderIngredient2.setIngredient(ingredient2);
+        orderIngredient2.setOrderDish(orderDish);
+        orderIngredient2=orderIngredientRepository.save(orderIngredient2);
+
+        orderDish.getOrderIngredients().add(orderIngredient2);
+        System.out.println("###################Bootstrap Loaded############################");
     }
 }
