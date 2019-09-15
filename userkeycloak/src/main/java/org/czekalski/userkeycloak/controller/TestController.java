@@ -24,16 +24,8 @@ public class TestController {
     @Autowired
 OrderRepository orderRepository;
 
-    @GetMapping("/index")
-    public String index(){
-        return "returned index";
-    }
 
-    @GetMapping("/logout")
-    public String logout(){
 
-        return "logged out";
-    }
 
 
     @GetMapping("/")

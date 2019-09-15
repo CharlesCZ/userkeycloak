@@ -87,12 +87,14 @@ KeycloakConfigResolver keycloakConfigResolver;
                     .csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/test2*").hasRole("user") // only user with role user are allowed to access
+                    .antMatchers("/logged*").authenticated()
                     .anyRequest().permitAll()
                     .and()
                         .logout()
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/index")
                         .invalidateHttpSession(true) //true by default
+                 //   .addLogoutHandler(keycloakLogoutHandler())
                         .addLogoutHandler(new KeycloakLogoutHandler(new AdapterDeploymentContext(keycloakConfigResolver)));
 
 
