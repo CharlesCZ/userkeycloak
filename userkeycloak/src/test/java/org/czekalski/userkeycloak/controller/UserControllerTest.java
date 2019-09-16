@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = UserController.class)
-@TestPropertySource("classpath:secTest.properties")
+@TestPropertySource("classpath:application-development.properties")
 class UserControllerTest {
 
     @MockBean
