@@ -14,6 +14,7 @@ import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,6 +30,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
         basePackageClasses = KeycloakSecurityComponents.class,
         excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.keycloak.adapters.springsecurity.management.HttpSessionManager"))
 @EnableWebSecurity
+@ConditionalOnProperty(value = "keycloak.enabled", matchIfMissing = true)
 public class KeyCloakConfig extends KeycloakWebSecurityConfigurerAdapter {
 
 
@@ -87,12 +89,12 @@ KeycloakConfigResolver keycloakConfigResolver;
                     .csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/test2*").hasRole("user") // only user with role user are allowed to access
-                    .antMatchers("/logged*").authenticated()
+                    .antMatchers("/logged*","/logout*").authenticated()
                     .anyRequest().permitAll()
                     .and()
                         .logout()
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/index")
+                        .logoutSuccessUrl("/logout/index")
                         .invalidateHttpSession(true) //true by default
                  //   .addLogoutHandler(keycloakLogoutHandler())
                         .addLogoutHandler(new KeycloakLogoutHandler(new AdapterDeploymentContext(keycloakConfigResolver)));
