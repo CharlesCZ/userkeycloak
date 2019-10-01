@@ -13,7 +13,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Audited(targetAuditMode = NOT_AUDITED)
 @Data
-@Table(name = "ingredient_table")
+@Table(name = "ingredients")
 @Entity
 public class Ingredient {
     @Id

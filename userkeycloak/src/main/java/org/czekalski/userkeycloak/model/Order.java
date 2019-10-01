@@ -16,7 +16,7 @@ import java.util.Set;
 import static javax.persistence.GenerationType.IDENTITY;
 
 
-@Table(name = "order_table")
+@Table(name = "orders")
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(exclude = {"user","orderAddress","status","orderDishes"},callSuper = true)

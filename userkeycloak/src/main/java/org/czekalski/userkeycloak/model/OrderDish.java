@@ -16,7 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 
 
-@Table(name = "order_dish_table")
+@Table(name = "order_dishes")
 @Data
 @EqualsAndHashCode(exclude = {"order","dish","orderIngredients"},callSuper = true)
 @Entity

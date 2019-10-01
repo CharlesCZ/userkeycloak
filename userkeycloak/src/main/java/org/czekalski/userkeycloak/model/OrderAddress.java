@@ -13,7 +13,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 
 @Audited(targetAuditMode = NOT_AUDITED)
-@Table(name = "order_address_table")
+@Table(name = "order_addresses")
 @Data
 @Entity
 public class OrderAddress {

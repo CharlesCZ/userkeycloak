@@ -16,7 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 
 @Data
-@Table(name = "order_ingredient_table")
+@Table(name = "order_ingredients")
 @Entity
 @EqualsAndHashCode(exclude = {"ingredient","orderDish"},callSuper = true)
 @Audited
@@ -39,4 +39,6 @@ public class OrderIngredient extends AuditBase{
     @ManyToOne
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
+
+    private Integer quantity;
 }
