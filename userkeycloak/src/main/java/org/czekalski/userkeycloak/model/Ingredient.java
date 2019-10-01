@@ -25,4 +25,8 @@ public class Ingredient {
 
     private BigDecimal cost;
 
+    private Integer quantity;
+
+
+
 }

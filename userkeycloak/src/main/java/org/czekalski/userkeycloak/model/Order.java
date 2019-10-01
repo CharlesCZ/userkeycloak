@@ -36,7 +36,8 @@ public class Order extends AuditBase {
     @Column(name="finished_time")
     private Timestamp finishedTime;
 
-    @Column(name = "payment_kind")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "payment_kind")
     private PaymentKind paymentKind;
 
     @Column(name = "delivery_time")
@@ -50,6 +51,8 @@ public class Order extends AuditBase {
     @JoinColumn(name = "order_address_id")
     private OrderAddress orderAddress;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status")
     private Status status;
 
     private Boolean payed;

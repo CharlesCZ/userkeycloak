@@ -20,10 +20,12 @@ private final DishRepository dishRepository;
 private final OrderDishRepository orderDishRepository;
 private final IngredientRepository ingredientRepository;
 private final OrderIngredientRepository orderIngredientRepository;
+private final PaymentKindRepository paymentKindRepository;
+private final StatusRepository statusRepository;
 
     public Bootstrap(OrderRepository orderRepository, OrderAddressRepository orderAddressRepository, DishRepository dishRepository,
-                     OrderDishRepository orderDishRepository,IngredientRepository ingredientRepository,
-           OrderIngredientRepository orderIngredientRepository) {
+                     OrderDishRepository orderDishRepository, IngredientRepository ingredientRepository,
+                     OrderIngredientRepository orderIngredientRepository, PaymentKindRepository paymentKindRepository, StatusRepository statusRepository) {
 
         this.orderRepository = orderRepository;
         this.orderAddressRepository = orderAddressRepository;
@@ -31,20 +33,24 @@ private final OrderIngredientRepository orderIngredientRepository;
         this.orderDishRepository = orderDishRepository;
         this.ingredientRepository=ingredientRepository;
         this.orderIngredientRepository=orderIngredientRepository;
+        this.paymentKindRepository = paymentKindRepository;
+        this.statusRepository = statusRepository;
     }
 
 
     @Override
     public void run(String... args) throws Exception {
 
+
+
         Order order1=new Order();
         order1.setDescription("nowe zamowienie");
         order1.setUser(USER1);
         order1.setFinishedTime(new Timestamp(System.currentTimeMillis()));
-        order1.setPaymentKind(PaymentKind.CARD);
+        order1.setPaymentKind(paymentKindRepository.findByName("Cash").get());
 
 
-        order1.setStatus(Status.READY);
+        order1.setStatus(statusRepository.findByName("Ready").get());
         order1.setPayed(false);
 
         OrderAddress orderAddress = new OrderAddress();
@@ -60,6 +66,35 @@ private final OrderIngredientRepository orderIngredientRepository;
         order1.setOrderAddress(orderAddress);
         order1.setId(orderRepository.save(order1).getId());
         orderRepository.save(order1);
+
+
+        Order order2=new Order();
+        order2.setDescription("nowe zamowienie");
+        order2.setUser(USER1);
+        order2.setFinishedTime(new Timestamp(System.currentTimeMillis()));
+        order2.setPaymentKind(paymentKindRepository.findByName("Cash").get());
+
+
+        order2.setStatus(statusRepository.findByName("Ready").get());
+        order2.setPayed(false);
+
+        OrderAddress orderAddress2 = new OrderAddress();
+        orderAddress2.setUser(USER1);
+        orderAddress2.setApartment(11);
+        orderAddress2.setCity("Poznan");
+        orderAddress2.setHouseNr(23);
+        orderAddress2.setStreet("Marszalkowska");
+        orderAddress2.setTelephone("123123123");
+        orderAddressRepository.save(orderAddress2);
+
+
+        order2.setOrderAddress(orderAddress2);
+        order2.setId(orderRepository.save(order2).getId());
+        orderRepository.save(order2);
+
+
+
+
 
         orderAddress.getOrders().add(order1);
 
@@ -88,6 +123,11 @@ private final OrderIngredientRepository orderIngredientRepository;
         ingredient2.setName("oregano");
         ingredient2.setCost(new BigDecimal("0.30"));
         ingredient2=  ingredientRepository.save(ingredient2);
+
+        Ingredient ingredient3=new Ingredient();
+        ingredient3.setName("pietruszka");
+        ingredient3.setCost(new BigDecimal("99.77"));
+        ingredient3=  ingredientRepository.save(ingredient3);
 
         OrderIngredient orderIngredient1=new OrderIngredient();
 orderIngredient1.setIngredientDishOrderCost(ingredient1.getCost());
