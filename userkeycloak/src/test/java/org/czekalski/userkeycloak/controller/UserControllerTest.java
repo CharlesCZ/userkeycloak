@@ -13,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-
+@ActiveProfiles("application-development.properties")
 @WebMvcTest(value = UserController.class,includeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "TestSecurityConfig.class"))
 @TestPropertySource("classpath:application-development.properties")
 class UserControllerTest {
