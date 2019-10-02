@@ -1,4 +1,4 @@
-package org.czekalski.userkeycloak.Service;
+package org.czekalski.userkeycloak.service;
 
 import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
 import org.keycloak.representations.AccessToken;

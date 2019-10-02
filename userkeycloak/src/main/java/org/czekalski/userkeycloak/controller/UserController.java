@@ -3,11 +3,9 @@ package org.czekalski.userkeycloak.controller;
 import java.net.URI;
 import java.util.List;
 
-import org.czekalski.userkeycloak.Service.UserService;
-import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
+import org.czekalski.userkeycloak.service.UserService;
 import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

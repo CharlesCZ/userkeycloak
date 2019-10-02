@@ -1,28 +1,26 @@
 package org.czekalski.userkeycloak.controller;
 
-import org.czekalski.userkeycloak.model.Ingredient;
-import org.czekalski.userkeycloak.repository.IngredientRepository;
+
+import org.czekalski.userkeycloak.service.IngredientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/ingredients")
 public class IngredientController {
 
-private final IngredientRepository ingredientRepository;
+private  final IngredientService ingredientService;
 
-
-    public IngredientController(IngredientRepository ingredientRepository) {
-        this.ingredientRepository = ingredientRepository;
+    public IngredientController(IngredientService ingredientService) {
+        this.ingredientService = ingredientService;
     }
 
 
-    @GetMapping({"", "/", "/index"})
+    @GetMapping({""})
     public String getAllIngredients(Model model){
-            model.addAttribute("ingredients",ingredientRepository.findAll());
+            model.addAttribute("ingredients",ingredientService.findAll());
 
         return "ingredients/list";
     }
