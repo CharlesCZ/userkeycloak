@@ -3,6 +3,7 @@ package org.czekalski.userkeycloak.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.czekalski.userkeycloak.exceptions.NotFoundIngredientException;
+import org.czekalski.userkeycloak.model.Ingredient;
 import org.czekalski.userkeycloak.service.IngredientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,26 @@ public String showIngredient(@PathVariable Long id, Model model){
 
         return "ingredients/show";
 }
+
+
+@GetMapping("/new")
+public String newIngredientForm(Model model){
+
+
+    Ingredient ingredient=new Ingredient();
+
+    model.addAttribute("ingredient",ingredient);
+
+        return "ingredients/ingredientForm";
+    }
+
+    @PostMapping("/new")
+    public String SaveorUpdateIngredient(Ingredient ingredient){
+  Ingredient savedIngredient=  ingredientService.save(ingredient);
+
+  return "redirect:/ingredients/"+savedIngredient.getId()+"/show";
+
+    }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundIngredientException.class)

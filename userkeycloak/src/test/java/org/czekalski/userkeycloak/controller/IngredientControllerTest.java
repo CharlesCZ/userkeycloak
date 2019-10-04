@@ -1,7 +1,6 @@
 package org.czekalski.userkeycloak.controller;
 
-import org.czekalski.userkeycloak.controller.IngredientController;
-import org.czekalski.userkeycloak.exceptions.NotFoundIngredientException;
+
 import org.czekalski.userkeycloak.model.Ingredient;
 import org.czekalski.userkeycloak.service.IngredientService;
 import org.junit.jupiter.api.AfterEach;
@@ -11,8 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,15 +18,11 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.in;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -72,7 +65,8 @@ class IngredientControllerTest {
     void testGetNewRecipeForm() throws Exception {
         mockMvc.perform(get("/ingredients/new")).andExpect(status().isOk())
                 .andExpect(view().name("ingredients/ingredientForm"))
-                .andExpect(model().attributeExists("ingredient"));
+                .andExpect(model().attributeExists("ingredient"))
+                .andExpect(content().contentType(MediaType.valueOf("text/html;charset=UTF-8")));
     }
 
 
@@ -110,7 +104,8 @@ class IngredientControllerTest {
         mockMvc.perform(get("/ingredients/3/show"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("ingredients/show"))
-                .andExpect(model().attributeExists("ingredient"));
+                .andExpect(model().attributeExists("ingredient"))
+                .andExpect(content().contentType(MediaType.valueOf("text/html;charset=UTF-8")));
 
 
         then(ingredientService).should().findById(anyLong());
