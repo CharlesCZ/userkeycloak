@@ -10,6 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+/**
+ * Needed to use this config because, keycloak was disabled for testing purposes,
+ * this Bean was added to testing context
+ **/
 @Profile("application-development.properties")
 @Configuration
 @EnableWebSecurity

@@ -28,6 +28,7 @@ public class Dish {
 
     private BigDecimal cost;
 
+        private BigDecimal size; //small pizza is equal to 1, big is equal to size_big/size_small
 
     @OneToMany(mappedBy = "dish")
     private Set<OrderDish> orderDishes= new HashSet<>();
