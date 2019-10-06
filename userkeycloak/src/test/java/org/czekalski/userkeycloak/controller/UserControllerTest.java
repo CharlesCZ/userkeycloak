@@ -23,7 +23,9 @@ import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+/**
+ * workaround https://github.com/spring-projects/spring-boot/issues/6514
+ * **/
 
 @ActiveProfiles("application-development.properties")
 @WebMvcTest(value = UserController.class,includeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "TestSecurityConfig.class"))
