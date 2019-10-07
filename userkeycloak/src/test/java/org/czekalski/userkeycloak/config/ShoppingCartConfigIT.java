@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitWebConfig(classes = {OrderService.class,ShoppingCartConfig.class})
 @TestPropertySource("classpath:application-development.properties")
-class ShoppingCartConfigTest {
+class ShoppingCartConfigIT {
 
     @Autowired
     MockHttpSession session;

@@ -1,6 +1,7 @@
 package org.czekalski.userkeycloak.controller;
 
 
+import org.czekalski.userkeycloak.exceptions.NotFoundIngredientException;
 import org.czekalski.userkeycloak.model.Ingredient;
 import org.czekalski.userkeycloak.service.IngredientService;
 import org.junit.jupiter.api.AfterEach;
@@ -23,6 +24,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -61,10 +63,20 @@ class IngredientControllerTest {
         assertThat(ingredientService.findAll()).hasSize(2);
 
     }
+    @Test
+    public void testGetIngredientNotFound() throws Exception {
 
+        when(ingredientService.findById(anyLong())).thenThrow(NotFoundIngredientException.class);
+
+        mockMvc.perform(get("/ingredients/1/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("ingredients/404view"))
+                .andExpect(model().attributeExists("ex"));
+
+    }
 
     @Test
-    void testGetNewRecipeForm() throws Exception {
+    void testGetNewIngredientForm() throws Exception {
         mockMvc.perform(get("/ingredients/new")).andExpect(status().isOk())
                 .andExpect(view().name("ingredients/ingredientForm"))
                 .andExpect(model().attributeExists("ingredient"))
