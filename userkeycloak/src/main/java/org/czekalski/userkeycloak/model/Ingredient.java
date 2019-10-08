@@ -6,6 +6,9 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
@@ -25,8 +28,23 @@ public class Ingredient {
 
     private BigDecimal cost;
 
+   /* @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;*/
 
+  @OneToMany(mappedBy = "ingredient")
+  private Set<Recipe> recipes=new HashSet<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return Objects.equals(id, that.id);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

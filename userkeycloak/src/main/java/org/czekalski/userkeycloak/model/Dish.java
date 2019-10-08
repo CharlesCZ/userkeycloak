@@ -33,4 +33,11 @@ public class Dish {
     @OneToMany(mappedBy = "dish")
     private Set<OrderDish> orderDishes= new HashSet<>();
 
+
+   /* @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;*/
+
+    @OneToMany(mappedBy = "dish")
+    private Set<Recipe> recipes=new HashSet<>();
 }

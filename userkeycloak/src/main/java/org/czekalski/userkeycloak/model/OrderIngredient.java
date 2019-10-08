@@ -41,4 +41,20 @@ public class OrderIngredient extends AuditBase{
     private Ingredient ingredient;
 
     private Integer quantity;
+
+
+    @Override
+    public String toString() {
+        return "OrderIngredient{" +
+                "id=" + id +
+                ", ingredientDishOrderCost=" + ingredientDishOrderCost +
+              //  ", orderDish=" + orderDish +
+                ", ingredient=" + ingredient +
+                ", quantity=" + quantity +
+                ", createdDate=" + createdDate +
+                ", createdBy='" + createdBy + '\'' +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedDate=" + lastModifiedDate +
+                '}';
+    }
 }

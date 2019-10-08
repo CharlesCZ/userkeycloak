@@ -52,4 +52,21 @@ public class OrderDish  extends AuditBase{
     @OneToMany(mappedBy = "orderDish")
     private Set<OrderIngredient> orderIngredients=new HashSet<>();
 
+
+    @Override
+    public String toString() {
+        return "OrderDish{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", singleDishCost=" + singleDishCost +
+                ", priceCut=" + priceCut +
+                ", order=" + order +
+                ", dish=" + dish +
+                ", orderIngredients=" + orderIngredients +
+                ", createdDate=" + createdDate +
+                ", createdBy='" + createdBy + '\'' +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedDate=" + lastModifiedDate +
+                '}';
+    }
 }
