@@ -58,7 +58,7 @@ class OrderControllerTest {
                 .andExpect(content().contentType(MediaType.valueOf("text/html;charset=UTF-8")));
     }*/
 
-     @Test
+   /*  @Test
     void getDesignPage() throws Exception {
        given(orderDishService.getAllPossibilities()).willReturn(Arrays.asList(new OrderDish(),new OrderDish()));
 
@@ -83,7 +83,7 @@ class OrderControllerTest {
 
 
         then(orderDishService).should().addToCart();
-    }
+    }*/
 
     /*  @Test
     void testPostToShoppingCart() throws Exception {

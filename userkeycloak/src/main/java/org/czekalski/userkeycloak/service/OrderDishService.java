@@ -28,8 +28,6 @@ public class OrderDishService {
 
 
     public List<OrderDish> getAllPossibilities() {
-
-
         List<Recipe> recipes=recipeRepository.findAll();
         List<Dish> distinctDishes=new ArrayList<>();
         //filtering to distinct dishes
@@ -46,37 +44,20 @@ public class OrderDishService {
         });
 
         //populating orderIngredients of orderDish
-     recipes.forEach(recipe -> {
+        populatingWithIngredients(recipes, orderDishes);
 
-         orderDishes.forEach(orderDish -> {
-             if(orderDish.getDish().getId().equals(recipe.getDish().getId())){
-                 OrderIngredient orderIngredient=new OrderIngredient();
-                 orderIngredient.setIngredient(recipe.getIngredient());
-                 orderIngredient.setIngredientDishOrderCost(recipe.getIngredient().getCost());
-                 orderIngredient.setQuantity(recipe.getIngredientQuantity());
-                 orderIngredient.setOrderDish(orderDish);
-                 orderDish.getOrderIngredients().add(orderIngredient);
-             }
-
-         });
-
-     });
-
-     //populating with additional ingredients
-     //duplication is inside
-        ingredientRepository.findAll().forEach(ingredient -> {
-            orderDishes.forEach(orderDish -> {
-                OrderIngredient orderIngredient=new OrderIngredient();
-                orderIngredient.setIngredient(ingredient);
-                orderIngredient.setIngredientDishOrderCost(ingredient.getCost());
-                orderIngredient.setQuantity(0);
-                orderIngredient.setOrderDish(orderDish);
-                orderDish.getOrderIngredients().add(orderIngredient);
-            });
-        });
-
+        //populating with additional ingredients
+        //duplication is inside
+         populatingWithIngredientsWithDuplicates( ingredientRepository.findAll(),orderDishes);
 
         //removing duplication
+        removingDuplication(orderDishes);
+
+
+        return orderDishes;
+    }
+
+    private void removingDuplication(List<OrderDish> orderDishes) {
         orderDishes.forEach(orderDish -> {
             HashSet<Long> ingredientId=new HashSet<>();
             //to not miss anything
@@ -89,12 +70,38 @@ public class OrderDishService {
 
             orderDish.getOrderIngredients().removeIf(i-> !ingredientId.add(i.getIngredient().getId()) && i.getQuantity().equals(0));
         });
-
-
-
-        return orderDishes;
     }
 
+
+    private void populatingWithIngredientsWithDuplicates(List<Ingredient> AllFromIngredientRepository, List<OrderDish> orderDishes) {
+        AllFromIngredientRepository.forEach(ingredient -> {
+            orderDishes.forEach(orderDish -> {
+                OrderIngredient orderIngredient=new OrderIngredient();
+                orderIngredient.setIngredient(ingredient);
+                orderIngredient.setIngredientDishOrderCost(ingredient.getCost());
+                orderIngredient.setQuantity(0);
+                orderIngredient.setOrderDish(orderDish);
+                orderDish.getOrderIngredients().add(orderIngredient);
+            });
+        });
+    }
+    private void populatingWithIngredients(List<Recipe> recipes, List<OrderDish> orderDishes) {
+        recipes.forEach(recipe -> {
+
+            orderDishes.forEach(orderDish -> {
+                if(orderDish.getDish().getId().equals(recipe.getDish().getId())){
+                    OrderIngredient orderIngredient=new OrderIngredient();
+                    orderIngredient.setIngredient(recipe.getIngredient());
+                    orderIngredient.setIngredientDishOrderCost(recipe.getIngredient().getCost());
+                    orderIngredient.setQuantity(recipe.getIngredientQuantity());
+                    orderIngredient.setOrderDish(orderDish);
+                    orderDish.getOrderIngredients().add(orderIngredient);
+                }
+
+            });
+
+        });
+    }
 
 
     private void distinctDishesFilter(List<Recipe> recipes, List<Dish> distinctDishes) {
