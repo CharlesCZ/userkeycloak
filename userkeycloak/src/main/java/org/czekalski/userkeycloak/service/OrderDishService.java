@@ -38,6 +38,7 @@ public class OrderDishService {
 
         distinctDishes.forEach(dish -> {
             OrderDish orderDish = new OrderDish();
+     //       dish.getOrderDishes().add(orderDish);
             orderDish.setDish(dish);
             orderDishes.add(orderDish);
 
@@ -77,6 +78,7 @@ public class OrderDishService {
         AllFromIngredientRepository.forEach(ingredient -> {
             orderDishes.forEach(orderDish -> {
                 OrderIngredient orderIngredient=new OrderIngredient();
+      //          ingredient.getOrderIngredients().add(orderIngredient);
                 orderIngredient.setIngredient(ingredient);
                 orderIngredient.setIngredientDishOrderCost(ingredient.getCost());
                 orderIngredient.setQuantity(0);
@@ -91,6 +93,7 @@ public class OrderDishService {
             orderDishes.forEach(orderDish -> {
                 if(orderDish.getDish().getId().equals(recipe.getDish().getId())){
                     OrderIngredient orderIngredient=new OrderIngredient();
+      //              recipe.getIngredient().getOrderIngredients().add(orderIngredient);
                     orderIngredient.setIngredient(recipe.getIngredient());
                     orderIngredient.setIngredientDishOrderCost(recipe.getIngredient().getCost());
                     orderIngredient.setQuantity(recipe.getIngredientQuantity());

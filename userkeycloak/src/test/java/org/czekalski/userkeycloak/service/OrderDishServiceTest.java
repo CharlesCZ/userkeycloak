@@ -54,7 +54,7 @@ private IngredientRepository ingredientRepository;
         assertThat(returnedOrderDishes.get(0).getOrderIngredients()).hasSize(4);
         assertThat(returnedOrderDishes.get(1).getOrderIngredients()).hasSize(4);
 
-//nie bylo sprawdzane co wtedy gdy te ingredients sie powtarzaja
+
 assertAll("Testing conversion from Recipes to OrderDishes",
         ()->assertAll("First recipe",
                 ()->assertEquals(DISH_NAME_1,returnedOrderDishes.get(0).getDish().getName(),"Name of first dish"),

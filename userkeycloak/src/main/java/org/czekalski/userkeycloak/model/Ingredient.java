@@ -35,6 +35,9 @@ public class Ingredient {
   @OneToMany(mappedBy = "ingredient")
   private Set<Recipe> recipes=new HashSet<>();
 
+    @OneToMany(mappedBy = "ingredient")
+    private Set<OrderIngredient> orderIngredients= new HashSet<>();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
