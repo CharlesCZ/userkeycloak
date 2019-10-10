@@ -21,10 +21,10 @@ import static org.mockito.BDDMockito.given;
 @ExtendWith(MockitoExtension.class)
 class OrderDishServiceTest {
 
-    public static final String INGREDIENT_NAME1 = "ser";
-    public static final String INGREDIENT_NAME2 = "oregano";
-    public static final String DISH_NAME_1 = "MargheritaCheeseX2";
-    public static final String DISH_NAME_2 = "Margherita";
+    private static final String INGREDIENT_NAME1 = "ser";
+    private static final String INGREDIENT_NAME2 = "oregano";
+    private static final String DISH_NAME_1 = "MargheritaCheeseX2";
+    private static final String DISH_NAME_2 = "Margherita";
     @Mock
     private  Order shoppingCart;
     @Mock
@@ -117,13 +117,13 @@ assertAll("Testing conversion from Recipes to OrderDishes",
         recipePart1.setId(1L);
         recipePart1.setDish(dish);
         recipePart1.setIngredient(ingredient1);
-        recipePart1.setIngredientQuantity(2);
+        recipePart1.setQuantity(2);
 
         Recipe recipePart2=new Recipe();
         recipePart2.setId(2L);
         recipePart2.setDish(dish);
         recipePart2.setIngredient(ingredient2);
-        recipePart2.setIngredientQuantity(1);
+        recipePart2.setQuantity(1);
 
 
         Dish dish2=new Dish();
@@ -136,13 +136,13 @@ assertAll("Testing conversion from Recipes to OrderDishes",
         recipeSimplePart1.setId(3L);
         recipeSimplePart1.setDish(dish2);
         recipeSimplePart1.setIngredient(ingredient1);
-        recipeSimplePart1.setIngredientQuantity(1);
+        recipeSimplePart1.setQuantity(1);
 
         Recipe  recipeSimplePart2=new Recipe();
         recipeSimplePart2.setId(4L);
         recipeSimplePart2.setDish(dish2);
         recipeSimplePart2.setIngredient(ingredient2);
-        recipeSimplePart2.setIngredientQuantity(1);
+        recipeSimplePart2.setQuantity(1);
 
 
         given(recipeRepository.findAll()).willReturn(Arrays.asList(recipePart1,recipePart2,recipeSimplePart1,recipeSimplePart2));

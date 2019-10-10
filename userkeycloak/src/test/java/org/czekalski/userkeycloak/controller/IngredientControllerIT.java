@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = IngredientController.class)
 @Import(TestSecurityConfig.class)
 @TestPropertySource("classpath:application-development.properties")
-class IngredientControllerTest {
+class IngredientControllerIT {
 
     @MockBean
     IngredientService ingredientService;

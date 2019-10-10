@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-import static javax.persistence.GenerationType.IDENTITY;
+
 
 @EqualsAndHashCode(exclude = {"user","orderAddress","status","orderDishes"},callSuper = true)
 @Data
@@ -38,6 +38,6 @@ public class OrderCommand extends AuditBaseCommand{
 
     private Boolean payed;
 
-    private Set<OrderDish> orderDishes=new HashSet<>();
+    private Set<OrderDish> orderDishes=new HashSet<>(); //@TODO change to order commandtype
 
 }

@@ -1,7 +1,12 @@
 package org.czekalski.userkeycloak.controller;
 
+import org.czekalski.userkeycloak.commadPattern.command.DishCommand;
+import org.czekalski.userkeycloak.commadPattern.command.IngredientCommand;
+import org.czekalski.userkeycloak.model.Dish;
 import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.model.OrderDish;
+import org.czekalski.userkeycloak.service.DishService;
+import org.czekalski.userkeycloak.service.IngredientService;
 import org.czekalski.userkeycloak.service.OrderDishService;
 import org.czekalski.userkeycloak.service.OrderService;
 import org.junit.jupiter.api.AfterEach;
@@ -9,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -18,9 +24,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.in;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -32,13 +41,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = OrderController.class)
 @Import(TestSecurityConfig.class)
 @TestPropertySource("classpath:application-development.properties")
-class OrderControllerTest {
+class OrderControllerIT {
 
-    @Autowired
+   @MockBean
     OrderService orderService;
 
-    @Autowired
+    @MockBean
     OrderDishService orderDishService;
+
+
+    @MockBean
+    IngredientService ingredientService;
 
     @Autowired
     MockMvc mockMvc;
@@ -49,49 +62,45 @@ class OrderControllerTest {
 
     @AfterEach
     void tearDown() {
+        reset(orderDishService);
+        reset(orderService);
     }
 
+
+
+
+
  /*   @Test
-    void getCurrentOrderPage() throws Exception {
-        mockMvc.perform(get("/orders/current"))
+    void getAllIngredients() throws Exception {
+        given(ingredientService.getAllIngredients()).willReturn(Arrays.asList(new IngredientCommand(),new IngredientCommand()));
+
+        mockMvc.perform(get("/orders/dishes/2/ingredients/new"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.valueOf("text/html;charset=UTF-8")));
-    }*/
+                .andExpect(model().attributeExists("ingredients"))
+                .andExpect(view().name("orders/ingredientForm"));
 
-   /*  @Test
-    void getDesignPage() throws Exception {
-       given(orderDishService.getAllPossibilities()).willReturn(Arrays.asList(new OrderDish(),new OrderDish()));
-
-        mockMvc.perform(get("/orders/design/new"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("orderDishesAll"))
-                .andExpect(content().contentType(MediaType.valueOf("text/html;charset=UTF-8")));
-
-
-     then(orderDishService).should().getAllPossibilities();
+        then(ingredientService).should().getAllDishesWithIngredients();
+        assertThat(ingredientService.getAllDishesWithIngredients()).hasSize(2);
     }
 
     @Test
-    void postDesignPage() throws Exception {
-        given(orderDishService.addToCart()).willReturn(new Order());
+    void postChosenIngredients() throws Exception {
+        Order order=new Order();
+        OrderDish orderDish=new OrderDish();
+        Dish dish=new Dish();
+        dish.setId(1L);
+        orderDish.setDish(dish);
+        order.getOrderDishes().add(orderDish);
+        given(ingredientService.addToCart()).willReturn(order);
 
-        mockMvc.perform(post("/orders/design/new")
+        mockMvc.perform(get("/orders/dishes/2/ingredients/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())
-              //  .andExpect(model().attributeExists("orderDishesAll"))
-                .andExpect(view().name("/orders/design/current"));
+                .andExpect(view().name("redirect:/orders/summary"));
 
-
-        then(orderDishService).should().addToCart();
-    }*/
-
-    /*  @Test
-    void testPostToShoppingCart() throws Exception {
-
-        mockMvc.perform(post("/orders/addToCart")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("ingredients",)
-        )
-
-    }*/
+        then(ingredientServie).should().addToCart();
+        assertThat(ingredientService.addToCart()).hasSize(1);
+        //sesja?
+    }
+*/
 }

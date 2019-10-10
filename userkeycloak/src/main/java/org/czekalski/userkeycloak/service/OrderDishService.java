@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -96,7 +95,7 @@ public class OrderDishService {
       //              recipe.getIngredient().getOrderIngredients().add(orderIngredient);
                     orderIngredient.setIngredient(recipe.getIngredient());
                     orderIngredient.setIngredientDishOrderCost(recipe.getIngredient().getCost());
-                    orderIngredient.setQuantity(recipe.getIngredientQuantity());
+                    orderIngredient.setQuantity(recipe.getQuantity());
                     orderIngredient.setOrderDish(orderDish);
                     orderDish.getOrderIngredients().add(orderIngredient);
                 }

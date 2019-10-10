@@ -1,6 +1,7 @@
 package org.czekalski.userkeycloak.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Audited(targetAuditMode = NOT_AUDITED)
 @Table(name = "dishes")
 @Data
+@EqualsAndHashCode(exclude = {"orderDishes","recipes"})
 @Entity
 public class Dish {
 
@@ -40,4 +42,15 @@ public class Dish {
 
     @OneToMany(mappedBy = "dish")
     private Set<Recipe> recipes=new HashSet<>();
+
+
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cost=" + cost +
+                ", size=" + size +
+                '}';
+    }
 }

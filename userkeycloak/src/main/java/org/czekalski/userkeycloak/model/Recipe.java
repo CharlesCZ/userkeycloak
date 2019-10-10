@@ -1,6 +1,7 @@
 package org.czekalski.userkeycloak.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Audited(targetAuditMode = NOT_AUDITED)
 @Table(name = "recipes")
 @Data
+@EqualsAndHashCode(exclude = {"ingredient","dish"})
 @Entity
 public class Recipe {
 
@@ -31,7 +33,7 @@ public class Recipe {
     @JoinColumn(name = "dish_id")
     private Dish dish;
 
-    private Integer ingredientQuantity;
+    private Integer quantity;
 
 
 

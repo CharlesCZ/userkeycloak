@@ -6,11 +6,15 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Component
 public class Bootstrap implements CommandLineRunner {
-
+    public static final String INGREDIENT_NAME1 = "Cheddar";
+    public static final String INGREDIENT_NAME2 = "sos pomidorowy";
+    public static final String DISH_NAME_1 = "MargheritaCheeseX2";
 
     private static final String USER1 = "Czarek11";
 
@@ -22,10 +26,11 @@ private final IngredientRepository ingredientRepository;
 private final OrderIngredientRepository orderIngredientRepository;
 private final PaymentKindRepository paymentKindRepository;
 private final StatusRepository statusRepository;
+private final RecipeRepository recipeRepository;
 
     public Bootstrap(OrderRepository orderRepository, OrderAddressRepository orderAddressRepository, DishRepository dishRepository,
                      OrderDishRepository orderDishRepository, IngredientRepository ingredientRepository,
-                     OrderIngredientRepository orderIngredientRepository, PaymentKindRepository paymentKindRepository, StatusRepository statusRepository) {
+                     OrderIngredientRepository orderIngredientRepository, PaymentKindRepository paymentKindRepository, StatusRepository statusRepository, RecipeRepository recipeRepository) {
 
         this.orderRepository = orderRepository;
         this.orderAddressRepository = orderAddressRepository;
@@ -35,6 +40,7 @@ private final StatusRepository statusRepository;
         this.orderIngredientRepository=orderIngredientRepository;
         this.paymentKindRepository = paymentKindRepository;
         this.statusRepository = statusRepository;
+        this.recipeRepository = recipeRepository;
     }
 
 
@@ -144,6 +150,47 @@ orderDish.getOrderIngredients().add(orderIngredient1);
         orderIngredient2=orderIngredientRepository.save(orderIngredient2);
 
         orderDish.getOrderIngredients().add(orderIngredient2);
+
+
+        loadingRecipes();
+
+
         System.out.println("###################Bootstrap Loaded############################");
+    }
+
+    private void loadingRecipes() {
+        System.out.println("/////////////////////Loading Recipes/////////////////////");
+        Dish dishR=new Dish();
+        dishR.setName(DISH_NAME_1);
+        dishR.setCost(new BigDecimal("20.99"));
+        dishRepository.save(dishR);
+
+        Ingredient ingredient1R=new Ingredient();
+        ingredient1R.setName(INGREDIENT_NAME1);
+        ingredient1R.setCost(new BigDecimal("0.60"));
+        ingredientRepository.save(ingredient1R);
+
+        Ingredient ingredient2R=new Ingredient();
+        ingredient2R.setName(INGREDIENT_NAME2);
+        ingredient2R.setCost(new BigDecimal("0.30"));
+        ingredientRepository.save(ingredient2R);
+
+        Recipe recipe1=new Recipe();
+        recipe1.setDish(dishR);
+        recipe1.setQuantity(2);
+        recipe1.setIngredient(ingredient1R);
+
+        Recipe recipe2=new Recipe();
+        recipe2.setQuantity(1);
+        recipe2.setDish(dishR);
+        recipe2.setIngredient(ingredient2R);
+
+
+        Set<Recipe > recipes=new HashSet<>();
+        recipes.add(recipe1);
+        recipes.add(recipe2);
+
+
+        recipeRepository.saveAll(recipes);
     }
 }

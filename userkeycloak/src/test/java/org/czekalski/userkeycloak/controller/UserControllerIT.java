@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("application-development.properties")
 @WebMvcTest(value = UserController.class,includeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "TestSecurityConfig.class"))
 @TestPropertySource("classpath:application-development.properties")
-class UserControllerTest {
+class UserControllerIT {
 
     @MockBean
     KeycloakRestTemplate keycloakRestTemplate;
