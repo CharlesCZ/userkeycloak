@@ -90,7 +90,18 @@ return null;
         orderDish.setQuantity(dishCommand.getQuantity());
         orderDish.setSingleDishCost(dishCommand.getCost());
 
+        dishCommand.getIngredientCommands().forEach(ingredientCommand -> {
+
+            OrderIngredient orderIngredient=new OrderIngredient();
+            orderIngredient.setQuantity(ingredientCommand.getQuantity());
+            orderIngredient.setOrderDish(orderDish);
+            orderIngredient.setIngredientDishOrderCost(ingredientCommand.getCost());
+            orderIngredient.setIngredient(ingredientMapper.ingredientCommandToIngredient(ingredientCommand));
+            orderDish.getOrderIngredients().add(orderIngredient);
+        });
+
         shoppingCart.getOrderDishes().add(orderDish);
+
 
         return shoppingCart;
     }
