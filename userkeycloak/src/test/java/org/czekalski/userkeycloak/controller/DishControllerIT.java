@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.reset;
@@ -61,6 +62,21 @@ class DishControllerIT {
                 .andExpect(view().name("orders/dishes"));
 
         then(dishService).should().getAllDishesWithIngredients();
+    }
+
+    @Test
+    void getDishDetails() throws Exception {
+        DishCommand dishCommand=new DishCommand();
+        dishCommand.setId(2L);
+        given(dishService.getDishById(2L)).willReturn(dishCommand);
+
+        mockMvc.perform(get("/orders/dishes/2/new"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("dish"))
+                .andExpect(view().name("orders/dishAndIngredientsForm"));
+
+
+        then(dishService).should().getDishById(2L);
     }
 
     @Test
