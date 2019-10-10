@@ -82,6 +82,16 @@ class DishServiceTest {
 
     }
 
+    @Test
+    void getDishByIdNullPath() {
+       given(dishRepository.findById(1L)).willReturn(Optional.empty());
+
+        DishCommand returnedDishCommand=dishService.getDishById(1L);
+
+        assertNull(returnedDishCommand);
+
+    }
+
     private Dish populatingDishRepo() {
         Dish dish = new Dish();
         dish.setId(1L);
