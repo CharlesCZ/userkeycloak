@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -56,6 +57,8 @@ public class Order extends AuditBase {
     private Status status;
 
     private Boolean payed;
+
+    private BigDecimal totalPrice;
 
     @OneToMany(mappedBy = "order")
     private Set<OrderDish> orderDishes=new HashSet<>();

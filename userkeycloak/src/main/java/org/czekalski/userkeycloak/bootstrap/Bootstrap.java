@@ -115,6 +115,7 @@ private final RecipeRepository recipeRepository;
         orderDish.setPriceCut(new BigDecimal("0.7"));
         orderDish.setSingleDishCost(new BigDecimal("25"));
         orderDish.setQuantity(4);
+        orderDish.setPriceCut(new BigDecimal(1));
         orderDishRepository.save(orderDish);
 
         dish.getOrderDishes().add(orderDish);

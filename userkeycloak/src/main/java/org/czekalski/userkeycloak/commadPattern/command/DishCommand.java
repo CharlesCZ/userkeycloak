@@ -26,6 +26,6 @@ public class DishCommand {
 
   private List<IngredientCommand> ingredientCommands=new ArrayList<>();
 
-
+private List<OrderDishCommand> orderDishCommands=new ArrayList<>();
 
 }

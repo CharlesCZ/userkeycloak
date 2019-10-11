@@ -8,6 +8,7 @@ import org.czekalski.userkeycloak.model.PaymentKind;
 import org.czekalski.userkeycloak.model.Status;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,5 +42,7 @@ public class OrderCommand extends AuditBaseCommand{
     private Boolean payed;
 
     private List<OrderDishCommand> orderDishCommands=new ArrayList<>();
+
+    private BigDecimal totalPrice;
 
 }
