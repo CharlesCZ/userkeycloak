@@ -124,15 +124,17 @@ return null;
 
         dishCommand.getIngredientCommands().forEach(ingredientCommand -> {
 
-            OrderIngredient orderIngredient=new OrderIngredient();
-            orderIngredient.setQuantity(ingredientCommand.getQuantity());
-            orderIngredient.setOrderDish(orderDish);
-            orderIngredient.setIngredientDishOrderCost(ingredientCommand.getCost());
-            orderIngredient.setIngredient(ingredientMapper.ingredientCommandToIngredient(ingredientCommand));
-            orderDish.getOrderIngredients().add(orderIngredient);
+                if(!ingredientCommand.getQuantity().equals(0)) {
+                    OrderIngredient orderIngredient = new OrderIngredient();
+                    orderIngredient.setQuantity(ingredientCommand.getQuantity());
+                    orderIngredient.setOrderDish(orderDish);
+                    orderIngredient.setIngredientDishOrderCost(ingredientCommand.getCost());
+                    orderIngredient.setIngredient(ingredientMapper.ingredientCommandToIngredient(ingredientCommand));
+                    orderDish.getOrderIngredients().add(orderIngredient);
+                }
         });
 
-        //TODO filtering these with 0 quantity
+
 
         shoppingCart.getOrderDishes().add(orderDish);
 
