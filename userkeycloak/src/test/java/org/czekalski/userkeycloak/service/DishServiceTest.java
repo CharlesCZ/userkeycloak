@@ -8,6 +8,7 @@ import org.czekalski.userkeycloak.model.Ingredient;
 import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.model.Recipe;
 import org.czekalski.userkeycloak.repository.DishRepository;
+import org.czekalski.userkeycloak.repository.IngredientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,11 +34,14 @@ class DishServiceTest {
     @Mock
     private  DishRepository dishRepository;
 
+    @Mock
+    private IngredientRepository ingredientRepository;
+
     private DishService dishService;
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        dishService=new DishService(new Order(),dishRepository,DishMapper.INSTANCE, IngredientMapper.INSTANCE);
+        dishService=new DishService(new Order(),dishRepository,DishMapper.INSTANCE, IngredientMapper.INSTANCE, ingredientRepository);
 
     }
 
@@ -72,16 +76,44 @@ class DishServiceTest {
     @Test
     void getDishById() {
         Dish dish = populatingDishRepo();
+        populatingIngredientRepo();
 
         given(dishRepository.findById(1L)).willReturn(Optional.of(dish));
 
         DishCommand returnedDishCommand=dishService.getDishById(1L);
 
+        assertThat(returnedDishCommand.getIngredientCommands()).hasSize(4);
         assertEquals(DISH_NAME_1,returnedDishCommand.getName());
         assertEquals(INGREDIENT_NAME1,returnedDishCommand.getIngredientCommands().stream().filter(ingredientCommand -> ingredientCommand.getName().equals(INGREDIENT_NAME1)).findFirst().get().getName());
 
     }
 
+    private void populatingIngredientRepo(){
+
+
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setId(1L);
+        ingredient1.setName(INGREDIENT_NAME1);
+        ingredient1.setCost(new BigDecimal("0.60"));
+
+        Ingredient ingredient2 = new Ingredient();
+        ingredient2.setId(2L);
+        ingredient2.setName(INGREDIENT_NAME2);
+        ingredient2.setCost(new BigDecimal("0.30"));
+
+        Ingredient ingredient3 = new Ingredient();
+        ingredient3.setId(3L);
+        ingredient3.setName("jajko");
+        ingredient3.setCost(new BigDecimal("3.33"));
+
+        Ingredient ingredient4 = new Ingredient();
+        ingredient4.setId(4L);
+        ingredient4.setName("ketchup");
+        ingredient4.setCost(new BigDecimal("4.44"));
+
+        given(ingredientRepository.findAll()).willReturn(Arrays.asList(ingredient1,ingredient2,ingredient3,ingredient4));
+
+    }
     @Test
     void getDishByIdNullPath() {
        given(dishRepository.findById(1L)).willReturn(Optional.empty());

@@ -6,12 +6,10 @@ import org.czekalski.userkeycloak.commadPattern.mapper.DishMapper;
 import org.czekalski.userkeycloak.commadPattern.mapper.IngredientMapper;
 import org.czekalski.userkeycloak.model.*;
 import org.czekalski.userkeycloak.repository.DishRepository;
+import org.czekalski.userkeycloak.repository.IngredientRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DishService {
@@ -20,12 +18,14 @@ public class DishService {
     private final DishRepository dishRepository;
     private final DishMapper dishMapper;
     private final IngredientMapper ingredientMapper;
+    private final IngredientRepository ingredientRepository;
 
-    public DishService(Order shoppingCart, DishRepository dishRepository, DishMapper dishMapper, IngredientMapper ingredientMapper) {
+    public DishService(Order shoppingCart, DishRepository dishRepository, DishMapper dishMapper, IngredientMapper ingredientMapper, IngredientRepository ingredientRepository) {
         this.shoppingCart = shoppingCart;
         this.dishRepository=dishRepository;
         this.dishMapper = dishMapper;
         this.ingredientMapper = ingredientMapper;
+        this.ingredientRepository = ingredientRepository;
     }
 
 
@@ -52,7 +52,7 @@ public class DishService {
 
 
         }
-//addition ingredients
+
 
         return dishCommands;
     }
@@ -64,6 +64,7 @@ public DishCommand getDishById(Long id){
    if(dishOptional.isPresent()) {
        DishCommand dishCommand = dishMapper.dishToDishCommand(dishOptional.get());
 
+       //adding ingredients from recipe
            for (Iterator<Recipe> it =   dishOptional.get().getRecipes().iterator(); it.hasNext(); ) {
                Recipe recipe = it.next();
                IngredientCommand ingredientCommand=ingredientMapper.ingredientToIngredientCommand(recipe.getIngredient());
@@ -71,6 +72,29 @@ public DishCommand getDishById(Long id){
 
                 dishCommand.getIngredientCommands().add(ingredientCommand);
            }
+
+
+       //addition ingredients with duplicates
+      List<Ingredient> allIngredients= ingredientRepository.findAll();
+            allIngredients.forEach(ingredient -> {
+
+                IngredientCommand ingredientCommand=ingredientMapper.ingredientToIngredientCommand(ingredient);
+                ingredientCommand.setQuantity(0);
+                dishCommand.getIngredientCommands().add(ingredientCommand);
+
+            });
+
+
+            //removing duplicates
+       HashSet<Long> ingredientCommandId=new HashSet<>();
+
+       dishCommand.getIngredientCommands().forEach(ingredientCommand -> {
+           if(!ingredientCommand.getQuantity().equals(0)){
+               ingredientCommandId.add(ingredientCommand.getId());
+           }
+       });
+
+       dishCommand.getIngredientCommands().removeIf(i -> !ingredientCommandId.add(i.getId()) && i.getQuantity().equals(0));
 
 return dishCommand;
 
@@ -99,6 +123,8 @@ return null;
             orderIngredient.setIngredient(ingredientMapper.ingredientCommandToIngredient(ingredientCommand));
             orderDish.getOrderIngredients().add(orderIngredient);
         });
+
+        //TODO filtering these with 0 quantity
 
         shoppingCart.getOrderDishes().add(orderDish);
 
