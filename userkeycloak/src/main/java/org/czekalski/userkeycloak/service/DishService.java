@@ -65,46 +65,54 @@ public DishCommand getDishById(Long id){
        DishCommand dishCommand = dishMapper.dishToDishCommand(dishOptional.get());
 
        //adding ingredients from recipe
-           for (Iterator<Recipe> it =   dishOptional.get().getRecipes().iterator(); it.hasNext(); ) {
-               Recipe recipe = it.next();
-               IngredientCommand ingredientCommand=ingredientMapper.ingredientToIngredientCommand(recipe.getIngredient());
-               ingredientCommand.setQuantity(recipe.getQuantity());
-
-                dishCommand.getIngredientCommands().add(ingredientCommand);
-           }
+       addIngredientsFromRecipeToDishCommand(dishOptional, dishCommand);
 
 
        //addition ingredients with duplicates
-      List<Ingredient> allIngredients= ingredientRepository.findAll();
-            allIngredients.forEach(ingredient -> {
-
-                IngredientCommand ingredientCommand=ingredientMapper.ingredientToIngredientCommand(ingredient);
-                ingredientCommand.setQuantity(0);
-                dishCommand.getIngredientCommands().add(ingredientCommand);
-
-            });
+       addAllIngredientsToDishCommand(dishCommand);
 
 
-            //removing duplicates
-       HashSet<Long> ingredientCommandId=new HashSet<>();
+       //removing duplicates
+       removingDuplicatesFromDishCommand(dishCommand);
 
-       dishCommand.getIngredientCommands().forEach(ingredientCommand -> {
-           if(!ingredientCommand.getQuantity().equals(0)){
-               ingredientCommandId.add(ingredientCommand.getId());
-           }
-       });
-
-       dishCommand.getIngredientCommands().removeIf(i -> !ingredientCommandId.add(i.getId()) && i.getQuantity().equals(0));
-
-return dishCommand;
+       return dishCommand;
 
        }
 return null;
    }
 
+    private void addIngredientsFromRecipeToDishCommand(Optional<Dish> dishOptional, DishCommand dishCommand) {
+        for (Iterator<Recipe> it = dishOptional.get().getRecipes().iterator(); it.hasNext(); ) {
+            Recipe recipe = it.next();
+            IngredientCommand ingredientCommand=ingredientMapper.ingredientToIngredientCommand(recipe.getIngredient());
+            ingredientCommand.setQuantity(recipe.getQuantity());
 
+             dishCommand.getIngredientCommands().add(ingredientCommand);
+        }
+    }
 
+    private void addAllIngredientsToDishCommand(DishCommand dishCommand) {
+        List<Ingredient> allIngredients= ingredientRepository.findAll();
+        allIngredients.forEach(ingredient -> {
 
+            IngredientCommand ingredientCommand=ingredientMapper.ingredientToIngredientCommand(ingredient);
+            ingredientCommand.setQuantity(0);
+            dishCommand.getIngredientCommands().add(ingredientCommand);
+
+        });
+    }
+
+    private void removingDuplicatesFromDishCommand(DishCommand dishCommand) {
+        HashSet<Long> ingredientCommandId=new HashSet<>();
+
+        dishCommand.getIngredientCommands().forEach(ingredientCommand -> {
+            if(!ingredientCommand.getQuantity().equals(0)){
+                ingredientCommandId.add(ingredientCommand.getId());
+            }
+        });
+
+        dishCommand.getIngredientCommands().removeIf(i -> !ingredientCommandId.add(i.getId()) && i.getQuantity().equals(0));
+    }
 
 
     public Order addToCart(DishCommand dishCommand) {
