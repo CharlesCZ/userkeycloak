@@ -70,6 +70,7 @@ class DishServiceTest {
 
 
      assertEquals(DISH_NAME_1,returnedCart.getOrderDishes().iterator().next().getDish().getName());
+        assertEquals(Long.valueOf(1L),returnedCart.getOrderDishes().iterator().next().getId());
     }
 
 

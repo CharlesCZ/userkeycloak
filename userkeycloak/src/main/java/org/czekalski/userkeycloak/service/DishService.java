@@ -134,7 +134,23 @@ return null;
                 }
         });
 
+        //checking next id from ShoppingCart
+        Long biggestOrderId=0L;
+        for(Iterator<OrderDish> it=shoppingCart.getOrderDishes().iterator();it.hasNext();){
+            Long orderDishId=it.next().getId();
+            if(orderDishId==null) {
+                orderDishId = 0L;
+            }
+                      if(biggestOrderId<orderDishId)
+                      {
+                          biggestOrderId=orderDishId;
+                      }
 
+
+        }
+        //adding temporary id to orderDish of Shopping Cart
+        biggestOrderId+=1;
+        orderDish.setId(biggestOrderId);
 
         shoppingCart.getOrderDishes().add(orderDish);
 

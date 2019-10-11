@@ -9,12 +9,14 @@ import org.czekalski.userkeycloak.model.Status;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
 
-@EqualsAndHashCode(exclude = {"user","orderAddress","status","orderDishes"},callSuper = true)
+@EqualsAndHashCode(exclude = {"paymentKindCommand","user","orderAddressCommand","statusCommand","orderDishCommands"},callSuper = true)
 @Data
 public class OrderCommand extends AuditBaseCommand{
 
@@ -26,18 +28,18 @@ public class OrderCommand extends AuditBaseCommand{
     private Timestamp finishedTime;
 
 
-    private PaymentKind paymentKind;
+    private PaymentKindCommand paymentKindCommand;
 
     private Timestamp deliveryTime;
 
     private String user;
 
-    private OrderAddress orderAddress;
+    private OrderAddressCommand orderAddressCommand;
 
-    private Status status;
+    private StatusCommand statusCommand;
 
     private Boolean payed;
 
-    private Set<OrderDish> orderDishes=new HashSet<>(); //@TODO change to order commandtype
+    private List<OrderDishCommand> orderDishCommands=new ArrayList<>();
 
 }
