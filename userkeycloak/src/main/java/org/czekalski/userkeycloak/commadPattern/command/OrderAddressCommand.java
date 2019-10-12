@@ -1,6 +1,7 @@
 package org.czekalski.userkeycloak.commadPattern.command;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.czekalski.userkeycloak.model.Order;
 
 import javax.persistence.Column;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
-
+@EqualsAndHashCode(exclude = {"orders"})
 @Data
 public class OrderAddressCommand {
 
@@ -34,5 +35,18 @@ public class OrderAddressCommand {
     private String user;
 
 
-    List<OrderCommand> orderCommands=new ArrayList<>();
+    Set<OrderCommand> orders =new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "OrderAddressCommand{" +
+                "id=" + id +
+                ", City='" + City + '\'' +
+                ", Street='" + Street + '\'' +
+                ", houseNr=" + houseNr +
+                ", apartment=" + apartment +
+                ", telephone='" + telephone + '\'' +
+                ", user='" + user + '\'' +
+                '}';
+    }
 }

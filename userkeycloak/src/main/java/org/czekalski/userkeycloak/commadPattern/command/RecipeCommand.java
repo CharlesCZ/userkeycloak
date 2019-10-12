@@ -13,9 +13,9 @@ public class RecipeCommand {
 
     private Long id;
 
-    private IngredientCommand ingredientCommand;
+  //  private IngredientCommand ingredient;
 
-    private DishCommand dishCommand;
+ //   private DishCommand dish;
 
     private Integer quantity;
 

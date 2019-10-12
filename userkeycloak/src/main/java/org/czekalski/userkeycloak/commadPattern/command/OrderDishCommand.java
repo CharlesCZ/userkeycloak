@@ -5,34 +5,42 @@ import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
-@EqualsAndHashCode(exclude = {"dishCommand","orderCommand","orderIngredientCommands"},callSuper = true)
+@EqualsAndHashCode(exclude = {"orderIngredients"},callSuper = true)
 @Data
 public class OrderDishCommand  extends AuditBaseCommand{
 
-
     private Long id;
-
 
     private Integer quantity;
 
-
     private BigDecimal singleDishCost;
-
 
     private BigDecimal priceCut;
 
 
+    private DishCommand dish;
 
-    private OrderCommand orderCommand;
-
-
-
-    private DishCommand dishCommand;
+    private Set<OrderIngredientCommand> orderIngredients =new HashSet<>();
 
 
-
-    private List<OrderIngredientCommand> orderIngredientCommands=new ArrayList<>();
+    @Override
+    public String toString() {
+        return "OrderDishCommand{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", singleDishCost=" + singleDishCost +
+                ", priceCut=" + priceCut +
+            //    ", order=" + order +
+            //    ", dish=" + dish +
+                ", createdDate=" + createdDate +
+                ", createdBy='" + createdBy + '\'' +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedDate=" + lastModifiedDate +
+                '}';
+    }
 }

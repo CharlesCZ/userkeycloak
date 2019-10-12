@@ -1,5 +1,6 @@
 package org.czekalski.userkeycloak.service;
 
+import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.model.OrderDish;
 import org.czekalski.userkeycloak.model.OrderIngredient;
@@ -38,5 +39,8 @@ BigDecimal price=new BigDecimal(0);
 shoppingCart.setTotalPrice(price);
         return price;
 }
+
+
+
 
 }

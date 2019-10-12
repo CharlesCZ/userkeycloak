@@ -71,7 +71,7 @@ class OrderServiceTest {
         orderIngredient2.setIngredientDishOrderCost(ingredient2.getCost());
         orderIngredient2.setOrderDish(orderDish);
         orderIngredient2.setQuantity(1);
-        orderIngredient2.setId(1L);
+        orderIngredient2.setId(2L);
 
         Set<OrderIngredient> orderIngredients=new HashSet<>();
         orderIngredients.add(orderIngredient1);

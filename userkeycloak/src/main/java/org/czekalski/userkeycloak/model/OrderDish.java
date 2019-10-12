@@ -62,7 +62,7 @@ public class OrderDish  extends AuditBase{
                 ", priceCut=" + priceCut +
                 ", order=" + order +
                 ", dish=" + dish +
-                ", orderIngredients=" + orderIngredients +
+              //  ", orderIngredients=" + orderIngredients +
                 ", createdDate=" + createdDate +
                 ", createdBy='" + createdBy + '\'' +
                 ", lastModifiedBy='" + lastModifiedBy + '\'' +

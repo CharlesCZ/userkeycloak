@@ -23,5 +23,12 @@ public class OrderController {
     }
 
 
+    @GetMapping("/orders/summary")
+    public String summaryOfOrder(Model model){
+       // orderService.processShoppingCart()
+//model.addAttribute()
+
+        return "orders/summary";
+    }
 
 }

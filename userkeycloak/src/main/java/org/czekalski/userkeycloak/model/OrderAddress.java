@@ -38,4 +38,17 @@ public class OrderAddress {
 
     @OneToMany(mappedBy = "orderAddress")
     Set<Order> orders=new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "OrderAddress{" +
+                "id=" + id +
+                ", City='" + City + '\'' +
+                ", Street='" + Street + '\'' +
+                ", houseNr=" + houseNr +
+                ", apartment=" + apartment +
+                ", telephone='" + telephone + '\'' +
+                ", user='" + user + '\'' +
+                '}';
+    }
 }

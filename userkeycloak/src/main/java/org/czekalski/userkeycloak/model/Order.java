@@ -64,4 +64,23 @@ public class Order extends AuditBase {
     private Set<OrderDish> orderDishes=new HashSet<>();
 
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", finishedTime=" + finishedTime +
+                ", paymentKind=" + paymentKind +
+                ", deliveryTime=" + deliveryTime +
+                ", user='" + user + '\'' +
+                ", orderAddress=" + orderAddress +
+                ", status=" + status +
+                ", payed=" + payed +
+                ", totalPrice=" + totalPrice +
+                ", createdDate=" + createdDate +
+                ", createdBy='" + createdBy + '\'' +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedDate=" + lastModifiedDate +
+                '}';
+    }
 }

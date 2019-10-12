@@ -65,7 +65,7 @@ public DishCommand getDishById(Long id){
        DishCommand dishCommand = dishMapper.dishToDishCommand(dishOptional.get());
 
        //adding ingredients from recipe
-       addIngredientsFromRecipeToDishCommand(dishOptional, dishCommand);
+     //  addIngredientsFromRecipeToDishCommand(dishOptional, dishCommand);
 
 
        //addition ingredients with duplicates

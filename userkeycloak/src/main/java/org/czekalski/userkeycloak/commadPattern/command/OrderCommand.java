@@ -17,7 +17,7 @@ import java.util.Set;
 
 
 
-@EqualsAndHashCode(exclude = {"paymentKindCommand","user","orderAddressCommand","statusCommand","orderDishCommands"},callSuper = true)
+@EqualsAndHashCode(exclude = {"user","status","orderDishes"},callSuper = true)
 @Data
 public class OrderCommand extends AuditBaseCommand{
 
@@ -29,20 +29,40 @@ public class OrderCommand extends AuditBaseCommand{
     private Timestamp finishedTime;
 
 
-    private PaymentKindCommand paymentKindCommand;
+    private PaymentKindCommand paymentKind;
 
     private Timestamp deliveryTime;
 
     private String user;
 
-    private OrderAddressCommand orderAddressCommand;
+ //   private OrderAddressCommand orderAddress;
 
-    private StatusCommand statusCommand;
+    private StatusCommand status;
 
     private Boolean payed;
 
-    private List<OrderDishCommand> orderDishCommands=new ArrayList<>();
+    private Set<OrderDishCommand> orderDishes =new HashSet<>();
 
     private BigDecimal totalPrice;
 
+
+    @Override
+    public String toString() {
+        return "OrderCommand{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", finishedTime=" + finishedTime +
+                ", paymentKind=" + paymentKind +
+                ", deliveryTime=" + deliveryTime +
+                ", user='" + user + '\'' +
+              //  ", orderAddress=" + orderAddress +
+                ", status=" + status +
+                ", payed=" + payed +
+                ", totalPrice=" + totalPrice +
+                ", createdDate=" + createdDate +
+                ", createdBy='" + createdBy + '\'' +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedDate=" + lastModifiedDate +
+                '}';
+    }
 }
