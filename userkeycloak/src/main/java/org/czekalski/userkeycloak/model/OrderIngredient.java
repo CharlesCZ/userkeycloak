@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @Table(name = "order_ingredients")
 @Entity
-@EqualsAndHashCode(exclude = {"ingredient","orderDish"},callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Audited
 @EntityListeners(AuditingEntityListener.class)
 public class OrderIngredient extends AuditBase{

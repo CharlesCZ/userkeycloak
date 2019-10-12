@@ -25,6 +25,8 @@ public class OrderDishCommand  extends AuditBaseCommand{
 
     private DishCommand dish;
 
+    private BigDecimal totalPrice;
+
     private Set<OrderIngredientCommand> orderIngredients =new HashSet<>();
 
 

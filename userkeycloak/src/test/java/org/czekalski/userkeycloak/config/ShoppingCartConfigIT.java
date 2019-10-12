@@ -1,5 +1,6 @@
 package org.czekalski.userkeycloak.config;
 
+import org.czekalski.userkeycloak.commadPattern.mapper.OrderMapper;
 import org.czekalski.userkeycloak.controller.IngredientController;
 import org.czekalski.userkeycloak.controller.TestSecurityConfig;
 import org.czekalski.userkeycloak.model.Order;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,12 +25,20 @@ import java.util.Enumeration;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@SpringJUnitWebConfig(classes = {OrderService.class,ShoppingCartConfig.class})
+@SpringJUnitWebConfig(classes = {OrderService.class,ShoppingCartConfig.class, ShoppingCartConfigIT.OrderMapperInstance.class})
 @TestPropertySource("classpath:application-development.properties")
 class ShoppingCartConfigIT {
 
     @Autowired
     MockHttpSession session;
+
+
+    static class OrderMapperInstance {
+        @Bean
+       OrderMapper orderMapper() {
+            return  OrderMapper.INSTANCE;
+        }
+        }
 
     @Autowired
     OrderService orderService;

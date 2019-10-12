@@ -1,6 +1,7 @@
 package org.czekalski.userkeycloak.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Audited(targetAuditMode = NOT_AUDITED)
 @Data
 @Table(name = "ingredients")
+@EqualsAndHashCode(exclude = {"recipes","orderIngredients"})
 @Entity
 public class Ingredient {
     @Id

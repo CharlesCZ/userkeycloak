@@ -9,6 +9,7 @@ import org.czekalski.userkeycloak.repository.DishRepository;
 import org.czekalski.userkeycloak.repository.IngredientRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -121,6 +122,8 @@ return null;
         orderDish.setDish(dishMapper.dishCommandToDish(dishCommand));
         orderDish.setQuantity(dishCommand.getQuantity());
         orderDish.setSingleDishCost(dishCommand.getCost());
+        //ustawione na sile
+        orderDish.setPriceCut(new BigDecimal(1));
 
         dishCommand.getIngredientCommands().forEach(ingredientCommand -> {
 

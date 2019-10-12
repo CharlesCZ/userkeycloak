@@ -20,7 +20,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "orders")
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(exclude = {"user","orderAddress","status","orderDishes"},callSuper = true)
+@EqualsAndHashCode(exclude = {"orderDishes"},callSuper = true)
 @Entity
 @Audited
 @EntityListeners(AuditingEntityListener.class)

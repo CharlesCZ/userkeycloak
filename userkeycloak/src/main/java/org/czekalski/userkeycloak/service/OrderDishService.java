@@ -24,6 +24,10 @@ public class OrderDishService {
     }
 
 
+public Order deleteFromCart(){
+    //TODO  orderDish deleteFromCart
+        return null;
+}
 
 
     public List<OrderDish> getAllPossibilities() {

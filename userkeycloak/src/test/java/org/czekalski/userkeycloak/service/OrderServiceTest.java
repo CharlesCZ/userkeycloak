@@ -1,7 +1,6 @@
 package org.czekalski.userkeycloak.service;
 
-import org.czekalski.userkeycloak.commadPattern.mapper.DishMapper;
-import org.czekalski.userkeycloak.commadPattern.mapper.IngredientMapper;
+import org.czekalski.userkeycloak.commadPattern.mapper.OrderMapper;
 import org.czekalski.userkeycloak.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,10 +22,11 @@ class OrderServiceTest {
 
 
     OrderService orderService;
+    OrderMapper orderMapper=OrderMapper.INSTANCE;
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-   orderService=new OrderService(new Order());
+   orderService=new OrderService(new Order(), orderMapper);
 
     }
 
@@ -100,9 +100,9 @@ class OrderServiceTest {
     }
     @Test
     void calculatePrice() {
-       orderService=new OrderService(preparingShoppingCart());
+       orderService=new OrderService(preparingShoppingCart(), orderMapper);
 
-        BigDecimal returnedPrice=orderService.calculatePrice();
+        BigDecimal returnedPrice=orderService.calculateTotalPrice();
 
         assertEquals("64.80",returnedPrice.toString());
     }

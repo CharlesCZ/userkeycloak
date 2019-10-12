@@ -1,5 +1,6 @@
 package org.czekalski.userkeycloak.controller;
 
+import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.model.OrderIngredient;
 import org.czekalski.userkeycloak.service.OrderDishService;
 import org.czekalski.userkeycloak.service.OrderService;
@@ -25,8 +26,8 @@ public class OrderController {
 
     @GetMapping("/orders/summary")
     public String summaryOfOrder(Model model){
-       // orderService.processShoppingCart()
-//model.addAttribute()
+        OrderCommand orderCommand= orderService.convertedShoppingCar();
+model.addAttribute("order",orderCommand);
 
         return "orders/summary";
     }

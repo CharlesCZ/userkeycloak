@@ -14,7 +14,6 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Audited(targetAuditMode = NOT_AUDITED)
 @Table(name = "recipes")
 @Data
-@EqualsAndHashCode(exclude = {"ingredient","dish"})
 @Entity
 public class Recipe {
 
