@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@EqualsAndHashCode(exclude = {"orderDishes","ingredientCommands"})
+@EqualsAndHashCode(exclude = {"ingredientCommands"})
 @Data
 public class DishCommand {
 

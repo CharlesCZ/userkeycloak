@@ -17,7 +17,7 @@ import java.util.Set;
 
 
 
-@EqualsAndHashCode(exclude = {"user","status","orderDishes"},callSuper = true)
+@EqualsAndHashCode(exclude = {"orderDishes"},callSuper = true)
 @Data
 public class OrderCommand extends AuditBaseCommand{
 
