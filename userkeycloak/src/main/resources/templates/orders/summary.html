@@ -22,12 +22,14 @@
     <tr>
         <th>name</th>
         <th>cost</th>
+        <th>amount</th>
         <th>options</th>
     </tr>
     <div th:each="orderDish: ${order.orderDishes}">
         <tr>
             <td> <h4 th:text="${orderDish.dish.name}"></h4> </td>
             <td th:text="${orderDish.totalPrice}"></td>
+            <td th:text="${orderDish.quantity}"></td>
             <td>
         <span>
             <a href="#" th:href="@{ '/orders/orderDish/'+${orderDish.id}+'/delete'}">Delete</a>

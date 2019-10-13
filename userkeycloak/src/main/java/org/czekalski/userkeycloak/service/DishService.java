@@ -122,7 +122,7 @@ return null;
         orderDish.setDish(dishMapper.dishCommandToDish(dishCommand));
         orderDish.setQuantity(dishCommand.getQuantity());
         orderDish.setSingleDishCost(dishCommand.getCost());
-        //ustawione na sile
+        //forced set
         orderDish.setPriceCut(new BigDecimal(1));
 
         dishCommand.getIngredientCommands().forEach(ingredientCommand -> {
@@ -141,9 +141,9 @@ return null;
         Long biggestOrderId=0L;
         for(Iterator<OrderDish> it=shoppingCart.getOrderDishes().iterator();it.hasNext();){
             Long orderDishId=it.next().getId();
-            if(orderDishId==null) {
-                orderDishId = 0L;
-            }
+         //   if(orderDishId==null) {   <-never happen
+        //        orderDishId = 0L;
+     //       }
                       if(biggestOrderId<orderDishId)
                       {
                           biggestOrderId=orderDishId;

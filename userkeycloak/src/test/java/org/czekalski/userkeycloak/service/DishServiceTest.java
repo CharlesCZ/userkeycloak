@@ -1,12 +1,10 @@
 package org.czekalski.userkeycloak.service;
 
 import org.czekalski.userkeycloak.commadPattern.command.DishCommand;
+import org.czekalski.userkeycloak.commadPattern.command.IngredientCommand;
 import org.czekalski.userkeycloak.commadPattern.mapper.DishMapper;
 import org.czekalski.userkeycloak.commadPattern.mapper.IngredientMapper;
-import org.czekalski.userkeycloak.model.Dish;
-import org.czekalski.userkeycloak.model.Ingredient;
-import org.czekalski.userkeycloak.model.Order;
-import org.czekalski.userkeycloak.model.Recipe;
+import org.czekalski.userkeycloak.model.*;
 import org.czekalski.userkeycloak.repository.DishRepository;
 import org.czekalski.userkeycloak.repository.IngredientRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +28,7 @@ class DishServiceTest {
     public static final String INGREDIENT_NAME1 = "ser";
     public static final String INGREDIENT_NAME2 = "oregano";
     public static final String DISH_NAME_1 = "MargheritaCheeseX2";
+    private static final String INGREDIENT_NAME3 = "pieczarki" ;
 
     @Mock
     private  DishRepository dishRepository;
@@ -38,10 +37,12 @@ class DishServiceTest {
     private IngredientRepository ingredientRepository;
 
     private DishService dishService;
+
+    private Order shoppingBag=new Order();
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        dishService=new DishService(new Order(),dishRepository,DishMapper.INSTANCE, IngredientMapper.INSTANCE, ingredientRepository);
+        dishService=new DishService(shoppingBag,dishRepository,DishMapper.INSTANCE, IngredientMapper.INSTANCE, ingredientRepository);
 
     }
 
@@ -62,17 +63,67 @@ class DishServiceTest {
     }
 
     @Test
-    void addToCart() {
+    void addToEmptyCart() {
+        IngredientCommand ingredient1 = new IngredientCommand();
+        ingredient1.setId(1L);
+        ingredient1.setName(INGREDIENT_NAME1);
+        ingredient1.setCost(new BigDecimal("0.60"));
+        ingredient1.setQuantity(2);
+
+
+
+       IngredientCommand ingredient3 = new IngredientCommand();
+        ingredient3.setId(3L);
+        ingredient3.setName(INGREDIENT_NAME3);
+        ingredient3.setCost(new BigDecimal("0.30"));
+        ingredient3.setQuantity(0);
 
         DishCommand dishCommand=new DishCommand();
         dishCommand.setName(DISH_NAME_1);
+        dishCommand.setIngredientCommands(Arrays.asList(ingredient1,ingredient3));
      Order returnedCart=dishService.addToCart(dishCommand);
 
-
+     //checking deleting ingredients with 0 quantitty from dishcommand
+     assertThat(returnedCart.getOrderDishes()).hasSize(1);
+     //can do that because there is one OrderDish
      assertEquals(DISH_NAME_1,returnedCart.getOrderDishes().iterator().next().getDish().getName());
+
         assertEquals(Long.valueOf(1L),returnedCart.getOrderDishes().iterator().next().getId());
     }
 
+    @Test
+    void addToCart() {
+        OrderDish orderDish=new OrderDish();
+        orderDish.setId(1L);
+        Set<OrderDish> orderDishes=new HashSet<>();
+        orderDishes.add(orderDish);
+        shoppingBag.setOrderDishes(orderDishes);
+
+        IngredientCommand ingredient1 = new IngredientCommand();
+        ingredient1.setId(1L);
+        ingredient1.setName(INGREDIENT_NAME1);
+        ingredient1.setCost(new BigDecimal("0.60"));
+        ingredient1.setQuantity(2);
+
+
+
+        IngredientCommand ingredient3 = new IngredientCommand();
+        ingredient3.setId(3L);
+        ingredient3.setName(INGREDIENT_NAME3);
+        ingredient3.setCost(new BigDecimal("0.30"));
+        ingredient3.setQuantity(0);
+
+        DishCommand dishCommand=new DishCommand();
+        dishCommand.setName(DISH_NAME_1);
+        dishCommand.setIngredientCommands(Arrays.asList(ingredient1,ingredient3));
+        Order returnedCart=dishService.addToCart(dishCommand);
+
+        //checking deleting ingredients with 0 quantitty from dishcommand
+        assertThat(dishCommand.getIngredientCommands()).hasSize(2);
+        assertNotNull(returnedCart.getOrderDishes().stream().filter(orderDish1 -> orderDish1.getId().equals(2L)).findFirst().get());
+
+
+    }
 
     @Test
     void getDishById() {
