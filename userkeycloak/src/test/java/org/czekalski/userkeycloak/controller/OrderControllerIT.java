@@ -2,6 +2,7 @@ package org.czekalski.userkeycloak.controller;
 
 import org.czekalski.userkeycloak.commadPattern.command.DishCommand;
 import org.czekalski.userkeycloak.commadPattern.command.IngredientCommand;
+import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.model.Dish;
 import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.model.OrderDish;
@@ -67,7 +68,17 @@ class OrderControllerIT {
     }
 
 
+ @Test
+ void summaryOfOrder() throws Exception {
+     given(orderService.convertedShoppingCar()).willReturn(new OrderCommand());
 
+     mockMvc.perform(get("/orders/summary"))
+             .andExpect(model().attributeExists("order"))
+             .andExpect(view().name("orders/summary"));
+
+     then(orderService).should().convertedShoppingCar();
+
+ }
 
 
  /*   @Test
