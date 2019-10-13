@@ -38,7 +38,6 @@ public class OrderController {
     public String checkout(Model model){
 
         OrderCommand orderCommand= orderService.convertedShoppingCar();
-       orderCommand.setPaymentKind(new PaymentKindCommand());
         model.addAttribute("paymentKinds",paymentKindService.getListOfPaymentKinds());
         model.addAttribute("order",orderCommand);
 

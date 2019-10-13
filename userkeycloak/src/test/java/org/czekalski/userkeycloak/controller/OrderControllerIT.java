@@ -21,6 +21,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.in;
@@ -82,6 +83,38 @@ class OrderControllerIT {
      then(orderService).should().convertedShoppingCar();
  }
 
+
+    @Test
+    void getCheckout() throws Exception {
+        OrderCommand orderCommand=new OrderCommand();
+        orderCommand.setId(1L);
+        orderCommand.setPaymentKind(new PaymentKindCommand());
+
+        given(orderService.convertedShoppingCar()).willReturn(orderCommand);
+
+        PaymentKindCommand paymentKindCommand=new PaymentKindCommand();
+        paymentKindCommand.setId(2L);
+        paymentKindCommand.setName("Card");
+
+        PaymentKindCommand paymentKindCommand1=new PaymentKindCommand();
+        paymentKindCommand1.setId(1L);
+        paymentKindCommand1.setName("Cash");
+        given(paymentKindService.getListOfPaymentKinds()).willReturn(Arrays.asList(paymentKindCommand,paymentKindCommand1));
+
+
+        mockMvc.perform(get("/orders/checkout"))
+                .andExpect(status().isOk())
+                    .andExpect(view().name("orders/addressAndPayment"))
+                .andExpect(model().attributeExists("paymentKinds","order"));
+
+
+        then(orderService).should().convertedShoppingCar();
+        then(paymentKindService).should().getListOfPaymentKinds();
+
+    }
+
+    @Test
+    void postCheckout(){}
 
  /*   @Test
     void getAllIngredients() throws Exception {

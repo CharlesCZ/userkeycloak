@@ -3,6 +3,7 @@ package org.czekalski.userkeycloak.service;
 import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.commadPattern.command.OrderDishCommand;
 import org.czekalski.userkeycloak.commadPattern.command.OrderIngredientCommand;
+import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
 import org.czekalski.userkeycloak.commadPattern.mapper.OrderMapper;
 import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.model.OrderDish;
@@ -68,6 +69,7 @@ public OrderCommand convertedShoppingCar(){
             orderDishCommand.setTotalPrice( totalPriceForOrderDishCommand(orderDishCommand) );
                 });
 
+    orderCommand.setPaymentKind(new PaymentKindCommand());
         return orderCommand;
 
 }
