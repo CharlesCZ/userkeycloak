@@ -24,7 +24,6 @@ public class OrderCommand extends AuditBaseCommand{
 
     private PaymentKindCommand paymentKind;
 
-    private Timestamp deliveryTime;
 
     private String user;
 
@@ -35,6 +34,7 @@ public class OrderCommand extends AuditBaseCommand{
     private Integer houseNr;
 
     private Integer apartment;
+
     private String telephone;
 
 
@@ -54,9 +54,12 @@ public class OrderCommand extends AuditBaseCommand{
                 ", description='" + description + '\'' +
                 ", finishedTime=" + finishedTime +
                 ", paymentKind=" + paymentKind +
-                ", deliveryTime=" + deliveryTime +
                 ", user='" + user + '\'' +
-              //  ", orderAddress=" + orderAddress +
+                ", City='" + City + '\'' +
+                ", Street='" + Street + '\'' +
+                ", houseNr=" + houseNr +
+                ", apartment=" + apartment +
+                ", telephone='" + telephone + '\'' +
                 ", status=" + status +
                 ", payed=" + payed +
                 ", totalPrice=" + totalPrice +

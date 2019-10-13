@@ -41,9 +41,6 @@ public class Order extends AuditBase {
     @JoinColumn(name = "payment_kind")
     private PaymentKind paymentKind;
 
-    @Column(name = "delivery_time")
-    private Timestamp deliveryTime;
-
 
    @Column(nullable =false,name="user_id")
     private String user;
@@ -76,7 +73,6 @@ public class Order extends AuditBase {
                 ", description='" + description + '\'' +
                 ", finishedTime=" + finishedTime +
                 ", paymentKind=" + paymentKind +
-                ", deliveryTime=" + deliveryTime +
                 ", user='" + user + '\'' +
                 ", status=" + status +
                 ", payed=" + payed +
