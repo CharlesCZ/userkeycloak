@@ -2,17 +2,10 @@ package org.czekalski.userkeycloak.commadPattern.command;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.czekalski.userkeycloak.model.OrderAddress;
-import org.czekalski.userkeycloak.model.OrderDish;
-import org.czekalski.userkeycloak.model.PaymentKind;
-import org.czekalski.userkeycloak.model.Status;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -35,7 +28,15 @@ public class OrderCommand extends AuditBaseCommand{
 
     private String user;
 
- //   private OrderAddressCommand orderAddress;
+    private String City;
+    private String Street;
+
+
+    private Integer houseNr;
+
+    private Integer apartment;
+    private String telephone;
+
 
     private StatusCommand status;
 

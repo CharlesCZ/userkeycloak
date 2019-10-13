@@ -1,14 +1,12 @@
 package org.czekalski.userkeycloak.controller;
 
 import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
-import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
 import org.czekalski.userkeycloak.service.OrderDishService;
 import org.czekalski.userkeycloak.service.OrderService;
 import org.czekalski.userkeycloak.service.PaymentKindService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class OrderController {
@@ -29,17 +27,20 @@ public class OrderController {
     @GetMapping("/orders/summary")
     public String summaryOfOrder(Model model){
         OrderCommand orderCommand= orderService.convertedShoppingCar();
-        orderCommand.setPaymentKind(new PaymentKindCommand());
         model.addAttribute("order",orderCommand);
-        model.addAttribute("paymentKinds",paymentKindService.getListOfPaymentKinds());
 
         return "orders/summary";
     }
 
-    @PostMapping("/orders/checkout")
-    public String checkout(OrderCommand order){
+    @GetMapping("/orders/checkout")
+    public String checkout(Model model){
 
-        return "orders/address";
+        OrderCommand orderCommand= orderService.convertedShoppingCar();
+        //orderCommand.set
+        model.addAttribute("paymentKinds",paymentKindService.getListOfPaymentKinds());
+
+
+        return "orders/addressAndPayment";
     }
 
 }

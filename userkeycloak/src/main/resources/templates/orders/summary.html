@@ -12,26 +12,15 @@
 </div>
 
 
-<h1>Go to checkout</h1>
 
 <div>
-    <form th:object="${order}" th:action="@{'/orders/checkout'}" method="post">
-            <label>PaymentKinds list:</label>
-                <select  name="paymentKind.id">
-                    <option th:each="paymentKind: ${paymentKinds}"
-                            th:value="${paymentKind.id}"
-                           th:text="${paymentKind.name}"
-                            th:selected="${paymentKind.id.equals(order.paymentKind.id)}">
-                        Payment Kind
-                    </option>
-
-                </select>
-        <button type=submit >Go to checkout</button>
-    </form>
+    <a href="#" th:href="@{'/orders/dishes/new'}">Back to shopping</a>
 </div>
 
-
-<h2>Your shopping bag:</h2>
+<div>
+    <a href="#" th:href="@{'/orders/checkout'}">Go to checkout</a>
+</div>
+<h1>Your shopping bag:</h1>
 
 
 <table>

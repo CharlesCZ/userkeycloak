@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Address and Payment</title>
+</head>
+<body>
+
+<div>
+    <form th:object="${order}" th:action="@{'/orders/checkout'}" method="post">
+        <label>PaymentKinds list:</label>
+        <select  name="paymentKind.id">
+            <option th:each="paymentKind: ${paymentKinds}"
+                    th:value="${paymentKind.id}"
+                    th:text="${paymentKind.name}"
+                    th:selected="${paymentKind.id.equals(order.paymentKind.id)}">
+                Payment Kind
+            </option>
+
+        </select>
+        <button type=submit>Submit</button>
+
+
+
+
+    </form>
+</div>
+
+
+
+</body>
+</html>

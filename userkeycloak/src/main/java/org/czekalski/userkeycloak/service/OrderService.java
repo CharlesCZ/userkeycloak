@@ -41,7 +41,7 @@ BigDecimal price=new BigDecimal(0);
 
         }
 
-shoppingCart.setTotalPrice(price);
+//shoppingCart.setTotalPrice(price);
         return price;
 }
 

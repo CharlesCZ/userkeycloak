@@ -48,9 +48,6 @@ public class Order extends AuditBase {
    @Column(nullable =false,name="user_id")
     private String user;
 
-    @ManyToOne
-    @JoinColumn(name = "order_address_id")
-    private OrderAddress orderAddress;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status")
@@ -58,10 +55,18 @@ public class Order extends AuditBase {
 
     private Boolean payed;
 
-    private BigDecimal totalPrice;
-
     @OneToMany(mappedBy = "order")
     private Set<OrderDish> orderDishes=new HashSet<>();
+
+
+    private String City;
+    private String Street;
+
+    @Column(name = "house_nr")
+    private Integer houseNr;
+
+    private Integer apartment;
+    private String telephone;
 
 
     @Override
@@ -73,10 +78,13 @@ public class Order extends AuditBase {
                 ", paymentKind=" + paymentKind +
                 ", deliveryTime=" + deliveryTime +
                 ", user='" + user + '\'' +
-                ", orderAddress=" + orderAddress +
                 ", status=" + status +
                 ", payed=" + payed +
-                ", totalPrice=" + totalPrice +
+                ", City='" + City + '\'' +
+                ", Street='" + Street + '\'' +
+                ", houseNr=" + houseNr +
+                ", apartment=" + apartment +
+                ", telephone='" + telephone + '\'' +
                 ", createdDate=" + createdDate +
                 ", createdBy='" + createdBy + '\'' +
                 ", lastModifiedBy='" + lastModifiedBy + '\'' +

@@ -19,7 +19,6 @@ public class Bootstrap implements CommandLineRunner {
     private static final String USER1 = "Czarek11";
 
     private final OrderRepository orderRepository;
-    private final OrderAddressRepository orderAddressRepository;
 private final DishRepository dishRepository;
 private final OrderDishRepository orderDishRepository;
 private final IngredientRepository ingredientRepository;
@@ -28,12 +27,12 @@ private final PaymentKindRepository paymentKindRepository;
 private final StatusRepository statusRepository;
 private final RecipeRepository recipeRepository;
 
-    public Bootstrap(OrderRepository orderRepository, OrderAddressRepository orderAddressRepository, DishRepository dishRepository,
+    public Bootstrap(OrderRepository orderRepository,  DishRepository dishRepository,
                      OrderDishRepository orderDishRepository, IngredientRepository ingredientRepository,
                      OrderIngredientRepository orderIngredientRepository, PaymentKindRepository paymentKindRepository, StatusRepository statusRepository, RecipeRepository recipeRepository) {
 
         this.orderRepository = orderRepository;
-        this.orderAddressRepository = orderAddressRepository;
+
         this.dishRepository = dishRepository;
         this.orderDishRepository = orderDishRepository;
         this.ingredientRepository=ingredientRepository;
@@ -46,30 +45,19 @@ private final RecipeRepository recipeRepository;
 
     @Override
     public void run(String... args) throws Exception {
-
-
-
         Order order1=new Order();
         order1.setDescription("nowe zamowienie");
         order1.setUser(USER1);
         order1.setFinishedTime(new Timestamp(System.currentTimeMillis()));
         order1.setPaymentKind(paymentKindRepository.findByName("Cash").get());
-
-
         order1.setStatus(statusRepository.findByName("Ready").get());
         order1.setPayed(false);
-
-        OrderAddress orderAddress = new OrderAddress();
-        orderAddress.setUser(USER1);
-        orderAddress.setApartment(11);
-        orderAddress.setCity("Poznan");
-        orderAddress.setHouseNr(23);
-        orderAddress.setStreet("Marszalkowska");
-        orderAddress.setTelephone("123123123");
-        orderAddressRepository.save(orderAddress);
-
-
-        order1.setOrderAddress(orderAddress);
+        order1.setUser(USER1);
+        order1.setApartment(11);
+        order1.setCity("Poznan");
+        order1.setHouseNr(23);
+        order1.setStreet("Marszalkowska");
+        order1.setTelephone("123123123");
         order1.setId(orderRepository.save(order1).getId());
         orderRepository.save(order1);
 
@@ -79,30 +67,18 @@ private final RecipeRepository recipeRepository;
         order2.setUser(USER1);
         order2.setFinishedTime(new Timestamp(System.currentTimeMillis()));
         order2.setPaymentKind(paymentKindRepository.findByName("Cash").get());
-
-
         order2.setStatus(statusRepository.findByName("Ready").get());
         order2.setPayed(false);
-
-        OrderAddress orderAddress2 = new OrderAddress();
-        orderAddress2.setUser(USER1);
-        orderAddress2.setApartment(11);
-        orderAddress2.setCity("Poznan");
-        orderAddress2.setHouseNr(23);
-        orderAddress2.setStreet("Marszalkowska");
-        orderAddress2.setTelephone("123123123");
-        orderAddressRepository.save(orderAddress2);
-
-
-        order2.setOrderAddress(orderAddress2);
+        order2.setUser(USER1);
+        order2.setApartment(11);
+        order2.setCity("Poznan");
+        order2.setHouseNr(23);
+        order2.setStreet("Marszalkowska");
+        order2.setTelephone("123123123");
         order2.setId(orderRepository.save(order2).getId());
         orderRepository.save(order2);
 
 
-
-
-
-        orderAddress.getOrders().add(order1);
 
         Dish dish=new Dish();
         dish.setName("Lasagna");
