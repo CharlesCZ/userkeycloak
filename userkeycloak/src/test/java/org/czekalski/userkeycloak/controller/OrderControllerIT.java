@@ -3,13 +3,11 @@ package org.czekalski.userkeycloak.controller;
 import org.czekalski.userkeycloak.commadPattern.command.DishCommand;
 import org.czekalski.userkeycloak.commadPattern.command.IngredientCommand;
 import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
+import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
 import org.czekalski.userkeycloak.model.Dish;
 import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.model.OrderDish;
-import org.czekalski.userkeycloak.service.DishService;
-import org.czekalski.userkeycloak.service.IngredientService;
-import org.czekalski.userkeycloak.service.OrderDishService;
-import org.czekalski.userkeycloak.service.OrderService;
+import org.czekalski.userkeycloak.service.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,6 +52,9 @@ class OrderControllerIT {
     @MockBean
     IngredientService ingredientService;
 
+    @MockBean
+    PaymentKindService paymentKindService;
+
     @Autowired
     MockMvc mockMvc;
 
@@ -65,12 +66,18 @@ class OrderControllerIT {
     void tearDown() {
         reset(orderDishService);
         reset(orderService);
+        reset(paymentKindService);
     }
 
 
  @Test
  void summaryOfOrder() throws Exception {
      given(orderService.convertedShoppingCar()).willReturn(new OrderCommand());
+     PaymentKindCommand pkc1=new PaymentKindCommand();
+     pkc1.setId(1L);
+     PaymentKindCommand pkc2=new PaymentKindCommand();
+     pkc2.setId(2L);
+     given(paymentKindService.getListOfPaymentKinds()).willReturn(Arrays.asList(pkc1,pkc2));
 
      mockMvc.perform(get("/orders/summary"))
              .andExpect(model().attributeExists("order"))
@@ -78,7 +85,7 @@ class OrderControllerIT {
              .andExpect(view().name("orders/summary"));
 
      then(orderService).should().convertedShoppingCar();
-
+then(paymentKindService).should().getListOfPaymentKinds();
  }
 
 

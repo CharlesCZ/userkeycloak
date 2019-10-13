@@ -60,7 +60,6 @@ class IngredientControllerIT {
 
 
         then(ingredientService).should().findAll();
-        assertThat(ingredientService.findAll()).hasSize(2);
 
     }
     @Test
