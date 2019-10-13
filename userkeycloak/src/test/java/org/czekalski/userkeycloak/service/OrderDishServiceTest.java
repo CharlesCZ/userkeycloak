@@ -17,6 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class OrderDishServiceTest {
@@ -25,8 +26,8 @@ class OrderDishServiceTest {
     private static final String INGREDIENT_NAME2 = "oregano";
     private static final String DISH_NAME_1 = "MargheritaCheeseX2";
     private static final String DISH_NAME_2 = "Margherita";
-    @Mock
-    private  Order shoppingCart;
+
+    private  Order shoppingCart=new Order();
     @Mock
     private  RecipeRepository recipeRepository;
 
@@ -160,6 +161,30 @@ assertAll("Testing conversion from Recipes to OrderDishes",
 
 
         given(ingredientRepository.findAll()).willReturn(Arrays.asList(ingredient2,notInRecipe1,notInRecipe2,ingredient1,ingredient2));
+
+    }
+
+
+    @Test
+    void deleteFromCart() {
+        OrderDish orderDish=new OrderDish();
+        orderDish.setId(1L);
+        OrderDish orderDish2=new OrderDish();
+        orderDish2.setId(2L);
+        OrderDish orderDish3=new OrderDish();
+        orderDish3.setId(3L);
+        shoppingCart.getOrderDishes().add(orderDish);
+        shoppingCart.getOrderDishes().add(orderDish2);
+        shoppingCart.getOrderDishes().add(orderDish3);
+
+
+
+        assertTrue( orderDishService.deleteFromCart(2L));
+        assertThat(shoppingCart.getOrderDishes()).hasSize(2);
+        assertEquals(Long.valueOf(1L),shoppingCart.getOrderDishes().iterator().next().getId());
+
+
+
 
     }
 

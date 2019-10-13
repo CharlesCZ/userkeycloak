@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -24,10 +25,48 @@ public class OrderDishService {
     }
 
 
-public Order deleteFromCart(){
-    //TODO  orderDish deleteFromCart
-        return null;
+    public Order getShoppingCart(){
+        return shoppingCart;
+    }
+
+public Boolean deleteFromCart(Long id){
+
+
+
+        return  shoppingCart.getOrderDishes().removeIf(orderDish -> orderDish.getId().equals(id));
 }
+
+
+
+    public Order addToCart() {
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public List<OrderDish> getAllPossibilities() {
@@ -130,7 +169,5 @@ public Order deleteFromCart(){
 
     }
 
-  //  public Order addToCart() {
- //       return null;
- //   }
+
 }

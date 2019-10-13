@@ -23,7 +23,7 @@ public class OrderService {
     }
 
 
-    public Order processShoppingCart(){
+    public Order getShoppingCart(){
         return shoppingCart;
     }
 

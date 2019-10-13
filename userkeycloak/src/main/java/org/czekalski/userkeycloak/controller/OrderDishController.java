@@ -3,6 +3,8 @@ package org.czekalski.userkeycloak.controller;
 
 import org.czekalski.userkeycloak.service.OrderDishService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class OrderDishController {
@@ -14,6 +16,13 @@ public class OrderDishController {
     }
 
 
-    //TODO delete OrderDish from cart
+    @GetMapping("/orders/orderDish/{id}/delete")
+   public String deleteFromCart(@PathVariable Long id){
+
+        orderDishService.deleteFromCart(id);
+
+        return "redirect:/orders/summary";
+
+    }
 
 }

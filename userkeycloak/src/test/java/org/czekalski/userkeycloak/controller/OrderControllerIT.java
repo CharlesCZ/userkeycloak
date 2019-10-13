@@ -74,6 +74,7 @@ class OrderControllerIT {
 
      mockMvc.perform(get("/orders/summary"))
              .andExpect(model().attributeExists("order"))
+             .andExpect(status().isOk())
              .andExpect(view().name("orders/summary"));
 
      then(orderService).should().convertedShoppingCar();
