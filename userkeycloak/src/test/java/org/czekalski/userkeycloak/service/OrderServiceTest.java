@@ -1,32 +1,50 @@
 package org.czekalski.userkeycloak.service;
 
+import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.commadPattern.mapper.OrderMapper;
 import org.czekalski.userkeycloak.model.*;
+import org.czekalski.userkeycloak.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
     public static final String INGREDIENT_NAME1 = "ser";
     public static final String INGREDIENT_NAME2 = "oregano";
     public static final String DISH_NAME_1 = "MargheritaCheeseX2";
+    public static final int HOUSE_NR = 21;
 
 
+    @Mock
+    OrderRepository orderRepository;
     OrderService orderService;
     OrderMapper orderMapper=OrderMapper.INSTANCE;
+
+    @Captor
+    ArgumentCaptor<Order> houseNrCaptor;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-   orderService=new OrderService(new Order(), orderMapper);
+   orderService=new OrderService(new Order(), orderRepository, orderMapper);
 
     }
 
@@ -96,14 +114,52 @@ class OrderServiceTest {
 
         order.setOrderDishes(orderDishes);
 
+
         return order;
     }
     @Test
     void calculatePrice() {
-       orderService=new OrderService(preparingShoppingCart(), orderMapper);
+       orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper);
 
         BigDecimal returnedPrice=orderService.calculateTotalPrice();
 
         assertEquals("64.80",returnedPrice.toString());
+    }
+
+    @Test
+    void addOrderToDatabase(){
+        Order orderToReturn=preparingShoppingCart();
+        orderToReturn.setId(1L);
+        orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper);
+
+        given(orderRepository.save(houseNrCaptor.capture())).willReturn(orderToReturn);
+
+        Long id=1L,orderIngredientId=1L;
+        for (OrderDish orderDish : orderToReturn.getOrderDishes()) {
+            orderDish.setId(++id);
+            for(OrderIngredient orderIngredient: orderDish.getOrderIngredients()){
+                orderIngredient.setId(++orderIngredientId);
+            }
+        }
+        given(orderDishRepository.saveAll(any(Set.class))).willReturn(orderToReturn.getOrderDishes());
+        given(orderIngredientRepository.saveAll(any(Set.class))).willReturn(orderToReturn.getOrderDishes().iterator().next(),orderToReturn.getOrderDishes().iterator().next());
+
+
+
+        OrderCommand orderAsArgument=new OrderCommand();
+        orderAsArgument.setCity("Poznan");
+        orderAsArgument.setStreet("Piotrowo");
+        orderAsArgument.setHouseNr(HOUSE_NR);
+        orderAsArgument.setApartment(44);
+        OrderCommand returnedOrder=orderService.addOrderToDatabase(orderAsArgument);
+
+        then(orderRepository).should().save(any(Order.class));
+        then(orderDishRepository).should().saveAll(any(Set.class));
+        then(orderIngredientRepository).should(times(2)).saveAll(any(Set.class));
+
+        assertEquals(Integer.valueOf(HOUSE_NR),houseNrCaptor.getValue().getHouseNr());
+        assertThat(orderToReturn.getOrderDishes()).hasSize(2);
+        assertEquals(Long.valueOf(1L),returnedOrder.getStatus().getId());
+
     }
 }

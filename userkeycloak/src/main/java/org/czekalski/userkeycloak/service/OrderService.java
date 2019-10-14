@@ -8,6 +8,7 @@ import org.czekalski.userkeycloak.commadPattern.mapper.OrderMapper;
 import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.model.OrderDish;
 import org.czekalski.userkeycloak.model.OrderIngredient;
+import org.czekalski.userkeycloak.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,10 +17,12 @@ import java.math.BigDecimal;
 public class OrderService {
 
     private final Order shoppingCart;
+    private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
-    public OrderService(Order shoppingCart, OrderMapper orderMapper) {
+    public OrderService(Order shoppingCart, OrderRepository orderRepository, OrderMapper orderMapper) {
         this.shoppingCart = shoppingCart;
+        this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
     }
 

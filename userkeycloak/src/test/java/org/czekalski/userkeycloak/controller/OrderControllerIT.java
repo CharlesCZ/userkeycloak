@@ -114,7 +114,17 @@ class OrderControllerIT {
     }
 
     @Test
-    void postCheckout(){}
+    void postCheckout() throws Exception {
+        given(orderDishService.addOrderToDatabase(any(OrderCommand.class))).willReturn(new OrderCommand());
+
+        mockMvc.perform(post("order/checkout"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("orders/successView"));
+
+        then(orderDishService).should().addOrderToDatabase(any(OrderCommand.class));
+
+        //TODO
+    }
 
  /*   @Test
     void getAllIngredients() throws Exception {
