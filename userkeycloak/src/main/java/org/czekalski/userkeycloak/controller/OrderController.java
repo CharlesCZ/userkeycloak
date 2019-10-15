@@ -46,8 +46,9 @@ public class OrderController {
 
     @PostMapping("/orders/checkout")
     public String checkout(OrderCommand orderCommand){
-        OrderCommand orderCommand1=orderCommand;
 
+        orderService.addOrderToDatabase(orderCommand);
+        orderService.cleanShoppingCart();
         return "orders/successView";
     }
 }

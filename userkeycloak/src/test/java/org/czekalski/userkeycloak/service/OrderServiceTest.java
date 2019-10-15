@@ -1,9 +1,10 @@
 package org.czekalski.userkeycloak.service;
 
 import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
+import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
 import org.czekalski.userkeycloak.commadPattern.mapper.OrderMapper;
 import org.czekalski.userkeycloak.model.*;
-import org.czekalski.userkeycloak.repository.OrderRepository;
+import org.czekalski.userkeycloak.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +15,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,6 +37,16 @@ class OrderServiceTest {
 
     @Mock
     OrderRepository orderRepository;
+    @Mock
+    PaymentKindRepository paymentKindRepository;
+    @Mock
+    OrderDishRepository orderDishRepository;
+    @Mock
+     OrderIngredientRepository orderIngredientRepository;
+    @Mock
+    StatusRepository statusRepository;
+
+
     OrderService orderService;
     OrderMapper orderMapper=OrderMapper.INSTANCE;
 
@@ -44,7 +56,7 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-   orderService=new OrderService(new Order(), orderRepository, orderMapper);
+   orderService=new OrderService(new Order(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
 
     }
 
@@ -114,12 +126,11 @@ class OrderServiceTest {
 
         order.setOrderDishes(orderDishes);
 
-
         return order;
     }
     @Test
     void calculatePrice() {
-       orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper);
+       orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
 
         BigDecimal returnedPrice=orderService.calculateTotalPrice();
 
@@ -128,9 +139,20 @@ class OrderServiceTest {
 
     @Test
     void addOrderToDatabase(){
+
         Order orderToReturn=preparingShoppingCart();
         orderToReturn.setId(1L);
-        orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper);
+        orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
+
+        PaymentKind paymentKind=new PaymentKind();
+        paymentKind.setId(1L);
+        paymentKind.setName("Card");
+        given(paymentKindRepository.findById(1L)).willReturn(Optional.of(paymentKind));
+
+        Status status=new Status();
+        status.setName("started");
+        status.setId(1L);
+        given(statusRepository.findById(1L)).willReturn(Optional.of(status));
 
         given(orderRepository.save(houseNrCaptor.capture())).willReturn(orderToReturn);
 
@@ -141,8 +163,10 @@ class OrderServiceTest {
                 orderIngredient.setId(++orderIngredientId);
             }
         }
-        given(orderDishRepository.saveAll(any(Set.class))).willReturn(orderToReturn.getOrderDishes());
-        given(orderIngredientRepository.saveAll(any(Set.class))).willReturn(orderToReturn.getOrderDishes().iterator().next(),orderToReturn.getOrderDishes().iterator().next());
+
+        given(orderDishRepository.saveAll(any(Set.class))).willReturn(new ArrayList<>(orderToReturn.getOrderDishes()));
+        given(orderIngredientRepository.saveAll(any(Set.class))).willReturn(    new ArrayList<>(orderToReturn.getOrderDishes().iterator().next().getOrderIngredients()),
+                new ArrayList<>(orderToReturn.getOrderDishes().iterator().next().getOrderIngredients()));
 
 
 
@@ -151,11 +175,17 @@ class OrderServiceTest {
         orderAsArgument.setStreet("Piotrowo");
         orderAsArgument.setHouseNr(HOUSE_NR);
         orderAsArgument.setApartment(44);
-        OrderCommand returnedOrder=orderService.addOrderToDatabase(orderAsArgument);
 
+        PaymentKindCommand paymentKindCommand=new PaymentKindCommand();
+        paymentKindCommand.setId(1L);
+        orderAsArgument.setPaymentKind(paymentKindCommand);
+        Order returnedOrder=orderService.addOrderToDatabase(orderAsArgument);
+
+        then(paymentKindRepository).should().findById(1L);
         then(orderRepository).should().save(any(Order.class));
         then(orderDishRepository).should().saveAll(any(Set.class));
         then(orderIngredientRepository).should(times(2)).saveAll(any(Set.class));
+        then(statusRepository).should().findById(1L);
 
         assertEquals(Integer.valueOf(HOUSE_NR),houseNrCaptor.getValue().getHouseNr());
         assertThat(orderToReturn.getOrderDishes()).hasSize(2);

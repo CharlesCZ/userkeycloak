@@ -28,8 +28,7 @@ import static org.assertj.core.api.Assertions.in;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -115,15 +114,17 @@ class OrderControllerIT {
 
     @Test
     void postCheckout() throws Exception {
-        given(orderDishService.addOrderToDatabase(any(OrderCommand.class))).willReturn(new OrderCommand());
+        given(orderService.addOrderToDatabase(any(OrderCommand.class))).willReturn(new Order());
 
-        mockMvc.perform(post("order/checkout"))
+
+        mockMvc.perform(post("/orders/checkout"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("orders/successView"));
 
-        then(orderDishService).should().addOrderToDatabase(any(OrderCommand.class));
+        then(orderService).should().addOrderToDatabase(any(OrderCommand.class));
+        then(orderService).should().cleanShoppingCart();
 
-        //TODO
+
     }
 
  /*   @Test
