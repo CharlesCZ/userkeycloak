@@ -20,7 +20,7 @@ public class OrderDishCommand  extends AuditBaseCommand{
 
     private BigDecimal singleDishCost;
 
-    private BigDecimal priceCut;
+
 
 
     private DishCommand dish;
@@ -36,7 +36,7 @@ public class OrderDishCommand  extends AuditBaseCommand{
                 "id=" + id +
                 ", quantity=" + quantity +
                 ", singleDishCost=" + singleDishCost +
-                ", priceCut=" + priceCut +
+
             //    ", order=" + order +
             //    ", dish=" + dish +
                 ", createdDate=" + createdDate +

@@ -122,8 +122,7 @@ return null;
         orderDish.setDish(dishMapper.dishCommandToDish(dishCommand));
         orderDish.setQuantity(dishCommand.getQuantity());
         orderDish.setSingleDishCost(dishCommand.getCost());
-        //forced set
-        orderDish.setPriceCut(new BigDecimal(1));
+
 
         dishCommand.getIngredientCommands().forEach(ingredientCommand -> {
 

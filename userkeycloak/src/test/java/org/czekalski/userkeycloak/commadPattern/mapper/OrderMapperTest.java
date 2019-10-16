@@ -89,7 +89,7 @@ class OrderMapperTest {
         orderIngredients.add(orderIngredient2);
 
         orderDish.setOrderIngredients(orderIngredients);
-        orderDish.setPriceCut(new BigDecimal(1));
+
 
         Set<OrderDish> orderDishes=new HashSet<>();
         orderDishes.add(orderDish);
@@ -100,7 +100,6 @@ class OrderMapperTest {
         dish2.setCost(new BigDecimal("20.00"));
 
         OrderDish orderDish1=new OrderDish();
-        orderDish1.setPriceCut(new BigDecimal(1));
         orderDish1.setQuantity(1);
         orderDish1.setId(2L);
         orderDish1.setSingleDishCost(dish2.getCost());
@@ -191,14 +190,12 @@ class OrderMapperTest {
         OrderDishCommand orderDishCommand=new OrderDishCommand();
         orderDishCommand.setOrderIngredients(orderIngredientCommands);
         orderDishCommand.setDish(dishCommand);
-        orderDishCommand.setPriceCut(new BigDecimal(1));
         orderDishCommand.setQuantity(dishCommand.getQuantity());
         orderDishCommand.setSingleDishCost(dishCommand.getCost());
         orderDishCommand.setId(1L);
 
         OrderDishCommand orderDishCommand2=new OrderDishCommand();
         orderDishCommand2.setDish(dishCommand2);
-        orderDishCommand2.setPriceCut(new BigDecimal(1));
         orderDishCommand2.setQuantity(dishCommand2.getQuantity());
         orderDishCommand2.setSingleDishCost(dishCommand2.getCost());
         orderDishCommand2.setId(2L);

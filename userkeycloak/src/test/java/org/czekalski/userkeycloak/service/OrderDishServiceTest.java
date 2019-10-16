@@ -181,7 +181,7 @@ assertAll("Testing conversion from Recipes to OrderDishes",
 
         assertTrue( orderDishService.deleteFromCart(2L));
         assertThat(shoppingCart.getOrderDishes()).hasSize(2);
-        assertEquals(Long.valueOf(1L),shoppingCart.getOrderDishes().iterator().next().getId());
+        assertNotNull(shoppingCart.getOrderDishes().stream().filter(orderDish1 -> orderDish1.getId().equals(1L)).findFirst().get());
 
 
 

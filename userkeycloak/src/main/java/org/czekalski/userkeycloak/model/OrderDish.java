@@ -35,8 +35,7 @@ public class OrderDish  extends AuditBase{
     @Column(name = "single_dish_cost")
     private BigDecimal singleDishCost;
 
-    @Column(name = "price_cut")
-    private BigDecimal priceCut;
+
 
 
     @ManyToOne
@@ -59,7 +58,7 @@ public class OrderDish  extends AuditBase{
                 "id=" + id +
                 ", quantity=" + quantity +
                 ", singleDishCost=" + singleDishCost +
-                ", priceCut=" + priceCut +
+
                 ", order=" + order +
                 ", dish=" + dish +
               //  ", orderIngredients=" + orderIngredients +

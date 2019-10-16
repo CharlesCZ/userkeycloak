@@ -113,7 +113,6 @@ class OrderServiceTest {
         orderIngredients.add(orderIngredient2);
 
         orderDish.setOrderIngredients(orderIngredients);
-        orderDish.setPriceCut(new BigDecimal(1));
 
         Set<OrderDish> orderDishes=new HashSet<>();
         orderDishes.add(orderDish);
@@ -124,7 +123,6 @@ class OrderServiceTest {
         dish2.setCost(new BigDecimal("20.00"));
 
         OrderDish orderDish1=new OrderDish();
-        orderDish1.setPriceCut(new BigDecimal(1));
         orderDish1.setQuantity(1);
         orderDish1.setSingleDishCost(dish2.getCost());
         orderDishes.add(orderDish1);

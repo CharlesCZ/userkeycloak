@@ -48,7 +48,7 @@ BigDecimal price=new BigDecimal(0);
 
     for (OrderDish orderDish : shoppingCart.getOrderDishes())
      {
-        price=  price.add(    orderDish.getSingleDishCost().multiply( new BigDecimal(orderDish.getQuantity()) ).multiply(orderDish.getPriceCut())    );
+        price=  price.add(    orderDish.getSingleDishCost().multiply( new BigDecimal(orderDish.getQuantity()) )    );
 
          for (OrderIngredient orderIngredient : orderDish.getOrderIngredients()) {
                 price=  price.add(    orderIngredient.getIngredient().getCost().multiply(new BigDecimal(orderIngredient.getQuantity())).multiply(new BigDecimal(orderDish.getQuantity()))   );
@@ -65,7 +65,7 @@ BigDecimal price=new BigDecimal(0);
         BigDecimal price=new BigDecimal(0);
 
 
-            price=  price.add(    orderDishCommand.getSingleDishCost().multiply( new BigDecimal(orderDishCommand.getQuantity()) ).multiply(orderDishCommand.getPriceCut())    );
+            price=  price.add(    orderDishCommand.getSingleDishCost().multiply( new BigDecimal(orderDishCommand.getQuantity()) )    );
 
             for (OrderIngredientCommand orderIngredient : orderDishCommand.getOrderIngredients()) {
                 price=  price.add(    orderIngredient.getIngredient().getCost().multiply(new BigDecimal(orderIngredient.getQuantity())).multiply(new BigDecimal( orderDishCommand.getQuantity()))   );
