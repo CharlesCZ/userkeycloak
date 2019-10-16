@@ -5,12 +5,13 @@ import org.czekalski.userkeycloak.commadPattern.command.OrderDishCommand;
 import org.czekalski.userkeycloak.commadPattern.command.OrderIngredientCommand;
 import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
 import org.czekalski.userkeycloak.commadPattern.mapper.OrderMapper;
+import org.czekalski.userkeycloak.config.audit.JpaAuditingConfig;
 import org.czekalski.userkeycloak.model.*;
 import org.czekalski.userkeycloak.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Optional;
+import java.util.HashSet;
 
 @Service
 public class OrderService {
@@ -22,8 +23,10 @@ public class OrderService {
     private final OrderDishRepository orderDishRepository;
     private final OrderIngredientRepository orderIngredientRepository;
     private final StatusRepository statusRepository;
+    private final JpaAuditingConfig jpaAuditingConfig;
 
-    public OrderService(Order shoppingCart, OrderRepository orderRepository, OrderMapper orderMapper, PaymentKindRepository paymentKindRepository, OrderDishRepository orderDishRepository, OrderIngredientRepository orderIngredientRepository, StatusRepository statusRepository) {
+
+    public OrderService(Order shoppingCart, OrderRepository orderRepository, OrderMapper orderMapper, PaymentKindRepository paymentKindRepository, OrderDishRepository orderDishRepository, OrderIngredientRepository orderIngredientRepository, StatusRepository statusRepository, JpaAuditingConfig jpaAuditingConfig) {
         this.shoppingCart = shoppingCart;
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
@@ -31,6 +34,8 @@ public class OrderService {
         this.orderDishRepository = orderDishRepository;
         this.orderIngredientRepository = orderIngredientRepository;
         this.statusRepository = statusRepository;
+
+        this.jpaAuditingConfig = jpaAuditingConfig;
     }
 
 
@@ -84,7 +89,30 @@ public OrderCommand convertedShoppingCar(){
 
 }
 
+    private  Order convertFromProxy(Order shoppingCart,JpaAuditingConfig jpaAuditingConfig){
+//TODO better solution
+        Order shoppingCartToSave=new Order();
+        shoppingCartToSave.setStatus(shoppingCart.getStatus());
+        shoppingCartToSave.setPaymentKind(shoppingCart.getPaymentKind());
+        shoppingCartToSave.setCity(shoppingCart.getCity());
+        shoppingCartToSave.setStreet(shoppingCart.getStreet());
+        shoppingCartToSave.setHouseNr(shoppingCart.getHouseNr());
+        shoppingCartToSave.setApartment(shoppingCart.getApartment());
+        shoppingCartToSave.setOrderDishes(shoppingCart.getOrderDishes());
+        shoppingCartToSave.setCreatedDate(shoppingCart.getCreatedDate());
+        shoppingCartToSave.setCreatedBy(shoppingCart.getCreatedBy());
+        shoppingCartToSave.setFinishedTime(shoppingCart.getFinishedTime());
+        shoppingCartToSave.setDescription(shoppingCart.getDescription());
+        shoppingCartToSave.setId(shoppingCart.getId());
+        shoppingCartToSave.setUser(shoppingCart.getUser());
+        shoppingCartToSave.setPayed(shoppingCart.getPayed());
+        shoppingCartToSave.setDescription(shoppingCart.getDescription());
+        shoppingCartToSave.setTelephone(shoppingCart.getTelephone());
+        jpaAuditingConfig.auditorAwareBean().getCurrentAuditor().ifPresent(shoppingCartToSave::setUser);
 
+        return shoppingCartToSave;
+
+    }
     public Order addOrderToDatabase(OrderCommand orderCommand) {
 
         shoppingCart.setApartment(orderCommand.getApartment());
@@ -95,25 +123,9 @@ public OrderCommand convertedShoppingCar(){
 
         paymentKindRepository.findById(orderCommand.getPaymentKind().getId()).ifPresent(shoppingCart::setPaymentKind);
         statusRepository.findById(1L).ifPresent( shoppingCart::setStatus);
-//TODO saving proxy bean
-Order shoppingCartToSave=new Order();
-shoppingCartToSave.setStatus(shoppingCart.getStatus());
-shoppingCartToSave.setPaymentKind(shoppingCart.getPaymentKind());
-shoppingCartToSave.setCity(shoppingCart.getCity());
-shoppingCartToSave.setStreet(shoppingCart.getStreet());
-shoppingCartToSave.setHouseNr(shoppingCart.getHouseNr());
-shoppingCartToSave.setApartment(shoppingCart.getApartment());
-shoppingCartToSave.setOrderDishes(shoppingCart.getOrderDishes());
-shoppingCartToSave.setCreatedDate(shoppingCart.getCreatedDate());
-shoppingCartToSave.setCreatedBy(shoppingCart.getCreatedBy());
-shoppingCartToSave.setFinishedTime(shoppingCart.getFinishedTime());
-shoppingCartToSave.setDescription(shoppingCart.getDescription());
-shoppingCartToSave.setId(shoppingCart.getId());
-shoppingCartToSave.setUser(shoppingCart.getUser());
-shoppingCartToSave.setPayed(shoppingCart.getPayed());
-shoppingCartToSave.setDescription(shoppingCart.getDescription());
-shoppingCartToSave.setTelephone(shoppingCart.getTelephone());
-shoppingCartToSave.setUser("uzyszkodnik");// TODO needs set
+
+
+       Order shoppingCartToSave =convertFromProxy(shoppingCart,jpaAuditingConfig);
        orderRepository.save(shoppingCartToSave);
        orderDishRepository.saveAll(shoppingCart.getOrderDishes());
        shoppingCart.getOrderDishes().forEach(orderDish ->{
@@ -125,7 +137,25 @@ shoppingCartToSave.setUser("uzyszkodnik");// TODO needs set
         return shoppingCart;
     }
 
+
     public void cleanShoppingCart(){
-        shoppingCart=new Order();
+
+
+        shoppingCart.setStatus(null);
+        shoppingCart.setPaymentKind(null);
+        shoppingCart.setCity(null);
+        shoppingCart.setStreet(null);
+        shoppingCart.setHouseNr(null);
+        shoppingCart.setApartment(null);
+        shoppingCart.setOrderDishes(new HashSet<>());
+        shoppingCart.setCreatedDate(null);
+        shoppingCart.setCreatedBy(null);
+        shoppingCart.setFinishedTime(null);
+        shoppingCart.setDescription(null);
+        shoppingCart.setId(null);
+        shoppingCart.setPayed(null);
+        shoppingCart.setDescription(null);
+        shoppingCart.setTelephone(null);
+        jpaAuditingConfig.auditorAwareBean().getCurrentAuditor().ifPresent(shoppingCart::setUser);
     }
 }

@@ -139,6 +139,8 @@ return null;
 
         //checking next id from ShoppingCart
         Long biggestOrderId=0L;
+
+        if(shoppingCart.getOrderDishes()!=null)
         for(Iterator<OrderDish> it=shoppingCart.getOrderDishes().iterator();it.hasNext();){
             Long orderDishId=it.next().getId();
          //   if(orderDishId==null) {   <-never happen

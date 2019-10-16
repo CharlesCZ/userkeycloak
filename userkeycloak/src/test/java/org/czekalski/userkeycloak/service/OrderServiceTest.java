@@ -3,6 +3,8 @@ package org.czekalski.userkeycloak.service;
 import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
 import org.czekalski.userkeycloak.commadPattern.mapper.OrderMapper;
+import org.czekalski.userkeycloak.config.audit.AuditorAwareBean;
+import org.czekalski.userkeycloak.config.audit.JpaAuditingConfig;
 import org.czekalski.userkeycloak.model.*;
 import org.czekalski.userkeycloak.repository.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +15,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.AuditorAware;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -45,6 +48,8 @@ class OrderServiceTest {
      OrderIngredientRepository orderIngredientRepository;
     @Mock
     StatusRepository statusRepository;
+    @Mock
+    JpaAuditingConfig jpaAuditingConfig;
 
 
     OrderService orderService;
@@ -56,7 +61,7 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-   orderService=new OrderService(new Order(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
+   orderService=new OrderService(new Order(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
 
     }
 
@@ -130,7 +135,7 @@ class OrderServiceTest {
     }
     @Test
     void calculatePrice() {
-       orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
+       orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
 
         BigDecimal returnedPrice=orderService.calculateTotalPrice();
 
@@ -142,7 +147,7 @@ class OrderServiceTest {
 
         Order orderToReturn=preparingShoppingCart();
         orderToReturn.setId(1L);
-        orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
+        orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
 
         PaymentKind paymentKind=new PaymentKind();
         paymentKind.setId(1L);
@@ -153,7 +158,14 @@ class OrderServiceTest {
         status.setName("started");
         status.setId(1L);
         given(statusRepository.findById(1L)).willReturn(Optional.of(status));
+        AuditorAware<String> auditorAware=new AuditorAware<String>() {
+            @Override
+            public Optional<String> getCurrentAuditor() {
+                return Optional.of("nowy user");
+            }
+        };
 
+        given(jpaAuditingConfig.auditorAwareBean()).willReturn(auditorAware);
         given(orderRepository.save(houseNrCaptor.capture())).willReturn(orderToReturn);
 
         Long id=1L,orderIngredientId=1L;
