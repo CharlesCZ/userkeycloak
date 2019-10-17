@@ -6,11 +6,17 @@
 </head>
 <body>
 
-<p>Don't fill up If you are going to eat in restaurant</p>
+
 <div>
     <form th:object="${order}" th:action="@{'/orders/checkout'}" method="post">
         <fieldset>
-            <legend>Address and payment:</legend>
+            <legend>Last step:</legend>
+            <div>
+                <label for="description">Description:</label>
+                <textarea name="description" rows="2" cols="40" th:field="*{description}">
+                </textarea>
+            </div>
+            <p>Don't fill up If you are going to eat in restaurant</p>
         <div>
             <label>City:</label>
             <input type="text" th:field="*{city}">

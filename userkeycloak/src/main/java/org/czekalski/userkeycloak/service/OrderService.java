@@ -119,7 +119,7 @@ public OrderCommand convertedShoppingCar(){
         shoppingCart.setHouseNr(orderCommand.getHouseNr());
         shoppingCart.setStreet(orderCommand.getStreet());
         shoppingCart.setCity(orderCommand.getCity());
-
+        shoppingCart.setDescription(orderCommand.getDescription());
 
         paymentKindRepository.findById(orderCommand.getPaymentKind().getId()).ifPresent(shoppingCart::setPaymentKind);
         statusRepository.findById(1L).ifPresent( shoppingCart::setStatus);
