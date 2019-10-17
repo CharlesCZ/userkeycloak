@@ -137,8 +137,16 @@ orderDish.getOrderIngredients().add(orderIngredient1);
         System.out.println("/////////////////////Loading Recipes/////////////////////");
         Dish dish1=new Dish();
         dish1.setName(DISH_NAME_1);
-        dish1.setCost(new BigDecimal("20.99"));
+        dish1.setCost(new BigDecimal("15"));
+        dish1.setSize(new BigDecimal("1"));
         dishRepository.save(dish1);
+        Dish dish1Big=new Dish();
+        dish1Big.setName(DISH_NAME_1);
+        dish1Big.setCost(new BigDecimal("30.00"));
+        dish1Big.setSize(new BigDecimal("2"));
+        dishRepository.save( dish1Big);
+
+
 
         Ingredient ingredient1=new Ingredient();
         ingredient1.setName(INGREDIENT_NAME1);
@@ -147,7 +155,7 @@ orderDish.getOrderIngredients().add(orderIngredient1);
 
         Ingredient ingredient2=new Ingredient();
         ingredient2.setName(INGREDIENT_NAME2);
-        ingredient2.setCost(new BigDecimal("0.30"));
+        ingredient2.setCost(new BigDecimal("0.40"));
         ingredientRepository.save(ingredient2);
 
         Recipe recipe1=new Recipe();
@@ -165,16 +173,34 @@ orderDish.getOrderIngredients().add(orderIngredient1);
         recipes.add(recipe1);
         recipes.add(recipe2);
 
+        Recipe recipe1Big=new Recipe();
+        recipe1Big.setDish(dish1Big);
+        recipe1Big.setQuantity(2);
+        recipe1Big.setIngredient(ingredient1);
 
+        Recipe recipe2Big=new Recipe();
+        recipe2Big.setQuantity(1);
+        recipe2Big.setDish(dish1Big);
+        recipe2Big.setIngredient(ingredient2);
+
+        recipes.add(recipe1Big);
+        recipes.add(recipe2Big);
 
         Dish dish2=new Dish();
         dish2.setName("Funghi");
-        dish2.setCost(new BigDecimal("14"));
+        dish2.setSize(new BigDecimal("1"));
+        dish2.setCost(new BigDecimal("10"));
         dishRepository.save(dish2);
+
+        Dish dish2Big=new Dish();
+        dish2Big.setName("Funghi");
+        dish2Big.setSize(new BigDecimal("2"));
+        dish2Big.setCost(new BigDecimal("20"));
+        dishRepository.save(dish2Big);
 
         Ingredient ingredient3=new Ingredient();
         ingredient3.setName("pieczarki");
-        ingredient3.setCost(new BigDecimal("1.12"));
+        ingredient3.setCost(new BigDecimal("1.00"));
         ingredientRepository.save(ingredient3);
 
 
@@ -198,6 +224,24 @@ orderDish.getOrderIngredients().add(orderIngredient1);
         recipes.add(recipe4);
         recipes.add(recipe5);
 
+        Recipe recipe3Big=new Recipe();
+        recipe3Big.setDish(dish2Big);
+        recipe3Big.setQuantity(1);
+        recipe3Big.setIngredient(ingredient3);
+
+        Recipe recipe4Big=new Recipe();
+        recipe4Big.setDish(dish2Big);
+        recipe4Big.setQuantity(1);
+        recipe4Big.setIngredient(ingredient1);
+
+        Recipe recipe5Big=new Recipe();
+        recipe5Big.setDish(dish2Big);
+        recipe5Big.setQuantity(1);
+        recipe5Big.setIngredient(ingredient2);
+
+        recipes.add(recipe3Big);
+        recipes.add(recipe4Big);
+        recipes.add(recipe5Big);
 
         recipeRepository.saveAll(recipes);
     }

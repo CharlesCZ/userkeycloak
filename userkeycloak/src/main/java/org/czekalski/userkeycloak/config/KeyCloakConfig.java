@@ -96,8 +96,8 @@ KeycloakConfigResolver keycloakConfigResolver;
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/logout/index")
                         .invalidateHttpSession(true) //true by default
-                 //   .addLogoutHandler(keycloakLogoutHandler())
-                        .addLogoutHandler(new KeycloakLogoutHandler(new AdapterDeploymentContext(keycloakConfigResolver)));
+                    .addLogoutHandler(keycloakLogoutHandler());
+                     //   .addLogoutHandler(new KeycloakLogoutHandler(new AdapterDeploymentContext(keycloakConfigResolver)));
 
 
         }

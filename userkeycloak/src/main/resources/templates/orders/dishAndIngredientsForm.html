@@ -7,7 +7,7 @@
 <body>
 
 <label>Name:</label>
-<p th:text="${dish.name}+' '+${dish.size}"> </p>
+<p th:text="${dish.name}+' '+(  (${dish.size} <= 1)? 'Small' : 'Big' )"> </p>
 <form th:object="${dish}" th:action="@{'/orders/dishes/'+${dish.id}+'/new'}" method="post">
 
     <input type="hidden"  th:field="*{id}"/>

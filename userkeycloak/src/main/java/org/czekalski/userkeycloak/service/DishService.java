@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DishService {
@@ -45,6 +46,7 @@ public class DishService {
             Recipe recipe=it.next();
            dishCommand.setDescription( dishCommand.getDescription().concat(recipe.getIngredient().getName()+" x"+recipe.getQuantity()+", ") );
             IngredientCommand ingredientCommand=ingredientMapper.ingredientToIngredientCommand( recipe.getIngredient());
+            ingredientCommand.setCost(ingredientCommand.getCost().multiply(dishCommand.getSize()).stripTrailingZeros());
             ingredientCommand.setQuantity(recipe.getQuantity());
             dishCommand.getIngredientCommands().add(ingredientCommand);
          }
@@ -75,6 +77,13 @@ public DishCommand getDishById(Long id){
 
        //removing duplicates
        removingDuplicatesFromDishCommand(dishCommand);
+
+//ingredient price depends on dish size
+    dishCommand.getIngredientCommands().stream()
+            .map(ingredientCommand ->{
+                ingredientCommand.setCost(ingredientCommand.getCost().multiply(dishCommand.getSize()).stripTrailingZeros());
+                    return  ingredientCommand;
+            }).collect(Collectors.toList());
 
        return dishCommand;
 
