@@ -142,8 +142,8 @@ class DishControllerIT {
         DishCommand dishCommand=new DishCommand();
         dishCommand.setName("name");
         dishCommand.setId(1L);
-
-        given(dishService.findDishCommandById(anyLong())).willReturn(dishCommand);
+dishCommand.setSize(new BigDecimal("1"));
+        given(dishService.getDishByIdToEdit(anyLong())).willReturn(dishCommand);
 
         mockMvc.perform(get("/dish/1/update"))
                 .andExpect(status().isOk())
@@ -151,7 +151,7 @@ class DishControllerIT {
                 .andExpect(view().name("dishes/dishForm"));
 
 
-        then(dishService).should().findDishCommandById(anyLong());
+        then(dishService).should().getDishByIdToEdit(anyLong());
     }
 
 

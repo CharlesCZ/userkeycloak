@@ -230,15 +230,47 @@ private RecipeRepository recipeRepository;
         DishCommand dishCommand=new DishCommand();
         dishCommand.setName("name");
         dishCommand.setId(1L);
+
+        IngredientCommand ingredientCommand1 = new IngredientCommand();
+        ingredientCommand1.setId(1L);
+        ingredientCommand1.setName(INGREDIENT_NAME1);
+        ingredientCommand1.setCost(new BigDecimal("0.60"));
+        ingredientCommand1.setQuantity(2);
+
+        IngredientCommand  ingredientCommand2 = new IngredientCommand();
+        ingredientCommand2.setId(2L);
+        ingredientCommand2.setName(INGREDIENT_NAME2);
+        ingredientCommand2.setCost(new BigDecimal("0.30"));
+        ingredientCommand2.setQuantity(0);
+
+        dishCommand.setIngredientCommands(Arrays.asList( ingredientCommand1, ingredientCommand2));
         Dish returnedDish=dishMapper.dishCommandToDish(dishCommand);
+
         given(dishRepository.save(any())).willReturn(returnedDish);
+
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setId(1L);
+        ingredient1.setName(INGREDIENT_NAME1);
+        ingredient1.setCost(new BigDecimal("0.60"));
+
+      Set<Recipe> recipes = new HashSet<>();
+        Recipe recipe1 = new Recipe();
+        recipe1.setDish(returnedDish);
+        recipe1.setQuantity(2);
+        recipe1.setIngredient(ingredient1);
+        recipes.add(recipe1);
+
+        given(recipeRepository.saveAll(recipes)).willReturn(Arrays.asList(recipe1));
+
 
 
         DishCommand returnedDishCommand=dishService.saveDishCommand(dishCommand);
 
 
+
         assertEquals("name",returnedDishCommand.getName());
         assertEquals(Long.valueOf(1L),returnedDishCommand.getId());
+        assertEquals(INGREDIENT_NAME1,returnedDishCommand.getIngredientCommands().get(0).getName());
     }
 
 

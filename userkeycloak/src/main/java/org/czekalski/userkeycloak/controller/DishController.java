@@ -70,7 +70,7 @@ public String dishDetails(@PathVariable Long id,Model model){
 
     @GetMapping("/dish/{id}/update")
     public String getUpdateDish(@PathVariable  Long id,Model model){
-        model.addAttribute("dish",dishService.findDishCommandById(id));
+        model.addAttribute("dish",dishService. getDishByIdToEdit(id));
 
         return "dishes/dishForm";
     }

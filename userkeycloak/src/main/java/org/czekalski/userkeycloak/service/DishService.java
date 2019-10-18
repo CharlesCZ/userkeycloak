@@ -176,9 +176,25 @@ return null;
 
     public DishCommand saveDishCommand(DishCommand dishCommand) {
 
+
+
         Dish dish=dishRepository.save(dishMapper.dishCommandToDish(dishCommand));
+        Set<Recipe> recipes=new HashSet<>();
 
 
+        dishCommand.getIngredientCommands().forEach(ingredientCommand -> {
+          if(ingredientCommand.getQuantity()!=0){
+            Recipe recipe=new Recipe();
+            recipe.setDish(dish);
+            recipe.setQuantity(ingredientCommand.getQuantity());
+            recipe.setIngredient(ingredientMapper.ingredientCommandToIngredient(ingredientCommand));
+            recipes.add(recipe);
+          }
+
+        });
+
+
+       dish.setRecipes( new HashSet<>(recipeRepository.saveAll(recipes)) );
         return dishMapper.dishToDishCommand(dish);
     }
 
@@ -196,4 +212,57 @@ return null;
 
       return dishCommand;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public DishCommand getDishByIdToEdit(Long id){
+
+
+        Optional<Dish> dishOptional=dishRepository.findById(id);
+
+        if(dishOptional.isPresent()) {
+            DishCommand dishCommand = dishMapper.dishToDishCommand(dishOptional.get());
+
+            //adding ingredients from recipe
+            //  addIngredientsFromRecipeToDishCommand(dishOptional, dishCommand);
+
+
+            //addition ingredients with duplicates
+            addAllIngredientsToDishCommand(dishCommand);
+
+
+            //removing duplicates
+            removingDuplicatesFromDishCommand(dishCommand);
+
+//ingredient price depends on dish size
+            dishCommand.getIngredientCommands().stream()
+                    .map(ingredientCommand ->{
+                        ingredientCommand.setCost(ingredientCommand.getCost().multiply(dishCommand.getSize()).stripTrailingZeros());
+                        return  ingredientCommand;
+                    }).collect(Collectors.toList());
+
+            return dishCommand;
+
+        }
+        return null;
+    }
+
+
+
+
+
 }
