@@ -2,6 +2,7 @@ package org.czekalski.userkeycloak.controller;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.czekalski.userkeycloak.commadPattern.command.IngredientCommand;
 import org.czekalski.userkeycloak.exceptions.NotFoundIngredientException;
 import org.czekalski.userkeycloak.model.Ingredient;
 import org.czekalski.userkeycloak.service.IngredientService;
@@ -51,8 +52,8 @@ public String newIngredientForm(Model model){
     }
 
     @PostMapping("/new")
-    public String SaveorUpdateIngredient(Ingredient ingredient){
-  Ingredient savedIngredient=  ingredientService.save(ingredient);
+    public String SaveOrUpdateIngredient(IngredientCommand ingredientCommand){
+  IngredientCommand savedIngredient=  ingredientService.save( ingredientCommand);
 
   return "redirect:/ingredients/"+savedIngredient.getId()+"/show";
 

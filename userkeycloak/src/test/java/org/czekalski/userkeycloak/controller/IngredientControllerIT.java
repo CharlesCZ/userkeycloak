@@ -1,6 +1,7 @@
 package org.czekalski.userkeycloak.controller;
 
 
+import org.czekalski.userkeycloak.commadPattern.command.IngredientCommand;
 import org.czekalski.userkeycloak.exceptions.NotFoundIngredientException;
 import org.czekalski.userkeycloak.model.Ingredient;
 import org.czekalski.userkeycloak.service.IngredientService;
@@ -51,7 +52,7 @@ class IngredientControllerIT {
 
     @Test
     void getAllIngredients() throws Exception {
-        given(ingredientService.findAll()).willReturn(Arrays.asList(new Ingredient(), new Ingredient()));
+        given(ingredientService.findAll()).willReturn(Arrays.asList(new IngredientCommand(), new IngredientCommand()));
 
 
         mockMvc.perform(get("/ingredients"))
@@ -85,18 +86,18 @@ class IngredientControllerIT {
 
     @Test
     void testPostNewIngredientForm() throws Exception {
-        Ingredient ingredient = new Ingredient();
-        ingredient.setId(3L);
-        ingredient.setName("thymeleaf");
-        ingredient.setCost(new BigDecimal(2.25));
-        given(ingredientService.save(any())).willReturn(ingredient);
+        IngredientCommand ingredientCommand = new  IngredientCommand();
+        ingredientCommand.setId(3L);
+        ingredientCommand.setName("thymeleaf");
+        ingredientCommand.setCost(new BigDecimal(2.25));
+        given(ingredientService.save(any())).willReturn(ingredientCommand);
 
 
         mockMvc.perform(post("/ingredients/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "")
-                .param("name", ingredient.getName())
-                .param("cost", ingredient.getCost().toString()))
+                .param("name", ingredientCommand.getName())
+                .param("cost", ingredientCommand.getCost().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/ingredients/3/show"));
 
@@ -106,11 +107,11 @@ class IngredientControllerIT {
 
     @Test
     void testShowIngredient() throws Exception {
-        Ingredient ingredient = new Ingredient();
-        ingredient.setId(3L);
-        ingredient.setName("thymeleaf");
-        ingredient.setCost(new BigDecimal(2.25));
-        given(ingredientService.findById(3L)).willReturn(ingredient);
+        IngredientCommand ingredientCommand = new  IngredientCommand();
+        ingredientCommand.setId(3L);
+        ingredientCommand.setName("thymeleaf");
+        ingredientCommand.setCost(new BigDecimal(2.25));
+        given(ingredientService.findById(3L)).willReturn(ingredientCommand);
 
 
 

@@ -23,7 +23,7 @@
         <tbody>
         <tr>
             <td th:text="${dish.id}"></td>
-            <td th:text="${dish.name}"></td>
+            <td th:text="${dish.name}+' '+(  (${dish.size} <= 1)? 'Small' : 'Big' )"></td>
             <td th:text="${dish.cost}"></td>
             <td th:text="${dish.size}"></td>
             <td><a href="#" th:href="@{ '/dish/'+ ${dish.id}+'/update'}">Update</a></td>
@@ -34,7 +34,7 @@
 </div>
 
 <div>
-    <a href="#" >Ingredients update</a>
+
 <table>
     <thead>
     <tr>
@@ -51,6 +51,7 @@
     </tr>
     </tbody>
 </table>
+    <a href="#" >Ingredients update</a>
 </div>
 
 
