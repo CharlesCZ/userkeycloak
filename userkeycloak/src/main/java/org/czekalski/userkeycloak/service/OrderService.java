@@ -61,18 +61,21 @@ BigDecimal price=new BigDecimal(0);
         return price;
 }
 
-    public BigDecimal totalPriceForOrderDishCommand(OrderDishCommand orderDishCommand){
-        BigDecimal price=new BigDecimal(0);
+    public BigDecimal totalPriceForOrderDishCommand(OrderDishCommand orderDishCommand) {
+        BigDecimal price = new BigDecimal(0);
 
-
-            price=  price.add(    orderDishCommand.getSingleDishCost().multiply( new BigDecimal(orderDishCommand.getQuantity()) )    );
+        if (orderDishCommand.getQuantity() == null || orderDishCommand.getQuantity() == 0) {
+            throw new RuntimeException("orderDishQuantity:" + orderDishCommand.getQuantity());
+        } else {
+            price = price.add(orderDishCommand.getSingleDishCost().multiply(new BigDecimal(orderDishCommand.getQuantity())));
 
             for (OrderIngredientCommand orderIngredient : orderDishCommand.getOrderIngredients()) {
-                price=  price.add(    orderIngredient.getIngredient().getCost().multiply(new BigDecimal(orderIngredient.getQuantity())).multiply(new BigDecimal( orderDishCommand.getQuantity()))   );
+                price = price.add(orderIngredient.getIngredient().getCost().multiply(new BigDecimal(orderIngredient.getQuantity())).multiply(new BigDecimal(orderDishCommand.getQuantity())));
             }
 
 
-        return price;
+            return price;
+        }
     }
 
 

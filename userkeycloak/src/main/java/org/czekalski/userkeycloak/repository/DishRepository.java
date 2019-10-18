@@ -14,4 +14,7 @@ public interface DishRepository extends JpaRepository<Dish, Long > {
 
     @Query("SELECT DISTINCT  d FROM Dish d INNER  JOIN  Recipe r ON d.id = r.dish WHERE  d.id=:aLong")
     Optional<Dish> InnerJoinRecipe(Long aLong);
+
+    @Query("SELECT DISTINCT  d FROM Dish d LEFT OUTER  JOIN  Recipe r ON d.id = r.dish WHERE  d.id=:aLong")
+    Optional<Dish> findByIdLeftJoin(Long aLong);
 }

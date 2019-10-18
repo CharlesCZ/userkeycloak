@@ -267,7 +267,9 @@ private RecipeRepository recipeRepository;
         DishCommand returnedDishCommand=dishService.saveDishCommand(dishCommand);
 
 
-
+        then(dishRepository).should().save(dishMapper.dishCommandToDish(dishCommand));
+        then(recipeRepository).should().saveAll(recipes);
+        then(recipeRepository).should().deleteByDishId(1L);
         assertEquals("name",returnedDishCommand.getName());
         assertEquals(Long.valueOf(1L),returnedDishCommand.getId());
         assertEquals(INGREDIENT_NAME1,returnedDishCommand.getIngredientCommands().get(0).getName());

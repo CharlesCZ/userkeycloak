@@ -181,6 +181,8 @@ return null;
         Dish dish=dishRepository.save(dishMapper.dishCommandToDish(dishCommand));
         Set<Recipe> recipes=new HashSet<>();
 
+        //to delete all ingredient for particular dish and reload
+         recipeRepository.deleteByDishId(dish.getId());
 
         dishCommand.getIngredientCommands().forEach(ingredientCommand -> {
           if(ingredientCommand.getQuantity()!=0){
