@@ -33,6 +33,8 @@ public class DishCommand {
 
     private List<IngredientCommand> ingredientCommands=new ArrayList<>();
 
+    private Set<RecipeCommand> recipeCommands=new HashSet<>();
+
     @Override
     public String toString() {
         return "DishCommand{" +

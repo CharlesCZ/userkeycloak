@@ -7,6 +7,7 @@ import org.czekalski.userkeycloak.commadPattern.mapper.IngredientMapper;
 import org.czekalski.userkeycloak.model.*;
 import org.czekalski.userkeycloak.repository.DishRepository;
 import org.czekalski.userkeycloak.repository.IngredientRepository;
+import org.czekalski.userkeycloak.repository.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,8 +20,11 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -36,13 +40,18 @@ class DishServiceTest {
     @Mock
     private IngredientRepository ingredientRepository;
 
+    @Mock
+private RecipeRepository recipeRepository;
+
+    private  DishMapper dishMapper=DishMapper.INSTANCE;
+
     private DishService dishService;
 
     private Order shoppingBag=new Order();
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        dishService=new DishService(shoppingBag,dishRepository,DishMapper.INSTANCE, IngredientMapper.INSTANCE, ingredientRepository);
+        dishService=new DishService(shoppingBag,dishRepository,dishMapper, IngredientMapper.INSTANCE, ingredientRepository,recipeRepository);
 
     }
 
@@ -50,11 +59,11 @@ class DishServiceTest {
     void getAllDishes() {
         Dish dish = populatingDishRepo();
 
-        given(dishRepository.findAll()).willReturn(Arrays.asList(dish));
+        given(dishRepository.InnerJoinRecipeAll()).willReturn(Arrays.asList(dish));
 
         List<DishCommand> returnedDishes=dishService.getAllDishesWithIngredients();
 
-        then(dishRepository).should().findAll();
+        then(dishRepository).should().InnerJoinRecipeAll();
         assertThat(returnedDishes.get(0).getDescription()).contains(INGREDIENT_NAME1+" x2");
         assertThat(returnedDishes.get(0).getDescription()).contains(INGREDIENT_NAME2+" x1");
         assertThat(returnedDishes.get(0).getDescription()).contains(", ");
@@ -130,7 +139,7 @@ class DishServiceTest {
         Dish dish = populatingDishRepo();
         populatingIngredientRepo();
 
-        given(dishRepository.findById(1L)).willReturn(Optional.of(dish));
+        given(dishRepository.InnerJoinRecipe(1L)).willReturn(Optional.of(dish));
 
         DishCommand returnedDishCommand=dishService.getDishById(1L);
 
@@ -168,7 +177,7 @@ class DishServiceTest {
     }
     @Test
     void getDishByIdNullPath() {
-       given(dishRepository.findById(1L)).willReturn(Optional.empty());
+       given(dishRepository.InnerJoinRecipe(1L)).willReturn(Optional.empty());
 
         DishCommand returnedDishCommand=dishService.getDishById(1L);
 
@@ -181,6 +190,7 @@ class DishServiceTest {
         dish.setId(1L);
         dish.setName(DISH_NAME_1);
         dish.setCost(new BigDecimal("20.99"));
+        dish.setSize(new BigDecimal("1"));
 
         Ingredient ingredient1 = new Ingredient();
         ingredient1.setId(1L);
@@ -212,5 +222,51 @@ class DishServiceTest {
 
         dish.setRecipes(recipes);
         return dish;
+    }
+
+
+    @Test
+    void saveDishCommand() {
+        DishCommand dishCommand=new DishCommand();
+        dishCommand.setName("name");
+        dishCommand.setId(1L);
+        Dish returnedDish=dishMapper.dishCommandToDish(dishCommand);
+        given(dishRepository.save(any())).willReturn(returnedDish);
+
+
+        DishCommand returnedDishCommand=dishService.saveDishCommand(dishCommand);
+
+
+        assertEquals("name",returnedDishCommand.getName());
+        assertEquals(Long.valueOf(1L),returnedDishCommand.getId());
+    }
+
+
+    @Test
+    void findDishCommandById() {
+
+
+        Dish dish=new Dish();
+        dish.setId(1L);
+        dish.setName("nazwa");
+        given(dishRepository.findById(1L)).willReturn(Optional.of(dish));
+
+        DishCommand returnedDishCommand=dishService.findDishCommandById(1L);
+
+        assertEquals(Long.valueOf(1L),returnedDishCommand.getId());
+        assertEquals("nazwa",returnedDishCommand.getName());
+
+
+    }
+
+    @Test
+    void deleteById() {
+        Long deleteById=1L;
+
+       dishService.deleteById(deleteById);
+
+        verify(dishRepository).deleteById(1L);
+        verify( recipeRepository).deleteByDishId(1L);
+        //then(dishRepository).should().deleteById(1L);
     }
 }

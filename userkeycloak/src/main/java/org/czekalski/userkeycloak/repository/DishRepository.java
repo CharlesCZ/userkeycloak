@@ -10,8 +10,8 @@ import java.util.Optional;
 public interface DishRepository extends JpaRepository<Dish, Long > {
 
     @Query("SELECT DISTINCT  d FROM Dish d INNER  JOIN  Recipe r ON d.id = r.dish")
-    List<Dish> findAll();
+    List<Dish> InnerJoinRecipeAll();
 
     @Query("SELECT DISTINCT  d FROM Dish d INNER  JOIN  Recipe r ON d.id = r.dish WHERE  d.id=:aLong")
-    Optional<Dish> findById(Long aLong);
+    Optional<Dish> InnerJoinRecipe(Long aLong);
 }

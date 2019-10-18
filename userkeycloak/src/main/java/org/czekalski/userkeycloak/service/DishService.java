@@ -7,6 +7,7 @@ import org.czekalski.userkeycloak.commadPattern.mapper.IngredientMapper;
 import org.czekalski.userkeycloak.model.*;
 import org.czekalski.userkeycloak.repository.DishRepository;
 import org.czekalski.userkeycloak.repository.IngredientRepository;
+import org.czekalski.userkeycloak.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,18 +22,20 @@ public class DishService {
     private final DishMapper dishMapper;
     private final IngredientMapper ingredientMapper;
     private final IngredientRepository ingredientRepository;
+    private final RecipeRepository recipeRepository;
 
-    public DishService(Order shoppingCart, DishRepository dishRepository, DishMapper dishMapper, IngredientMapper ingredientMapper, IngredientRepository ingredientRepository) {
+    public DishService(Order shoppingCart, DishRepository dishRepository, DishMapper dishMapper, IngredientMapper ingredientMapper, IngredientRepository ingredientRepository,RecipeRepository recipeRepository) {
         this.shoppingCart = shoppingCart;
         this.dishRepository=dishRepository;
         this.dishMapper = dishMapper;
         this.ingredientMapper = ingredientMapper;
         this.ingredientRepository = ingredientRepository;
+        this.recipeRepository= recipeRepository;
     }
 
 
     public List<DishCommand> getAllDishesWithIngredients() {
-        List<Dish> dishes=dishRepository.findAll();
+        List<Dish> dishes=dishRepository.InnerJoinRecipeAll();
         List<DishCommand> dishCommands=new ArrayList<>();
 
 
@@ -62,7 +65,7 @@ public class DishService {
 public DishCommand getDishById(Long id){
 
 
-   Optional<Dish> dishOptional=dishRepository.findById(id);
+   Optional<Dish> dishOptional=dishRepository.InnerJoinRecipe(id);
 
    if(dishOptional.isPresent()) {
        DishCommand dishCommand = dishMapper.dishToDishCommand(dishOptional.get());
@@ -169,5 +172,28 @@ return null;
 
 
         return shoppingCart;
+    }
+
+    public DishCommand saveDishCommand(DishCommand dishCommand) {
+
+        Dish dish=dishRepository.save(dishMapper.dishCommandToDish(dishCommand));
+
+
+        return dishMapper.dishToDishCommand(dish);
+    }
+
+    public void deleteById(long id) {
+        recipeRepository.deleteByDishId(id);
+        dishRepository.deleteById(id);
+    }
+
+    public DishCommand findDishCommandById(long id) {
+        DishCommand dishCommand=null;
+      Optional<Dish> dish=dishRepository.findById(id);
+      if(dish.isPresent()){
+          dishCommand=dishMapper.dishToDishCommand(dish.get());
+      }
+
+      return dishCommand;
     }
 }

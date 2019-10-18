@@ -24,6 +24,7 @@ public class IngredientCommand {
 
   //  private Set<OrderIngredientCommand> orderIngredients =new HashSet<>();
 
+  private Set<RecipeCommand> recipeCommands=new HashSet<>();
 
     @Override
     public String toString() {

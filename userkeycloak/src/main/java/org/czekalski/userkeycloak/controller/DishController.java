@@ -1,5 +1,6 @@
 package org.czekalski.userkeycloak.controller;
 
+import org.bouncycastle.math.raw.Mod;
 import org.czekalski.userkeycloak.commadPattern.command.DishCommand;
 import org.czekalski.userkeycloak.service.DishService;
 import org.springframework.stereotype.Controller;
@@ -44,5 +45,44 @@ public String dishDetails(@PathVariable Long id,Model model){
 
         return "redirect:/orders/summary";
     }
+
+    @GetMapping("/dish/new")
+    public String getNewDish(Model model){
+
+        model.addAttribute("dish",new DishCommand());
+
+        return "dishes/dishForm";
+    }
+    @PostMapping("/dish/new")
+    public String  saveOrUpdateDish(DishCommand dishCommand){
+
+   DishCommand returnedDish= dishService.saveDishCommand(dishCommand);
+
+       return  "redirect:/dish/"+returnedDish.getId()+"/show";
+    }
+
+    @GetMapping("/dish/{id}/show")
+    public String getDishShow(@PathVariable  Long id, Model model){
+        model.addAttribute("dish",dishService.findDishCommandById(id));
+
+        return "dishes/show";
+    }
+
+    @GetMapping("/dish/{id}/update")
+    public String getUpdateDish(@PathVariable  Long id,Model model){
+        model.addAttribute("dish",dishService.findDishCommandById(id));
+
+        return "dishes/dishForm";
+    }
+
+    @GetMapping("/dish/{id}/delete")
+    public String getDeleteDish(@PathVariable  Long id){
+        dishService.deleteById(id);
+
+        return "redirect:/orders/dishes/new";
+    }
+
+
+
 
 }
