@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -108,6 +109,7 @@ class DishControllerIT {
 
 
     @Test
+    @WithMockUser(roles = {"admin"})
     void getNewDish() throws Exception {
      mockMvc.perform(get("/dish/new"))
              .andExpect(status().isOk())
@@ -117,6 +119,7 @@ class DishControllerIT {
 
 
     @Test
+    @WithMockUser(roles = {"admin"})
     void postNewDish() throws Exception {
         DishCommand dishCommand=new DishCommand();
         dishCommand.setName("name");
@@ -139,6 +142,7 @@ class DishControllerIT {
 
 
     @Test
+    @WithMockUser(roles = {"admin"})
     void updateDish() throws Exception {
         DishCommand dishCommand=new DishCommand();
         dishCommand.setName("name");
@@ -157,6 +161,7 @@ dishCommand.setSize(new BigDecimal("1"));
 
 
     @Test
+    @WithMockUser(roles = {"admin"})
     void deleteDish() throws Exception {
 
         mockMvc.perform(get("/dish/1/delete"))

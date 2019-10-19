@@ -89,6 +89,7 @@ KeycloakConfigResolver keycloakConfigResolver;
                     .csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/test2*").hasRole("user") // only user with role user are allowed to access
+                    .antMatchers("/dish/**","/ingredients/**").hasRole("admin")
                     .antMatchers("/logged*","/logout*").authenticated()
                     .anyRequest().permitAll()
                     .and()

@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -51,6 +52,7 @@ class IngredientControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = {"admin"})
     void getAllIngredients() throws Exception {
         given(ingredientService.findAll()).willReturn(Arrays.asList(new IngredientCommand(), new IngredientCommand()));
 
@@ -64,6 +66,7 @@ class IngredientControllerIT {
 
     }
     @Test
+    @WithMockUser(roles = {"admin"})
     public void testGetIngredientNotFound() throws Exception {
 
         when(ingredientService.findById(anyLong())).thenThrow(NotFoundIngredientException.class);
@@ -76,6 +79,7 @@ class IngredientControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = {"admin"})
     void testGetNewIngredientForm() throws Exception {
         mockMvc.perform(get("/ingredients/new")).andExpect(status().isOk())
                 .andExpect(view().name("ingredients/ingredientForm"))
@@ -85,6 +89,7 @@ class IngredientControllerIT {
 
 
     @Test
+    @WithMockUser(roles = {"admin"})
     void testPostNewIngredientForm() throws Exception {
         IngredientCommand ingredientCommand = new  IngredientCommand();
         ingredientCommand.setId(3L);
@@ -106,6 +111,7 @@ class IngredientControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = {"admin"})
     void testShowIngredient() throws Exception {
         IngredientCommand ingredientCommand = new  IngredientCommand();
         ingredientCommand.setId(3L);
