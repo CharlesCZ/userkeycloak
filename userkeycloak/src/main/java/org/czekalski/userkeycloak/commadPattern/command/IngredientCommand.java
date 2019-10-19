@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import org.czekalski.userkeycloak.model.Ingredient;
 import org.czekalski.userkeycloak.model.Recipe;
 
+import javax.validation.constraints.Max;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ public class IngredientCommand {
     private Long id;
     private String name;
     private BigDecimal cost;
+    @Max(3)
     private Integer quantity;
 
     private List<DishCommand> dishCommands=new ArrayList<>();

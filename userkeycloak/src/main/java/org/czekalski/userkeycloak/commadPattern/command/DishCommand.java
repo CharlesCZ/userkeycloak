@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 import org.czekalski.userkeycloak.model.OrderDish;
 import org.czekalski.userkeycloak.model.Recipe;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,6 +26,8 @@ public class DishCommand {
 
     private BigDecimal size; //small pizza is equal to 1, big is equal to size_big/size_small
 
+    @NotNull
+    @Min(1)
     private Integer quantity;
 
     private String description;
@@ -30,7 +35,7 @@ public class DishCommand {
     private BigDecimal totalPrice;
 
   //  private Set<OrderDishCommand> orderDishes =new HashSet<>();
-
+  @Valid
     private List<IngredientCommand> ingredientCommands=new ArrayList<>();
 
     private Set<RecipeCommand> recipeCommands=new HashSet<>();

@@ -96,7 +96,8 @@ class DishControllerIT {
         given(dishService.addToCart(any())).willReturn(order);
 
         mockMvc.perform(post("/orders/dishes/2/new")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("quantity","4"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/orders/summary"));
 
