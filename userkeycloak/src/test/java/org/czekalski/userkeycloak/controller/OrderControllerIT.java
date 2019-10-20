@@ -1,9 +1,6 @@
 package org.czekalski.userkeycloak.controller;
 
-import org.czekalski.userkeycloak.commadPattern.command.DishCommand;
-import org.czekalski.userkeycloak.commadPattern.command.IngredientCommand;
-import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
-import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
+import org.czekalski.userkeycloak.commadPattern.command.*;
 import org.czekalski.userkeycloak.model.Dish;
 import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.model.OrderDish;
@@ -129,7 +126,17 @@ class OrderControllerIT {
 
     @Test
     void getOrdersList() throws Exception {
-        given(orderService.getAllOrders()).willReturn(Arrays.asList(new OrderCommand()));
+        OrderCommand orderCommand=new OrderCommand();
+        orderCommand.setId(1L);
+
+        StatusCommand statusCommand=new StatusCommand();
+        statusCommand.setId(1L);
+        statusCommand.setName("ready");
+        orderCommand.setStatus(statusCommand);
+        orderCommand.setPayed(false);
+
+
+        given(orderService.getAllOrders()).willReturn(Arrays.asList(orderCommand));
 
         mockMvc.perform(get("/orders/allOrders"))
                 .andExpect(status().isOk())
