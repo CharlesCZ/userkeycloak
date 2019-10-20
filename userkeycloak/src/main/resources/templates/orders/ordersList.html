@@ -14,8 +14,10 @@
             <th>id</th>
             <th>payed</th>
             <th>status</th>
-            <th>createdDate</th>
-            <th>createdBy</th>
+            <th>created Date</th>
+            <th>created By</th>
+            <th>last modified date</th>
+            <th>last modified by</th>
             <th>details</th>
         </tr>
         </thead>
@@ -26,6 +28,8 @@
             <td th:text="${order.status.name}"></td>
             <td th:text="${order.createdDate}"></td>
             <td th:text="${order.createdBy}"></td>
+            <td th:text="${order.lastModifiedDate}"></td>
+            <td th:text="${order.lastModifiedBy}"></td>
             <td><a href="#" th:href="@{ '/orders/'+${order.id}+'/details'}">details</a></td>
         </tr>
         </tbody>

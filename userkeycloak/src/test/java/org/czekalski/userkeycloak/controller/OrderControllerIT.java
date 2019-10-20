@@ -136,7 +136,11 @@ class OrderControllerIT {
         orderCommand.setStatus(statusCommand);
         orderCommand.setPayed(false);
         orderCommand.setCreatedBy("user");
-        orderCommand.setCreatedDate(new Date(System.currentTimeMillis()));
+        Date createdDate=new Date(System.currentTimeMillis());
+        orderCommand.setCreatedDate(createdDate);
+        orderCommand.setLastModifiedBy("user2");
+        Date lastModifiedDate=new Date(System.currentTimeMillis());
+        orderCommand.setLastModifiedDate(lastModifiedDate);
 
         given(orderService.getAllOrders()).willReturn(Arrays.asList(orderCommand));
 

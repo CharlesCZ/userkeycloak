@@ -218,7 +218,12 @@ class OrderServiceTest {
         orderToReturn.setStatus(status);
         orderToReturn.setPaymentKind(paymentKind);
         orderToReturn.setCreatedBy("user");
-        orderToReturn.setCreatedDate(new Date(System.currentTimeMillis()));
+        Date createdDate=new Date(System.currentTimeMillis());
+        orderToReturn.setCreatedDate(createdDate);
+        orderToReturn.setLastModifiedBy("user2");
+        Date lastModifiedDate=new Date(System.currentTimeMillis());
+        orderToReturn.setLastModifiedDate(lastModifiedDate);
+
         given(orderRepository.findAll()).willReturn(Arrays.asList(orderToReturn));
 
 
@@ -229,6 +234,8 @@ class OrderServiceTest {
         assertEquals(Long.valueOf(1L),returnedOrder.get(0).getId());
         assertEquals(Long.valueOf(1L),returnedOrder.get(0).getStatus().getId());
         assertEquals("user",returnedOrder.get(0).getCreatedBy());
-
+        assertEquals("user2",returnedOrder.get(0).getLastModifiedBy());
+        assertEquals(lastModifiedDate,returnedOrder.get(0).getLastModifiedDate());
+        assertEquals(createdDate,returnedOrder.get(0).getCreatedDate());
     }
 }
