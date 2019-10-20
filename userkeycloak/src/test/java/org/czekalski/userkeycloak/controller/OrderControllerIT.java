@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.in;
@@ -134,7 +135,8 @@ class OrderControllerIT {
         statusCommand.setName("ready");
         orderCommand.setStatus(statusCommand);
         orderCommand.setPayed(false);
-
+        orderCommand.setCreatedBy("user");
+        orderCommand.setCreatedDate(new Date(System.currentTimeMillis()));
 
         given(orderService.getAllOrders()).willReturn(Arrays.asList(orderCommand));
 
