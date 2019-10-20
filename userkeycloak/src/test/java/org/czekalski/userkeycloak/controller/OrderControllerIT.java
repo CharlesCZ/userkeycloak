@@ -127,37 +127,15 @@ class OrderControllerIT {
 
     }
 
- /*   @Test
-    void getAllIngredients() throws Exception {
-        given(ingredientService.getAllIngredients()).willReturn(Arrays.asList(new IngredientCommand(),new IngredientCommand()));
-
-        mockMvc.perform(get("/orders/dishes/2/ingredients/new"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("ingredients"))
-                .andExpect(view().name("orders/ingredientForm"));
-
-        then(ingredientService).should().getAllDishesWithIngredients();
-        assertThat(ingredientService.getAllDishesWithIngredients()).hasSize(2);
-    }
-
     @Test
-    void postChosenIngredients() throws Exception {
-        Order order=new Order();
-        OrderDish orderDish=new OrderDish();
-        Dish dish=new Dish();
-        dish.setId(1L);
-        orderDish.setDish(dish);
-        order.getOrderDishes().add(orderDish);
-        given(ingredientService.addToCart()).willReturn(order);
+    void getOrdersList() throws Exception {
+        given(orderService.getAllOrders()).willReturn(Arrays.asList(new OrderCommand()));
 
-        mockMvc.perform(get("/orders/dishes/2/ingredients/new")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/orders/summary"));
+        mockMvc.perform(get("/orders/allOrders"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("orders"))
+                .andExpect(view().name("orders/ordersList"));
 
-        then(ingredientServie).should().addToCart();
-        assertThat(ingredientService.addToCart()).hasSize(1);
-        //sesja?
+        then(orderService).should().getAllOrders();
     }
-*/
 }

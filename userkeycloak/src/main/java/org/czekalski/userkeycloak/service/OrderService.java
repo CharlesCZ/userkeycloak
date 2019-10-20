@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -123,8 +125,8 @@ public OrderCommand convertedShoppingCar(){
         shoppingCart.setStreet(orderCommand.getStreet());
         shoppingCart.setCity(orderCommand.getCity());
         shoppingCart.setDescription(orderCommand.getDescription());
-
         paymentKindRepository.findById(orderCommand.getPaymentKind().getId()).ifPresent(shoppingCart::setPaymentKind);
+        shoppingCart.setPayed(false);
         statusRepository.findById(1L).ifPresent( shoppingCart::setStatus);
 
 
@@ -160,5 +162,12 @@ public OrderCommand convertedShoppingCar(){
         shoppingCart.setDescription(null);
         shoppingCart.setTelephone(null);
         jpaAuditingConfig.auditorAwareBean().getCurrentAuditor().ifPresent(shoppingCart::setUser);
+    }
+
+
+    public List<OrderCommand> getAllOrders(){
+
+       return orderRepository.findAll().stream()
+               .map(orderMapper::orderToOrderCommand).collect(Collectors.toList());
     }
 }

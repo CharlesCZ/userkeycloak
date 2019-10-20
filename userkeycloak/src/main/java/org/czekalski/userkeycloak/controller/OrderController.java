@@ -51,4 +51,13 @@ public class OrderController {
         orderService.cleanShoppingCart();
         return "orders/successView";
     }
+
+
+    @GetMapping("/orders/allOrders")
+    public String getAllOrders(Model model){
+
+        model.addAttribute("orders",orderService.getAllOrders());
+
+        return "orders/ordersList";
+    }
 }

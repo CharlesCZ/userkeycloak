@@ -18,10 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.AuditorAware;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -200,6 +197,35 @@ class OrderServiceTest {
         assertEquals(Integer.valueOf(HOUSE_NR),houseNrCaptor.getValue().getHouseNr());
         assertThat(orderToReturn.getOrderDishes()).hasSize(2);
         assertEquals(Long.valueOf(1L),returnedOrder.getStatus().getId());
+
+    }
+
+
+
+    @Test
+    void getAllOrders(){
+        PaymentKind paymentKind=new PaymentKind();
+        paymentKind.setId(1L);
+        paymentKind.setName("Card");
+
+        Status status=new Status();
+        status.setName("started");
+        status.setId(1L);
+
+        Order orderToReturn=new Order();
+        orderToReturn.setId(1L);
+        orderToReturn.setPayed(false);
+        orderToReturn.setStatus(status);
+        orderToReturn.setPaymentKind(paymentKind);
+        given(orderRepository.findAll()).willReturn(Arrays.asList(orderToReturn));
+
+
+        List<OrderCommand> returnedOrder=orderService.getAllOrders();
+
+
+        then(orderRepository).should().findAll();
+        assertEquals(Long.valueOf(1L),returnedOrder.get(0).getId());
+        assertEquals(Long.valueOf(1L),returnedOrder.get(0).getStatus().getId());
 
     }
 }
