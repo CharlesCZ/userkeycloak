@@ -47,24 +47,7 @@ public interface DishMapper {
         }
     }
 
-/*    @Named("orderDishesToOrderDishCommands")
-    default List<OrderDishCommand> orderDishesToOrderDishCommands(Set<OrderDish> orderDishes){
-        if(orderDishes==null){
-            return null;
-        }
-        else {
-            List<OrderDishCommand> orderDishes=new ArrayList<>();
-            OrderDishMapper orderDishMapper=OrderDishMapper.INSTANCE;
-            for (Iterator<OrderDish> it = orderDishes.iterator(); it.hasNext(); ) {
-                OrderDish orderDishIterator = it.next();
-               orderDishes.add( orderDishMapper.orderDishToOrderDishCommand(orderDishIterator));
 
-            }
-
-            return orderDishes;
-        }
-
-    }*/
 
 
 

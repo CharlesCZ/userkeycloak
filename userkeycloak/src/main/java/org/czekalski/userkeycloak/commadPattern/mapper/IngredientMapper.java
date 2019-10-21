@@ -17,7 +17,7 @@ public interface IngredientMapper {
     Ingredient ingredientCommandToIngredient(IngredientCommand ingredientCommand);
 
 
-   // @Mapping(source = "recipe" dodaj swoj)
+
     IngredientCommand ingredientToIngredientCommand(Ingredient ingredient);
 
 }
