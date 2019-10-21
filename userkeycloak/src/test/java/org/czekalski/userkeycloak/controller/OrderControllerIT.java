@@ -17,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -127,20 +128,7 @@ class OrderControllerIT {
 
     @Test
     void getOrdersList() throws Exception {
-        OrderCommand orderCommand=new OrderCommand();
-        orderCommand.setId(1L);
-
-        StatusCommand statusCommand=new StatusCommand();
-        statusCommand.setId(1L);
-        statusCommand.setName("ready");
-        orderCommand.setStatus(statusCommand);
-        orderCommand.setPayed(false);
-        orderCommand.setCreatedBy("user");
-        Date createdDate=new Date(System.currentTimeMillis());
-        orderCommand.setCreatedDate(createdDate);
-        orderCommand.setLastModifiedBy("user2");
-        Date lastModifiedDate=new Date(System.currentTimeMillis());
-        orderCommand.setLastModifiedDate(lastModifiedDate);
+        OrderCommand orderCommand = preparingOrderCommand();
 
         given(orderService.getAllOrders()).willReturn(Arrays.asList(orderCommand));
 
@@ -150,5 +138,54 @@ class OrderControllerIT {
                 .andExpect(view().name("orders/ordersList"));
 
         then(orderService).should().getAllOrders();
+    }
+
+    @Test
+    void getOrderDetails() throws Exception {
+        OrderCommand orderCommand = preparingOrderCommand();
+        orderCommand.setId(1L);
+
+        given(orderService.getOrderDetailsById(anyLong())).willReturn(orderCommand);
+
+        mockMvc.perform(get("/orders/1/details"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("order"))
+                .andExpect(view().name("orders/detailsForm"));
+
+        then(orderService).should().getOrderDetailsById(anyLong());
+    }
+
+  /*  @Test
+    void postOrderDetails() throws Exception {
+        OrderCommand orderCommand = preparingOrderCommand();
+        orderCommand.setId(1L);
+
+        given(orderService.updateOrder(any(OrderCommand.class))).willReturn(orderCommand);
+
+        mockMvc.perform(post("/orders/1/details"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("order"))
+                .andExpect(view().name("redirect:/orders/allOrders"));
+
+        then(orderService).should().updateOrder(any(OrderCommand.class));
+
+    }*/
+
+    private OrderCommand preparingOrderCommand() {
+        OrderCommand orderCommand = new OrderCommand();
+        orderCommand.setId(1L);
+
+        StatusCommand statusCommand = new StatusCommand();
+        statusCommand.setId(1L);
+        statusCommand.setName("ready");
+        orderCommand.setStatus(statusCommand);
+        orderCommand.setPayed(false);
+        orderCommand.setCreatedBy("user");
+        Timestamp createdDate = new  Timestamp(System.currentTimeMillis());
+        orderCommand.setCreatedDate(createdDate);
+        orderCommand.setLastModifiedBy("user2");
+        Timestamp lastModifiedDate = new  Timestamp(System.currentTimeMillis());
+        orderCommand.setLastModifiedDate(lastModifiedDate);
+        return orderCommand;
     }
 }

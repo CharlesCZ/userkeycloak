@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -169,5 +170,12 @@ public OrderCommand convertedShoppingCar(){
 
        return orderRepository.findAll().stream()
                .map(orderMapper::orderToOrderCommand).collect(Collectors.toList());
+    }
+
+    public OrderCommand getOrderDetailsById(long id) {
+
+
+        return orderRepository.getOrderDetailsById(id)
+                .map(orderMapper::orderToOrderCommand).orElse(null);
     }
 }

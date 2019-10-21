@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Mapper(config=AuditBaseMapper.class)
@@ -22,8 +23,32 @@ public interface OrderMapper {
 
     Order orderCommandToOrder(OrderCommand orderCommand);
 
+  /*  @Named("finishedTimeToFinishedTimeCommand")
+    default String finishedTimeToFinishedTimeCommand(Timestamp finishedTime){
+        if(finishedTime==null){
+            return null;
+        }else{
+            String finishedTimeCommand=finishedTime.toString();
+            return finishedTimeCommand;
 
-  /*  @Named("orderDishToOrderDishCommand")
+        }
+    }
+
+
+    @Named("finishedTimeCommandToFinishedTime")
+    default Timestamp finishedTimeCommandToFinishedTime(String finishedTimeCommand)
+    {
+        if(finishedTimeCommand==null){
+            return null;
+        }else {
+
+            Timestamp timestamp=new Timestamp(finishedTimeCommand);
+
+        }
+
+    }*/
+
+    /*  @Named("orderDishToOrderDishCommand")
     default Set<OrderDishCommand> orderDishToOrderDishCommand(Set<OrderDish> orderDishes){
         if(orderDishes==null){
             return null;

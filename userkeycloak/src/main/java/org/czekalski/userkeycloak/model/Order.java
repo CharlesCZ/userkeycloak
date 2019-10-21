@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -56,8 +55,8 @@ public class Order extends AuditBase {
     private Set<OrderDish> orderDishes=new HashSet<>();
 
 
-    private String City;
-    private String Street;
+    private String city;
+    private String street;
 
     @Column(name = "house_nr")
     private Integer houseNr;
@@ -76,8 +75,8 @@ public class Order extends AuditBase {
                 ", user='" + user + '\'' +
                 ", status=" + status +
                 ", payed=" + payed +
-                ", City='" + City + '\'' +
-                ", Street='" + Street + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
                 ", houseNr=" + houseNr +
                 ", apartment=" + apartment +
                 ", telephone='" + telephone + '\'' +

@@ -8,7 +8,14 @@ import org.czekalski.userkeycloak.service.PaymentKindService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Controller
 public class OrderController {
@@ -59,5 +66,29 @@ public class OrderController {
         model.addAttribute("orders",orderService.getAllOrders());
 
         return "orders/ordersList";
+    }
+
+
+    @GetMapping("/orders/{id}/details")
+    public String getOrderDetails(@PathVariable Long id, Model model){
+
+
+        model.addAttribute("order",orderService.getOrderDetailsById(id));
+
+        return "orders/detailsForm";
+    }
+
+    @PostMapping("/orders/{id}/details")
+    public String postOrderDetails(@PathVariable Long id, @ModelAttribute("order") OrderCommand orderCommand){
+
+        OrderCommand orderCommand1=orderCommand;
+
+        System.out.println(orderCommand1.getCreatedDate().toString());
+        System.out.println(orderCommand1);
+
+
+
+
+        return "orders/detailsForm";
     }
 }

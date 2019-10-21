@@ -3,7 +3,6 @@ package org.czekalski.userkeycloak.service;
 import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
 import org.czekalski.userkeycloak.commadPattern.mapper.OrderMapper;
-import org.czekalski.userkeycloak.config.audit.AuditorAwareBean;
 import org.czekalski.userkeycloak.config.audit.JpaAuditingConfig;
 import org.czekalski.userkeycloak.model.*;
 import org.czekalski.userkeycloak.repository.*;
@@ -18,11 +17,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.AuditorAware;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
@@ -62,7 +63,7 @@ class OrderServiceTest {
 
     }
 
-    private Order preparingShoppingCart() {
+    private Order preparingFullOrder() {
         Dish dish = new Dish();
         dish.setId(1L);
         dish.setName(DISH_NAME_1);
@@ -130,7 +131,7 @@ class OrderServiceTest {
     }
     @Test
     void calculatePrice() {
-       orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+       orderService=new OrderService(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
 
         BigDecimal returnedPrice=orderService.calculateTotalPrice();
 
@@ -140,9 +141,9 @@ class OrderServiceTest {
     @Test
     void addOrderToDatabase(){
 
-        Order orderToReturn=preparingShoppingCart();
+        Order orderToReturn= preparingFullOrder();
         orderToReturn.setId(1L);
-        orderService=new OrderService(preparingShoppingCart(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+        orderService=new OrderService(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
 
         PaymentKind paymentKind=new PaymentKind();
         paymentKind.setId(1L);
@@ -218,10 +219,10 @@ class OrderServiceTest {
         orderToReturn.setStatus(status);
         orderToReturn.setPaymentKind(paymentKind);
         orderToReturn.setCreatedBy("user");
-        Date createdDate=new Date(System.currentTimeMillis());
+        Timestamp createdDate=new  Timestamp(System.currentTimeMillis());
         orderToReturn.setCreatedDate(createdDate);
         orderToReturn.setLastModifiedBy("user2");
-        Date lastModifiedDate=new Date(System.currentTimeMillis());
+        Timestamp lastModifiedDate=new  Timestamp(System.currentTimeMillis());
         orderToReturn.setLastModifiedDate(lastModifiedDate);
 
         given(orderRepository.findAll()).willReturn(Arrays.asList(orderToReturn));
@@ -238,4 +239,60 @@ class OrderServiceTest {
         assertEquals(lastModifiedDate,returnedOrder.get(0).getLastModifiedDate());
         assertEquals(createdDate,returnedOrder.get(0).getCreatedDate());
     }
+
+
+
+    @Test
+    void getOrderDetailsById() {
+        Dish dish = new Dish();
+        dish.setId(1L);
+        dish.setName(DISH_NAME_1);
+
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setId(1L);
+        ingredient1.setName(INGREDIENT_NAME1);
+
+        Order order=new Order();
+        order.setId(1L);
+        order.setPayed(false);
+
+        OrderDish orderDish=new OrderDish();
+        orderDish.setId(1L);
+        orderDish.setQuantity(4);
+        orderDish.setDish(dish);
+        orderDish.setOrder(order);
+
+        OrderIngredient orderIngredient1=new OrderIngredient();
+        orderIngredient1.setIngredient(ingredient1);
+        orderIngredient1.setOrderDish(orderDish);
+        orderIngredient1.setQuantity(2);
+        orderIngredient1.setId(1L);
+        Set<OrderIngredient> orderIngredients=new HashSet<>();
+        orderIngredients.add(orderIngredient1);
+
+        orderDish.setOrderIngredients(orderIngredients);
+        Set<OrderDish> orderDishes=new HashSet<>();
+        orderDishes.add(orderDish);
+        order.setOrderDishes(orderDishes);
+
+        given(orderRepository.getOrderDetailsById(1L)).willReturn(Optional.of(order));
+
+
+
+        OrderCommand orderCommand=orderService.getOrderDetailsById(1L);
+
+
+
+        assertEquals(false,orderCommand.getPayed());
+        assertThat(orderCommand.getOrderDishes()).hasSize(1);
+        assertEquals(INGREDIENT_NAME1,
+                orderCommand.getOrderDishes().iterator().next().getOrderIngredients().iterator().next().getIngredient().getName());
+    }
+
+
+    //  given(orderService.updateOrder(any(OrderCommand.class))).willReturn(orderCommand);
+
+
+
+
 }

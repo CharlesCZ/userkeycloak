@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -22,8 +23,8 @@ public abstract class AuditBase {
 
     @CreatedDate
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date createdDate;
+   // @Temporal(TemporalType.TIMESTAMP)
+    protected Timestamp createdDate;
 
     @CreatedBy
     @Column(name = "created_by")
@@ -35,8 +36,8 @@ public abstract class AuditBase {
 
     @LastModifiedDate
     @Column(name = "last_modified_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    protected  Date lastModifiedDate;
+  //  @Temporal(TemporalType.TIMESTAMP)
+    protected Timestamp lastModifiedDate;
 
 
 }

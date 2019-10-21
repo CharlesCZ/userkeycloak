@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Details form</title>
+</head>
+<body>
+
+<form th:object="${order}" th:action="@{'/orders/' +${order.id}+ '/details'}" method="post">
+    <table>
+
+        <tr>
+            <td>id</td>
+            <td th:text="*{id}"></td>
+               <input type="hidden"  th:field="*{id}"/>
+
+        </tr>
+        <tr>
+            <td>description</td>
+            <td> <input type="text"  th:field="*{description}"/>  </td>
+        </tr>
+        <tr>
+            <td>finished time</td>
+            <td th:text="*{finishedTime}"></td>
+            <input type="hidden" th:field="${order.finishedTime}"/>
+        </tr>
+        <tr>
+            <td>user</td>
+            <td th:text="*{user}"></td>
+            <input type="hidden"  th:field="*{user}"/>
+        </tr>
+        <tr>
+            <td>payed</td>
+
+        </tr>
+        <tr>
+            <td>city</td>
+            <td>  <input type="text"  th:field="*{city}"/>  </td>
+        </tr>
+        <tr>
+             <td>street</td>
+             <td>   <input type="text"  th:field="*{street}"/> </td>
+        </tr>
+        <tr>
+            <td>house nr</td>
+            <td>    <input type="number"  th:field="*{houseNr}"/>  </td>
+        </tr>
+        <tr>
+            <td>apartment</td>
+            <td>     <input type="number"  th:field="*{apartment}"/>  </td>
+        </tr>
+    <tr>
+        <td>telephone</td>
+        <td>  <input type="text"  th:field="*{telephone}"/> </td>
+    </tr>
+        <tr>
+            <td>created Date</td>
+            <td th:text="*{createdDate}"></td>
+              <input type="hidden" th:field="${order.createdDate}"/>
+        </tr>
+        <tr>
+            <td>created By</td>
+            <td th:text="*{createdBy}"></td>
+             <input type="hidden" th:field="${order.createdBy}"/>
+        </tr>
+        <tr>
+            <td>last modified date</td>
+            <td th:text="*{lastModifiedDate}"></td>
+            <input type="hidden" th:field="${order.lastModifiedDate}"/>
+        </tr>
+        <tr>
+            <td>last modified by</td>
+            <td th:text="*{lastModifiedBy}"></td>
+            <input type="hidden" th:field="${order.lastModifiedBy}"/>
+        </tr>
+        <tr>
+            <td>  <button type="submit" >Submit</button> </td>
+        <tr>
+    </table>
+</form>
+
+
+</body>
+</html>

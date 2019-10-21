@@ -24,7 +24,7 @@ class OrderMapperTest {
     private static final long ID = 1L;
     public static final String DISH_NAME3 = "schabowy";
     Timestamp finishedTime=new Timestamp(System.currentTimeMillis());
-    Date createdDate=new Date(System.currentTimeMillis());
+    Timestamp createdDate=new  Timestamp(System.currentTimeMillis());
 
     private OrderMapper orderMapper=OrderMapper.INSTANCE;
 

@@ -2,18 +2,19 @@ package org.czekalski.userkeycloak.commadPattern.command;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
 public class AuditBaseCommand {
 
 
-    protected Date createdDate;
+    protected Timestamp createdDate;
 
     protected  String createdBy;
 
     protected  String lastModifiedBy;
 
-    protected  Date lastModifiedDate;
+    protected  Timestamp lastModifiedDate;
 
 }
