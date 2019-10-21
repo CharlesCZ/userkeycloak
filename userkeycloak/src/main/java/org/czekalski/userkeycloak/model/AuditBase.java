@@ -23,7 +23,6 @@ public abstract class AuditBase {
 
     @CreatedDate
     @Column(name = "created_date")
-   // @Temporal(TemporalType.TIMESTAMP)
     protected Timestamp createdDate;
 
     @CreatedBy
@@ -36,7 +35,6 @@ public abstract class AuditBase {
 
     @LastModifiedDate
     @Column(name = "last_modified_date")
-  //  @Temporal(TemporalType.TIMESTAMP)
     protected Timestamp lastModifiedDate;
 
 
