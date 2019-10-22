@@ -131,5 +131,16 @@ class IngredientControllerIT {
         then(ingredientService).should().findById(anyLong());
     }
 
+    @Test
+    @WithMockUser(roles = {"admin"})
+    void testDeleteIngredient() throws Exception {
 
+
+        mockMvc.perform(get("/ingredients/1/delete"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/ingredients"));
+
+
+        then(ingredientService).should().deleteById(1L);
+    }
 }

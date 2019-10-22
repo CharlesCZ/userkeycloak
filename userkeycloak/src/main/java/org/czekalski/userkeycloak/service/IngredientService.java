@@ -44,4 +44,8 @@ public class IngredientService {
         return ingredientMapper.ingredientToIngredientCommand(returnedIngredient.get());
     }
 
+
+    public void deleteById(long id){
+        ingredientRepository.deleteById(id);
+    }
 }

@@ -39,6 +39,13 @@ public String showIngredient(@PathVariable Long id, Model model){
         return "ingredients/show";
 }
 
+    @GetMapping("/{id}/delete")
+    public String deleteIngredient(@PathVariable Long id){
+
+        ingredientService.deleteById(id);
+
+        return "redirect:/ingredients";
+    }
 
 @GetMapping("/new")
 public String newIngredientForm(Model model){

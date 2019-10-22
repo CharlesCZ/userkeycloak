@@ -40,7 +40,7 @@ public class Dish {
     @JoinColumn(name = "category_id")
     private Category category;*/
 
-    @OneToMany(mappedBy = "dish")
+    @OneToMany(mappedBy = "dish",cascade = CascadeType.ALL)
     private Set<Recipe> recipes=new HashSet<>();
 
 
