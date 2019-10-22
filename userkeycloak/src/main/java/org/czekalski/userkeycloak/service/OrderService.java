@@ -184,4 +184,11 @@ public OrderCommand convertedShoppingCar(){
         return orderRepository.getOrderDetailsById(id)
                 .map(orderMapper::orderToOrderCommand).orElse(null);
     }
+
+    public OrderCommand save(OrderCommand orderCommand){
+
+        return orderMapper.orderToOrderCommand(
+                orderRepository.save(
+                        orderMapper.orderCommandToOrder(orderCommand)));
+    }
 }

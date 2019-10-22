@@ -19,11 +19,11 @@
             <td>description</td>
             <td> <input type="text"  th:field="*{description}"/>  </td>
         </tr>
-        <tr>
-            <td>finished time</td>
-            <td th:text="*{finishedTime}"></td>
+
+
             <input type="hidden" th:field="${order.finishedTime}"/>
-        </tr>
+
+
         <tr>
             <td>user</td>
             <td th:text="*{user}"></td>
@@ -31,7 +31,20 @@
         </tr>
         <tr>
             <td>payed</td>
-
+            <td>   <input type="text"  th:field="*{payed}"/> </td>
+        </tr>
+        <tr>
+            <td>status</td>
+            <td>
+                <select  name="status.id">
+                    <option th:each="status: ${statuses}"
+                            th:value="${status.id}"
+                            th:text="${status.name}"
+                            th:selected="${status.id.equals(order.status.id)}">
+                        status
+                    </option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td>city</td>
@@ -48,6 +61,19 @@
         <tr>
             <td>apartment</td>
             <td>     <input type="number"  th:field="*{apartment}"/>  </td>
+        </tr>
+        <tr>
+            <td>payment kinds</td>
+            <td>
+                <select  name="paymentKind.id">
+                    <option th:each="paymentKind: ${paymentKinds}"
+                            th:value="${paymentKind.id}"
+                            th:text="${paymentKind.name}"
+                            th:selected="${paymentKind.id.equals(order.paymentKind.id)}">
+                        Payment Kind
+                    </option>
+                </select>
+            </td>
         </tr>
     <tr>
         <td>telephone</td>

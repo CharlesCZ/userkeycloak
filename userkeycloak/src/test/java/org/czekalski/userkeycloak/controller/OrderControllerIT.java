@@ -54,6 +54,9 @@ class OrderControllerIT {
     @MockBean
     PaymentKindService paymentKindService;
 
+    @MockBean
+    StatusService statusService;
+
     @Autowired
     MockMvc mockMvc;
 

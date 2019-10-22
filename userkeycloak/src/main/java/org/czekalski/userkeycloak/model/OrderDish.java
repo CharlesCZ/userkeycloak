@@ -48,7 +48,7 @@ public class OrderDish  extends AuditBase{
     private Dish dish;
 
 
-    @OneToMany(mappedBy = "orderDish",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "orderDish",cascade = CascadeType.ALL)
     private Set<OrderIngredient> orderIngredients=new HashSet<>();
 
 

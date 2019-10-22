@@ -51,7 +51,7 @@ public class Order extends AuditBase {
 
     private Boolean payed;
 
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private Set<OrderDish> orderDishes=new HashSet<>();
 
 
