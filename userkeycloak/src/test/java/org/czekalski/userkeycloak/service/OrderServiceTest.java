@@ -172,12 +172,6 @@ class OrderServiceTest {
             }
         }
 
-        given(orderDishRepository.saveAll(any(Set.class))).willReturn(new ArrayList<>(orderToReturn.getOrderDishes()));
-        given(orderIngredientRepository.saveAll(any(Set.class))).willReturn(    new ArrayList<>(orderToReturn.getOrderDishes().iterator().next().getOrderIngredients()),
-                new ArrayList<>(orderToReturn.getOrderDishes().iterator().next().getOrderIngredients()));
-
-
-
         OrderCommand orderAsArgument=new OrderCommand();
         orderAsArgument.setCity("Poznan");
         orderAsArgument.setStreet("Piotrowo");
@@ -191,8 +185,6 @@ class OrderServiceTest {
 
         then(paymentKindRepository).should().findById(1L);
         then(orderRepository).should().save(any(Order.class));
-        then(orderDishRepository).should().saveAll(any(Set.class));
-        then(orderIngredientRepository).should(times(2)).saveAll(any(Set.class));
         then(statusRepository).should().findById(1L);
 
         assertEquals(Integer.valueOf(HOUSE_NR),houseNrCaptor.getValue().getHouseNr());

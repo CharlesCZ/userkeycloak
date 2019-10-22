@@ -134,23 +134,17 @@ public OrderCommand convertedShoppingCar(){
         shoppingCart.setPayed(false);
         statusRepository.findById(1L).ifPresent( shoppingCart::setStatus);
 
-//TODO cascade
-       Order shoppingCartToSave =convertFromProxy(shoppingCart,jpaAuditingConfig);
-      shoppingCartToSave= orderRepository.save(shoppingCartToSave);
-        System.out.println("save orderRepository");
+
+        Order shoppingCartToSave =convertFromProxy(shoppingCart,jpaAuditingConfig);
+
         for(Iterator<OrderDish> it = shoppingCart.getOrderDishes().iterator(); it.hasNext();){
             OrderDish orderDish=it.next();
             //removing temporary id
             orderDish.setId(null);
             orderDish.setOrder(shoppingCartToSave);
         }
-       orderDishRepository.saveAll(shoppingCart.getOrderDishes());
-        System.out.println("save orderDishRepository");
-       shoppingCart.getOrderDishes().forEach(orderDish ->{
 
-           orderIngredientRepository.saveAll( orderDish.getOrderIngredients());
-       });
-
+        orderRepository.save(shoppingCartToSave);
 
         return shoppingCart;
     }
