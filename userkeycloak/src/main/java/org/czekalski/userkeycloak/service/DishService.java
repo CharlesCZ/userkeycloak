@@ -134,7 +134,7 @@ return null;
         orderDish.setDish(dishMapper.dishCommandToDish(dishCommand));
         orderDish.setQuantity(dishCommand.getQuantity());
         orderDish.setSingleDishCost(dishCommand.getCost());
-
+        orderDish.setOrder(shoppingCart);
 
         dishCommand.getIngredientCommands().forEach(ingredientCommand -> {
 
@@ -167,6 +167,7 @@ return null;
         //adding temporary id to orderDish of Shopping Cart
         biggestOrderId+=1;
         orderDish.setId(biggestOrderId);
+
 
         shoppingCart.getOrderDishes().add(orderDish);
 

@@ -5,7 +5,7 @@
     <title>Details form</title>
 </head>
 <body>
-
+<h1>Order details</h1>
 <form th:object="${order}" th:action="@{'/orders/' +${order.id}+ '/details'}" method="post">
     <table>
 
@@ -73,10 +73,48 @@
             <td th:text="*{lastModifiedBy}"></td>
             <input type="hidden" th:field="${order.lastModifiedBy}"/>
         </tr>
-        <tr>
-            <td>  <button type="submit" >Submit</button> </td>
-        <tr>
     </table>
+
+
+
+
+    <table>
+
+        <tr>
+            <th>name</th>
+            <th>cost</th>
+            <th>amount</th>
+            <th>options</th>
+        </tr>
+        <div th:each="orderDish: ${order.orderDishes}">
+            <tr>
+                <td> <h4 th:text="${orderDish.dish.name}+' '+(  (${orderDish.dish.size} <= 1)? 'Small' : 'Big' )"></h4> </td>
+                <td th:text="${orderDish.totalPrice}"></td>
+                <td th:text="${orderDish.quantity}"></td>
+                <td>
+        <span>
+            <a href="#" th:href="@{'/orders/' +${order.id}+ '/details/orderDish/'+${orderDish.id}+'/delete'}">Delete</a>
+            <a href="#" th:href="@{'/orders/' +${order.id}+ '/details/orderDish/'+${orderDish.id}+'/update'}">Update</a>
+        </span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>name</th>
+                <th>quantity</th>
+            </tr>
+            <tr th:each="orderIngredient : ${orderDish.getOrderIngredients()}" >
+                <td th:text="${orderIngredient.ingredient.name}"></td>
+                <td th:text="${orderIngredient.quantity}"></td>
+            </tr>
+
+        </div>
+    </table>
+
+
+    <button type="submit" >Submit</button>
+
+
 </form>
 
 

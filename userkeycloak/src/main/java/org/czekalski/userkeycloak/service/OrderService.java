@@ -9,9 +9,11 @@ import org.czekalski.userkeycloak.config.audit.JpaAuditingConfig;
 import org.czekalski.userkeycloak.model.*;
 import org.czekalski.userkeycloak.repository.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -119,6 +121,8 @@ public OrderCommand convertedShoppingCar(){
         return shoppingCartToSave;
 
     }
+
+    @Transactional
     public Order addOrderToDatabase(OrderCommand orderCommand) {
 
         shoppingCart.setApartment(orderCommand.getApartment());
@@ -130,10 +134,18 @@ public OrderCommand convertedShoppingCar(){
         shoppingCart.setPayed(false);
         statusRepository.findById(1L).ifPresent( shoppingCart::setStatus);
 
-
+//TODO cascade
        Order shoppingCartToSave =convertFromProxy(shoppingCart,jpaAuditingConfig);
-       orderRepository.save(shoppingCartToSave);
+      shoppingCartToSave= orderRepository.save(shoppingCartToSave);
+        System.out.println("save orderRepository");
+        for(Iterator<OrderDish> it = shoppingCart.getOrderDishes().iterator(); it.hasNext();){
+            OrderDish orderDish=it.next();
+            //removing temporary id
+            orderDish.setId(null);
+            orderDish.setOrder(shoppingCartToSave);
+        }
        orderDishRepository.saveAll(shoppingCart.getOrderDishes());
+        System.out.println("save orderDishRepository");
        shoppingCart.getOrderDishes().forEach(orderDish ->{
 
            orderIngredientRepository.saveAll( orderDish.getOrderIngredients());
