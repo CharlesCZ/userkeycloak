@@ -5,7 +5,8 @@
     <title>Dish list</title>
 </head>
 <body>
-
+<a href="#" th:href="@{ '/logged'}">logIn</a>
+<span><a href="#" th:href="@{ '/logout/index'}">logout</a></span>
 <h1>Dish list</h1>
 <table>
     <thead>
@@ -33,7 +34,7 @@
 
 
 </table>
-
+<td><a href="#" th:href="@{ '/orders/summary'}">Shopping bag</a></td>
 
 </body>
 </html>
