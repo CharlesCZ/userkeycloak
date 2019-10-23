@@ -75,7 +75,7 @@ BigDecimal price=new BigDecimal(0);
             price = price.add(orderDishCommand.getSingleDishCost().multiply(new BigDecimal(orderDishCommand.getQuantity())));
 
             for (OrderIngredientCommand orderIngredient : orderDishCommand.getOrderIngredients()) {
-                price = price.add(orderIngredient.getIngredient().getCost().multiply(new BigDecimal(orderIngredient.getQuantity())).multiply(new BigDecimal(orderDishCommand.getQuantity())));
+                price = price.add(orderIngredient.getIngredientDishOrderCost().multiply(new BigDecimal(orderIngredient.getQuantity())).multiply(new BigDecimal(orderDishCommand.getQuantity())));
             }
 
 
@@ -178,11 +178,34 @@ public OrderCommand convertedShoppingCar(){
                .map(orderMapper::orderToOrderCommand).collect(Collectors.toList());
     }
 
+
+    public void getTotalPriceForOrderCommand(OrderCommand orderCommand){
+
+BigDecimal fullPrice=new BigDecimal(0);
+       for(Iterator<OrderDishCommand> it= orderCommand.getOrderDishes().iterator();it.hasNext();){
+           OrderDishCommand odc=it.next();
+           BigDecimal tempPrice=  totalPriceForOrderDishCommand(odc);
+           System.out.println(tempPrice);
+           odc.setTotalPrice(tempPrice);
+           fullPrice=fullPrice.add(tempPrice);
+       }
+
+
+       orderCommand.setTotalPrice(fullPrice);
+
+    }
+
+
     public OrderCommand getOrderDetailsById(long id) {
+        Optional<OrderCommand> orderCommand =orderRepository.getOrderDetailsById(id)
+                .map(orderMapper::orderToOrderCommand);
 
+        if(orderCommand.isPresent()){
+            getTotalPriceForOrderCommand(orderCommand.get());
 
-        return orderRepository.getOrderDetailsById(id)
-                .map(orderMapper::orderToOrderCommand).orElse(null);
+        return orderCommand.get();
+        }
+        else return null;
     }
 
     public OrderCommand save(OrderCommand orderCommand){
