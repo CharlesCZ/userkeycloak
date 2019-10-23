@@ -1,6 +1,8 @@
 package org.czekalski.userkeycloak.service;
 
 import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
+import org.czekalski.userkeycloak.commadPattern.command.OrderDishCommand;
+import org.czekalski.userkeycloak.commadPattern.command.OrderIngredientCommand;
 import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
 import org.czekalski.userkeycloak.commadPattern.mapper.OrderMapper;
 import org.czekalski.userkeycloak.config.audit.JpaAuditingConfig;
@@ -252,6 +254,7 @@ class OrderServiceTest {
         orderDish.setId(1L);
         orderDish.setQuantity(4);
         orderDish.setDish(dish);
+        orderDish.setSingleDishCost(new BigDecimal("2.0"));
         orderDish.setOrder(order);
 
         OrderIngredient orderIngredient1=new OrderIngredient();
@@ -259,6 +262,7 @@ class OrderServiceTest {
         orderIngredient1.setOrderDish(orderDish);
         orderIngredient1.setQuantity(2);
         orderIngredient1.setId(1L);
+        orderIngredient1.setIngredientDishOrderCost(new BigDecimal("4.0"));
         Set<OrderIngredient> orderIngredients=new HashSet<>();
         orderIngredients.add(orderIngredient1);
 
@@ -283,8 +287,41 @@ class OrderServiceTest {
 
 
     //  given(orderService.updateOrder(any(OrderCommand.class))).willReturn(orderCommand);
+    @Test
+    void totalPriceForOrderDishCommand(){
+        OrderDishCommand orderDishCommand=new OrderDishCommand();
+        orderDishCommand.setSingleDishCost(new BigDecimal("20.0"));
+        orderDishCommand.setQuantity(2);
+        OrderIngredientCommand orderIngredient1=new OrderIngredientCommand();
+        orderIngredient1.setQuantity(2);
+        orderIngredient1.setIngredientDishOrderCost(new BigDecimal("2.0"));
+        orderDishCommand.setOrderIngredients(new HashSet<>(Collections.singletonList(orderIngredient1)));
 
 
+       BigDecimal returnedPrice=orderService.totalPriceForOrderDishCommand(orderDishCommand);
+
+
+       assertEquals(new BigDecimal("48.0"),returnedPrice);
+    }
+
+
+
+    @Test
+    void  getTotalPriceForOrderCommand(){
+        OrderDishCommand orderDishCommand=new OrderDishCommand();
+        orderDishCommand.setSingleDishCost(new BigDecimal("20.0"));
+        orderDishCommand.setQuantity(2);
+        OrderIngredientCommand orderIngredient1=new OrderIngredientCommand();
+        orderIngredient1.setQuantity(2);
+        orderIngredient1.setIngredientDishOrderCost(new BigDecimal("2.0"));
+        orderDishCommand.setOrderIngredients(new HashSet<>(Collections.singletonList(orderIngredient1)));
+        OrderCommand orderCommand=new OrderCommand();
+        orderCommand.setOrderDishes(new HashSet<>(Collections.singletonList(orderDishCommand)));
+
+        orderService.getTotalPriceForOrderCommand(orderCommand);
+
+        assertEquals(new BigDecimal("48.0"),orderCommand.getTotalPrice());
+    }
 
 
 }

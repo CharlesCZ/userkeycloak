@@ -25,4 +25,13 @@ public class OrderDishController {
 
     }
 
+    @GetMapping("/orders/{order.id}/details/orderDish/{orderDish.id}/delete")
+    public String getDeleteOrderDishById(@PathVariable("order.id") Long orderId,@PathVariable("orderDish.id") Long orderDishId){
+
+        orderDishService.deleteOrderDishById(orderDishId);
+
+        return "redirect:/orders/"+orderId+"/details";
+
+    }
+
 }

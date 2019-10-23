@@ -1,6 +1,5 @@
 package org.czekalski.userkeycloak.controller;
 
-import org.czekalski.userkeycloak.model.OrderDish;
 import org.czekalski.userkeycloak.service.OrderDishService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +12,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -56,4 +54,14 @@ class OrderDishControllerTest {
 
         verify(orderDishService).deleteFromCart(anyLong());
     }
+
+    @Test
+    void getDeleteOrderDishById() throws Exception {
+
+        mockMvc.perform(get("/orders/1/details/orderDish/2/delete"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/orders/1/details"));
+
+            verify(orderDishService).deleteOrderDishById(2L);
+}
 }

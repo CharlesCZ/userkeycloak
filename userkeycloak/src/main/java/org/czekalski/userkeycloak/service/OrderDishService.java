@@ -3,12 +3,12 @@ package org.czekalski.userkeycloak.service;
 
 import org.czekalski.userkeycloak.model.*;
 import org.czekalski.userkeycloak.repository.IngredientRepository;
+import org.czekalski.userkeycloak.repository.OrderDishRepository;
 import org.czekalski.userkeycloak.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -17,11 +17,13 @@ public class OrderDishService {
     private final Order shoppingCart;
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
+    private final OrderDishRepository orderDishRepository;
 
-    public OrderDishService(Order shoppingCart, RecipeRepository recipeRepository, IngredientRepository ingredientRepository) {
+    public OrderDishService(Order shoppingCart, RecipeRepository recipeRepository, IngredientRepository ingredientRepository, OrderDishRepository orderDishRepository) {
         this.shoppingCart = shoppingCart;
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
+        this.orderDishRepository = orderDishRepository;
     }
 
 
@@ -170,4 +172,7 @@ public Boolean deleteFromCart(Long id){
     }
 
 
+    public void deleteOrderDishById(Long orderDishId) {
+        orderDishRepository.deleteById(orderDishId);
+    }
 }

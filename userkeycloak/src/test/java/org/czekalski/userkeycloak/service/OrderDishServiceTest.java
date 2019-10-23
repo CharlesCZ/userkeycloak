@@ -2,6 +2,7 @@ package org.czekalski.userkeycloak.service;
 
 import org.czekalski.userkeycloak.model.*;
 import org.czekalski.userkeycloak.repository.IngredientRepository;
+import org.czekalski.userkeycloak.repository.OrderDishRepository;
 import org.czekalski.userkeycloak.repository.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
 class OrderDishServiceTest {
@@ -33,13 +34,17 @@ class OrderDishServiceTest {
 
     @Mock
 private IngredientRepository ingredientRepository;
+
+    @Mock
+    private OrderDishRepository orderDishRepository;
+
     OrderDishService orderDishService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        orderDishService=new OrderDishService(shoppingCart,recipeRepository, ingredientRepository);
+        orderDishService=new OrderDishService(shoppingCart,recipeRepository, ingredientRepository, orderDishRepository);
     }
 
     @Test
@@ -187,8 +192,17 @@ assertAll("Testing conversion from Recipes to OrderDishes",
 
 
     }
+    @Test
+    void deleteOrderDishById(){
+
+        orderDishService.deleteOrderDishById(1L);
+
+        then(orderDishRepository).should().deleteById(1L);
+    }
+
 
     @Test
     void addToCart() {
+
     }
 }

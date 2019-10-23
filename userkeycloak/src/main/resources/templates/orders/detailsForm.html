@@ -106,6 +106,7 @@
         </tr>
     </table>
 
+    <button type="submit" >Submit</button>
 
 <h2>Ordered dishes</h2>
 
@@ -137,13 +138,19 @@
             <tr th:each="orderIngredient : ${orderDish.getOrderIngredients()}" >
                 <td th:text="${orderIngredient.ingredient.name}"></td>
                 <td th:text="${orderIngredient.quantity}"></td>
+                <td>
+                <span>
+                    <a href="#" th:href="@{'/orders/' +${order.id}+ '/details/orderDish/'+${orderDish.id}+'/orderIngredient/'+${orderIngredient.id}+'/delete'}">Delete</a>
+                    <a  href="#" th:href="@{'/orders/' +${order.id}+ '/details/orderDish/'+${orderDish.id}+'/orderIngredient/'+${orderIngredient.id}+'/update'}">Update</a>
+                </span>
+                </td>
             </tr>
 
         </div>
     </table>
 
 
-    <button type="submit" >Submit</button>
+
 
 
 </form>
