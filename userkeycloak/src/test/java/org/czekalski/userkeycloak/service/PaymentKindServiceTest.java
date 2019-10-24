@@ -11,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +31,7 @@ class PaymentKindServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        paymentKindService=new PaymentKindService(paymentKindRepository,paymentKindMapper);
+        paymentKindService=new PaymentKindServiceImpl(paymentKindRepository,paymentKindMapper);
     }
 
     @Test

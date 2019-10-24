@@ -18,7 +18,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -35,7 +34,7 @@ class IngredientServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        ingredientService=new IngredientService(ingredientRepository,ingredientMapper);
+        ingredientService=new IngredientServiceImpl(ingredientRepository,ingredientMapper);
     }
 
     @Test

@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
 
@@ -51,7 +50,7 @@ private RecipeRepository recipeRepository;
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        dishService=new DishService(shoppingBag,dishRepository,dishMapper, IngredientMapper.INSTANCE, ingredientRepository,recipeRepository);
+        dishService=new DishServiceImpl(shoppingBag,dishRepository,dishMapper, IngredientMapper.INSTANCE, ingredientRepository,recipeRepository);
 
     }
 

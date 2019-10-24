@@ -1,14 +1,10 @@
 package org.czekalski.userkeycloak.config;
 
-import org.czekalski.userkeycloak.commadPattern.mapper.OrderMapper;
 import org.czekalski.userkeycloak.model.Order;
-import org.czekalski.userkeycloak.model.OrderDish;
-import org.czekalski.userkeycloak.service.OrderDishService;
-import org.czekalski.userkeycloak.service.OrderService;
 import org.czekalski.userkeycloak.service.UserService;
+import org.czekalski.userkeycloak.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
@@ -16,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@SpringJUnitWebConfig(classes = {UserService.class, ShoppingCartConfig.class})
+@SpringJUnitWebConfig(classes = {UserServiceImpl.class, ShoppingCartConfig.class})
 @TestPropertySource("classpath:application-development.properties")
 class ShoppingCartConfigIT {
 
@@ -26,7 +22,7 @@ class ShoppingCartConfigIT {
 
 
     @Autowired
-   UserService userService;
+    UserService userService;
 
 
     @Test

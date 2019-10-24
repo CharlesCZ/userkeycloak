@@ -44,7 +44,7 @@ private IngredientRepository ingredientRepository;
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        orderDishService=new OrderDishService(shoppingCart,recipeRepository, ingredientRepository, orderDishRepository);
+        orderDishService=new OrderDishServiceImpl(shoppingCart,recipeRepository, ingredientRepository, orderDishRepository);
     }
 
     @Test

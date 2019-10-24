@@ -25,10 +25,8 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
@@ -61,7 +59,7 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-   orderService=new OrderService(new Order(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+   orderService=new OrderServiceImpl(new Order(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
 
     }
 
@@ -133,7 +131,7 @@ class OrderServiceTest {
     }
     @Test
     void calculatePrice() {
-       orderService=new OrderService(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+       orderService=new OrderServiceImpl(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
 
         BigDecimal returnedPrice=orderService.calculateTotalPrice();
 
@@ -145,7 +143,7 @@ class OrderServiceTest {
 
         Order orderToReturn= preparingFullOrder();
         orderToReturn.setId(1L);
-        orderService=new OrderService(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+        orderService=new OrderServiceImpl(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
 
         PaymentKind paymentKind=new PaymentKind();
         paymentKind.setId(1L);
