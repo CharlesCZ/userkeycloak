@@ -133,6 +133,7 @@ public OrderCommand convertedShoppingCar(){
         shoppingCart.setStreet(orderCommand.getStreet());
         shoppingCart.setCity(orderCommand.getCity());
         shoppingCart.setDescription(orderCommand.getDescription());
+        shoppingCart.setTelephone(orderCommand.getTelephone());
         paymentKindRepository.findById(orderCommand.getPaymentKind().getId()).ifPresent(shoppingCart::setPaymentKind);
         shoppingCart.setPayed(false);
         statusRepository.findById(1L).ifPresent( shoppingCart::setStatus);
