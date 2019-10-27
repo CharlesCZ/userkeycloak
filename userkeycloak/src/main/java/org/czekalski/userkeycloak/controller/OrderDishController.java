@@ -29,7 +29,7 @@ public class OrderDishController {
     }
 
     @PostMapping("/orders/orderDish/{id}/update")
-    public String    postUpdateOrderDishShoppingBag(@PathVariable Long id, @ModelAttribute("orderDish") OrderDishCommand orderDish){
+    public String    postUpdateOrderDishShoppingBag(@ModelAttribute("orderDish") OrderDishCommand orderDish){
 
         orderDishService.updateOrderDishCart(orderDish);
 

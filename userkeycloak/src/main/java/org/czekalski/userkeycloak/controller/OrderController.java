@@ -95,12 +95,12 @@ public class OrderController {
 
         OrderCommand orderCommand1=orderCommand;
         orderService.save(orderCommand);
-        System.out.println(orderCommand1.getCreatedDate().toString());
-        System.out.println(orderCommand1);
+    //    System.out.println(orderCommand1.getCreatedDate().toString());
+    //    System.out.println(orderCommand1);
 
 
 
 
-        return "orders/detailsForm";
+        return "redirect:/orders/allOrders";
     }
 }
