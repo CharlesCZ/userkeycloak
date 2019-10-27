@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update orderDish Form</title>
+</head>
+<body>
+
+<label>Name:</label>
+<p th:text="${orderDish.dish.name}+' '+(  (${orderDish.dish.size} <= 1)? 'Small' : 'Big' )"> </p>
+<form th:object="${orderDish}" th:action="@{'/orders/orderDish/'+${orderDish.id}+'/update'}" method="post">
+
+    <input type="hidden"  th:field="*{id}"/>
+
+
+    <input type="hidden"  th:field="*{dish.id}"/>
+
+    <input type="hidden"  th:field="*{dish.name}"/>
+
+    <input type="hidden"  th:field="*{dish.cost}"/>
+
+    <input type="hidden"  th:field="*{dish.size}"/>
+
+    <input type="hidden"  th:field="*{dish.description}"/>
+
+    <label>Quantity of dishes</label>
+    <input type="number" step="0.01" th:field="*{dish.quantity}"/>
+    <span  th:if="${#fields.hasErrors('quantity')}">
+        <ul>
+            <li th:each="error: ${#fields.errors('quantity')}" th:text="${error}"/>
+        </ul>
+    </span>
+
+    <p>Ingredients:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>cost</th>
+            <th>quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ingredient,stat: ${orderDish.dish.ingredientCommands}">
+            <td th:text="${ingredient.id}"></td>
+            <input type="hidden"  th:field="*{dish.ingredientCommands[__${stat.index}__].id}"/>
+            <td th:text="${ingredient.name}"></td>
+            <input type="hidden"  th:field="*{dish.ingredientCommands[__${stat.index}__].name}"/>
+            <td th:text="${ingredient.cost}"></td>
+            <input type="hidden"  th:field="*{dish.ingredientCommands[__${stat.index}__].cost}"/>
+
+            <td> <input type="number"  th:field="*{dish.ingredientCommands[__${stat.index}__].quantity}"/>
+                <span  th:if="${#fields.hasErrors('dish.ingredientCommands[__${stat.index}__].quantity')}">
+                   <ul>
+                       <li th:each="error: ${#fields.errors('dish.ingredientCommands[__${stat.index}__].quantity')}" th:text="${error}"/>
+                  </ul>
+               </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button type="submit" >Submit</button>
+</form>
+</body>
+</html>

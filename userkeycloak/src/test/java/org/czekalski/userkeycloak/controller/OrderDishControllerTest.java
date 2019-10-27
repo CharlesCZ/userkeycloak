@@ -1,5 +1,8 @@
 package org.czekalski.userkeycloak.controller;
 
+import org.czekalski.userkeycloak.commadPattern.command.DishCommand;
+import org.czekalski.userkeycloak.commadPattern.command.OrderDishCommand;
+import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.service.OrderDishService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +15,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
+
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ActiveProfiles("application-development.properties")
 @WebMvcTest(value = OrderDishController.class)
@@ -54,6 +60,42 @@ class OrderDishControllerTest {
 
         verify(orderDishService).deleteFromCart(anyLong());
     }
+
+    @Test
+    void getUpdateOrderDishShoppingBag() throws Exception {
+        DishCommand dishCommand=new DishCommand();
+        dishCommand.setName("name");
+        dishCommand.setId(1L);
+        dishCommand.setSize(new BigDecimal("2"));
+
+        OrderDishCommand orderDishCommand=new OrderDishCommand();
+        orderDishCommand.setId(1L);
+        orderDishCommand.setDish(dishCommand);
+
+        given(orderDishService.getOrderDishCartById(1L)).willReturn(orderDishCommand);
+
+
+        mockMvc.perform(get("/orders/orderDish/1/update"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("orderDish"))
+                .andExpect(view().name("orders/OrderDishAndIngredientsForm"));
+
+       then(orderDishService).should().getOrderDishCartById(1L);
+    }
+
+    @Test
+    void postUpdateOrderDishShoppingBag() throws Exception {
+        given(orderDishService.updateOrderDishCart(new OrderDishCommand())).willReturn(new Order());
+
+
+        mockMvc.perform(post("/orders/orderDish/1/update"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/orders/summary"));
+
+        then(orderDishService).should().updateOrderDishCart(any(OrderDishCommand.class));
+    }
+
+
 
     @Test
     void getDeleteOrderDishById() throws Exception {

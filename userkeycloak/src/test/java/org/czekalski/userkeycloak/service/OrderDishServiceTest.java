@@ -1,5 +1,10 @@
 package org.czekalski.userkeycloak.service;
 
+import org.czekalski.userkeycloak.commadPattern.command.DishCommand;
+import org.czekalski.userkeycloak.commadPattern.command.IngredientCommand;
+import org.czekalski.userkeycloak.commadPattern.command.OrderDishCommand;
+import org.czekalski.userkeycloak.commadPattern.mapper.IngredientMapper;
+import org.czekalski.userkeycloak.commadPattern.mapper.OrderDishMapper;
 import org.czekalski.userkeycloak.model.*;
 import org.czekalski.userkeycloak.repository.IngredientRepository;
 import org.czekalski.userkeycloak.repository.OrderDishRepository;
@@ -7,13 +12,16 @@ import org.czekalski.userkeycloak.repository.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.ap.internal.util.Collections;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,11 +48,15 @@ private IngredientRepository ingredientRepository;
 
     OrderDishService orderDishService;
 
+    OrderDishMapper orderDishMapper=OrderDishMapper.INSTANCE;
+
+    IngredientMapper ingredientMapper=IngredientMapper.INSTANCE;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        orderDishService=new OrderDishServiceImpl(shoppingCart,recipeRepository, ingredientRepository, orderDishRepository);
+        orderDishService=new OrderDishServiceImpl(shoppingCart,recipeRepository, ingredientRepository, orderDishRepository, orderDishMapper, ingredientMapper);
     }
 
     @Test
@@ -204,5 +216,97 @@ assertAll("Testing conversion from Recipes to OrderDishes",
     @Test
     void addToCart() {
 
+
     }
+   // given(orderDishService.getOrderDishCartById(1L)).willReturn(new OrderDishCommand());
+
+    @Test
+    void getOrderDishCartById() {
+        Dish dish = new Dish();
+        dish.setId(1L);
+        dish.setName(DISH_NAME_1);
+        dish.setCost(new BigDecimal("20.99"));
+        dish.setSize(new BigDecimal("1"));
+
+
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setId(1L);
+        ingredient1.setName(INGREDIENT_NAME1);
+        ingredient1.setCost(new BigDecimal("1.2"));
+
+        Ingredient ingredient2 = new Ingredient();
+        ingredient2.setId(2L);
+        ingredient2.setName(INGREDIENT_NAME2);
+        ingredient2.setCost(new BigDecimal("0.30"));
+
+
+        Order order=new Order();
+        order.setId(1L);
+
+        OrderDish orderDish=new OrderDish();
+        orderDish.setId(1L);
+        orderDish.setQuantity(4);
+        orderDish.setDish(dish);
+
+        orderDish.setSingleDishCost(new BigDecimal("2.0"));
+        orderDish.setOrder(order);
+
+        OrderIngredient orderIngredient1=new OrderIngredient();
+        orderIngredient1.setIngredient(ingredient1);
+        orderIngredient1.setOrderDish(orderDish);
+        orderIngredient1.setQuantity(2);
+        orderIngredient1.setId(1L);
+        orderIngredient1.setIngredientDishOrderCost(new BigDecimal("4.0"));
+        orderDish.getOrderIngredients().add(orderIngredient1);
+        order.getOrderDishes().add(orderDish);
+
+
+        orderDishService=new OrderDishServiceImpl(order,recipeRepository, ingredientRepository, orderDishRepository, orderDishMapper, ingredientMapper);
+
+        given(ingredientRepository.findAll()).willReturn(Arrays.asList( ingredient2));
+
+        OrderDishCommand orderDishCommand=orderDishService.getOrderDishCartById(1L);
+
+
+       then(ingredientRepository).should().findAll();
+        assertEquals(Long.valueOf(1L),orderDishCommand.getId());
+        assertThat(orderDishCommand.getDish().getIngredientCommands()).hasSize(2);
+    }
+
+
+    @Test
+    void updateOrderDishCart() {
+        DishCommand dishCommand=new DishCommand();
+        dishCommand.setName("name");
+        dishCommand.setId(1L);
+        dishCommand.setQuantity(4);
+
+        IngredientCommand ingredientCommand1 = new IngredientCommand();
+        ingredientCommand1.setId(1L);
+        ingredientCommand1.setName(INGREDIENT_NAME1);
+        ingredientCommand1.setCost(new BigDecimal("0.60"));
+        ingredientCommand1.setQuantity(2);
+        dishCommand.getIngredientCommands().add(ingredientCommand1);
+
+        OrderDishCommand  orderDish=new OrderDishCommand();
+        orderDish.setId(1L);
+        orderDish.setDish(dishCommand);
+        Order order=new Order();
+        order.setId(1L);
+
+        OrderDish orderDishshop=new OrderDish();
+        orderDishshop.setId(1L);
+        orderDishshop.setQuantity(0);
+        order.setOrderDishes(Collections.asSet(orderDishshop));
+
+
+        Order returendShopping =orderDishService.updateOrderDishCart(orderDish);
+
+
+        assertEquals(Integer.valueOf(4),shoppingCart.getOrderDishes().iterator().next().getQuantity());
+
+
+    }
+
+
 }

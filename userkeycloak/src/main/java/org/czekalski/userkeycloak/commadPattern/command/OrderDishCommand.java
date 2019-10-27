@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 
-@EqualsAndHashCode(exclude = {"orderIngredients"},callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class OrderDishCommand  extends AuditBaseCommand{
 

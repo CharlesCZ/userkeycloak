@@ -70,6 +70,7 @@ public class Order extends AuditBase {
         return "Order{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
+                ", orderDish='" + orderDishes + '\'' +
                 ", finishedTime=" + finishedTime +
                 ", paymentKind=" + paymentKind +
                 ", user='" + user + '\'' +
