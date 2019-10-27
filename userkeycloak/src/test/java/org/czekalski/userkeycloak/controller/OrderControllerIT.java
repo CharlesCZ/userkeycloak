@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -130,6 +131,7 @@ class OrderControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = {"admin"})
     void getOrdersList() throws Exception {
         OrderCommand orderCommand = preparingOrderCommand();
 
@@ -144,6 +146,7 @@ class OrderControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = {"admin"})
     void getOrderDetails() throws Exception {
         OrderCommand orderCommand = preparingOrderCommand();
         orderCommand.setId(1L);
