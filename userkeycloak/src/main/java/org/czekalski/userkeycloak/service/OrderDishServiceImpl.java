@@ -258,11 +258,9 @@ return orderDishCommand;
 
     @Override
     public Order updateOrderDishCart(OrderDishCommand orderDishFromTemplate) {
-       // System.out.println(shoppingCart.getOrderDishes().size());
-      //  System.out.println(shoppingCart);
+
     shoppingCart.getOrderDishes().removeIf(orderDish1 -> orderDish1.getId().equals(orderDishFromTemplate.getId()));
-     //   System.out.println(shoppingCart.getOrderDishes().size());
-     //   System.out.println(shoppingCart);
+
         orderDishFromTemplate.setQuantity(orderDishFromTemplate.getDish().getQuantity());
         orderDishFromTemplate.setSingleDishCost(orderDishFromTemplate.getDish().getCost());
         OrderDish orderDish=orderDishMapper.orderDishCommandToOrderDish(orderDishFromTemplate);

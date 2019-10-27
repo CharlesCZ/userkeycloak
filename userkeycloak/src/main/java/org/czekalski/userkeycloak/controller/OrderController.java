@@ -93,12 +93,8 @@ public class OrderController {
             orderCommand.setFinishedTime(null);
         }
 
-        OrderCommand orderCommand1=orderCommand;
+
         orderService.save(orderCommand);
-    //    System.out.println(orderCommand1.getCreatedDate().toString());
-    //    System.out.println(orderCommand1);
-
-
 
 
         return "redirect:/orders/allOrders";
