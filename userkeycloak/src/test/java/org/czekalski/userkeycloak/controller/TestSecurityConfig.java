@@ -23,7 +23,7 @@ public class TestSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.headers().frameOptions().disable();
         http
-                .csrf().disable()
+              //  .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/test2*").hasRole("user") // only user with role user are allowed to access
                 .antMatchers("/dish/**","/ingredients/**","/orders/allOrders","/orders/{id}/details","/orders/{id}/details/**").hasRole("admin")

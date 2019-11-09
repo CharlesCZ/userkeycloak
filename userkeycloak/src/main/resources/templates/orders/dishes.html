@@ -6,7 +6,10 @@
 </head>
 <body>
 <a href="#" th:href="@{ '/logged'}">logIn</a>
-<span><a href="#" th:href="@{ '/logout/index'}">logout</a></span>
+
+<form  th:action="@{ '/logout'}" method="post">
+    <button type="submit" >Logout</button>
+</form>
 <h1>Dish list</h1>
 <table>
     <thead>
