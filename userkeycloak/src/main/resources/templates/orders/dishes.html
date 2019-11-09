@@ -7,43 +7,53 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" th:href="@{/dishesStyles.css}" />
 </head>
 <body>
 
-<a href="#" th:href="@{ '/logged'}">logIn</a>
-
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3 mb-5 bg-white rounded">
+    <div class="container">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+<a  class="btn btn-outline-success" href="#" th:href="@{ '/logged'}">logIn</a>
+            </li>
+            <li class="nav-item">
 <form  th:action="@{ '/logout'}" method="post">
-    <button type="submit" >Logout</button>
+    <button type="submit" class="btn btn-outline-warning">Logout</button>
 </form>
-<h1>Dish list</h1>
-<table>
-    <thead>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-info" href="#" th:href="@{ '/orders/summary'}">Shopping bag</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="card border-0 shadow my-5">
+
+    <table class="table">
+        <thead class="thead-dark">
     <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Only dough price!</th>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Only dough price!</th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
 
     <tr th:each="dish: ${dishes}">
-        <td th:text="${dish.id}"></td>
+        <td  th:text="${dish.id}"></td>
         <td th:text="${dish.name}+' '+(  (${dish.size} <= 1)? 'Small' : 'Big' )"></td>
         <td th:text="${dish.description}"></td>
         <td th:text="${dish.cost}"></td>
         <td><a href="#" th:href="@{ '/orders/dishes/'+${dish.id}+'/new'}">Add to cart</a></td>
-
-
-
-
     </tr>
     </tbody>
-
-
 </table>
-<td><a href="#" th:href="@{ '/orders/summary'}">Shopping bag</a></td>
+    </div>
 
+</div>
 </body>
 </html>
