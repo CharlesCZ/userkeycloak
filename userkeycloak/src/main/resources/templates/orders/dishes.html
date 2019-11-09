@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Dish list</title>
@@ -14,14 +15,18 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3 mb-5 bg-white rounded">
     <div class="container">
         <ul class="navbar-nav mr-auto">
+            <div sec:authorize="!isAuthenticated()">
             <li class="nav-item">
 <a  class="btn btn-outline-success" href="#" th:href="@{ '/logged'}">logIn</a>
             </li>
+            </div>
+            <div sec:authorize="isAuthenticated()">
             <li class="nav-item">
 <form  th:action="@{ '/logout'}" method="post">
     <button type="submit" class="btn btn-outline-warning">Logout</button>
 </form>
             </li>
+            </div>
             <li class="nav-item">
                 <a class="btn btn-info" href="#" th:href="@{ '/orders/summary'}">Shopping bag</a>
             </li>

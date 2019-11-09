@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class DishController {
@@ -26,9 +27,9 @@ public class DishController {
     }
 
     @GetMapping("/orders/dishes/new")
-    public String getAllDishes(Model model){
+    public String getAllDishes(Principal principal,Model model){
 
-
+    model.addAttribute("principal",principal);
         model.addAttribute("dishes",dishService.getAllDishesWithIngredients());
 
 
