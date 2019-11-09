@@ -29,6 +29,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -120,8 +121,9 @@ class OrderControllerIT {
         given(orderService.addOrderToDatabase(any(OrderCommand.class))).willReturn(new Order());
 
 
-        mockMvc.perform(post("/orders/checkout"))
+        mockMvc.perform(post("/orders/checkout") .with(csrf()))
                 .andExpect(status().isOk())
+
                 .andExpect(view().name("orders/successView"));
 
         then(orderService).should().addOrderToDatabase(any(OrderCommand.class));

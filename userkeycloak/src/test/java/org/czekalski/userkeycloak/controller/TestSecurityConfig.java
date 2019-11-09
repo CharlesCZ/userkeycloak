@@ -3,6 +3,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -23,7 +24,7 @@ public class TestSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.headers().frameOptions().disable();
         http
-              //  .csrf().disable()
+             //   .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/test2*").hasRole("user") // only user with role user are allowed to access
                 .antMatchers("/dish/**","/ingredients/**","/orders/allOrders","/orders/{id}/details","/orders/{id}/details/**").hasRole("admin")
@@ -36,6 +37,15 @@ public class TestSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true);
 
 
+    }
+
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        super.configure(web);
+        web
+                .ignoring()
+                .antMatchers("/webjars/**","/static/**");
     }
 
 

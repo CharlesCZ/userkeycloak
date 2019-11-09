@@ -27,6 +27,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -98,7 +99,8 @@ class DishControllerIT {
 
         mockMvc.perform(post("/orders/dishes/2/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("quantity","4"))
+                .param("quantity","4")
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/orders/summary"));
 
@@ -131,7 +133,7 @@ class DishControllerIT {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id", "")
                 .param("name",dishCommand.getName())
-        )
+                .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/dish/1/show"));
 

@@ -18,6 +18,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.session.SessionRegistryImpl;
@@ -103,6 +104,11 @@ KeycloakConfigResolver keycloakConfigResolver;
 
         }
 
-
-
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        super.configure(web);
+        web
+                .ignoring()
+                .antMatchers("/webjars/**","/static/**");
     }
+}
