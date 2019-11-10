@@ -1,22 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Address and Payment</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/dishAndIngredients.css}" />
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg  shadow-sm p-3 mb-5  rounded">
+    <div class="background container">
+        <ul class="navbar-nav mr-auto">
+            <div sec:authorize="!isAuthenticated()">
+                <li class="nav-item">
+                    <a  class="btn btn-outline-success" href="#" th:href="@{ '/logged'}">logIn</a>
+                </li>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                    <form  th:action="@{ '/logout'}" method="post">
+                        <button type="submit" class="btn btn-outline-warning">Logout</button>
+                    </form>
+                </li>
+            </div>
+            <li class="background nav-item  ml-5">
+                <a class="btn btn-info" href="#" th:href="@{ '/orders/summary'}">Shopping bag</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-<div>
+<div class="container">
     <form th:object="${order}" th:action="@{'/orders/checkout'}" method="post">
         <fieldset>
             <legend>Last step:</legend>
-            <div>
+            <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea name="description" rows="2" cols="40" th:field="*{description}">
-                </textarea>
+                <textarea id="description" class="form-control" rows="2" cols="40" th:field="*{description}"></textarea>
             </div>
-            <p>Don't fill up If you are going to eat in restaurant</p>
+            <h2 class="font-weight-light">Don't fill up If you are going to eat in the restaurant</h2>
         <div>
             <label>City:</label>
             <input type="text" th:field="*{city}">
@@ -50,7 +75,7 @@
             </option>
         </select>
         </fieldset>
-        <button type=submit>Submit</button>
+        <button type="submit" class="btn btn-success" >Submit</button>
     </form>
 </div>
 
