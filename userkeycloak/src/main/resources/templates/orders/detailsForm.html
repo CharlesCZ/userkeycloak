@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Details form</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>Order details</h1>
-<form th:object="${order}" th:action="@{'/orders/' +${order.id}+ '/details'}" method="post">
-    <table>
 
+<form th:object="${order}" th:action="@{'/orders/' +${order.id}+ '/details'}" method="post">
+    <div class="container">
+        <h1  class="font-weight-light">Order details</h1>
+    <table class="table">
         <tr>
             <td>id</td>
             <td th:text="*{id}"></td>
@@ -106,18 +111,22 @@
         </tr>
     </table>
 
-    <button type="submit" >Submit</button>
+    <button class="btn btn-outline-success" type="submit" >Submit</button>
+    </div>
 
-<h2>Ordered dishes</h2>
+    <div class="container">
+<h2 class="font-weight-light">Ordered dishes</h2>
 
-    <table>
-
+        <table class="table">
+            <thead class="thead-dark">
         <tr>
-            <th>name</th>
-            <th>cost</th>
-            <th>amount</th>
-            <th>options</th>
+            <th scope="col">name</th>
+            <th scope="col">cost</th>
+            <th scope="col">amount</th>
+            <th scope="col">options</th>
         </tr>
+            </thead>
+            <tbody>
         <div th:each="orderDish: ${order.orderDishes}">
             <tr>
                 <td> <h4 th:text="${orderDish.dish.name}+' '+(  (${orderDish.dish.size} <= 1)? 'Small' : 'Big' )"></h4> </td>
@@ -125,7 +134,7 @@
                 <td th:text="${orderDish.quantity}"></td>
                 <td>
         <span>
-            <a href="#" th:href="@{'/orders/' +${order.id}+ '/details/orderDish/'+${orderDish.id}+'/delete'}">Delete</a>
+            <a href="#" class="btn btn-danger" th:href="@{'/orders/' +${order.id}+ '/details/orderDish/'+${orderDish.id}+'/delete'}">Delete order</a>
 
         </span>
                 </td>
@@ -140,18 +149,16 @@
                 <td th:text="${orderIngredient.quantity}"></td>
                 <td>
                 <span>
-                    <a href="#" th:href="@{'/orders/' +${order.id}+ '/details/orderDish/'+${orderDish.id}+'/orderIngredient/'+${orderIngredient.id}+'/delete'}">Delete</a>
-                    <a  href="#" th:href="@{'/orders/' +${order.id}+ '/details/orderDish/'+${orderDish.id}+'/orderIngredient/'+${orderIngredient.id}+'/update'}">Update</a>
+                    <a class="btn btn-danger" href="#" th:href="@{'/orders/' +${order.id}+ '/details/orderDish/'+${orderDish.id}+'/orderIngredient/'+${orderIngredient.id}+'/delete'}">Delete ingredient</a>
+                    <a class="btn btn-info"  href="#" th:href="@{'/orders/' +${order.id}+ '/details/orderDish/'+${orderDish.id}+'/orderIngredient/'+${orderIngredient.id}+'/update'}">Update ingredient</a>
                 </span>
                 </td>
             </tr>
 
         </div>
+            </tbody>
     </table>
-
-
-
-
+    </div>
 
 </form>
 
