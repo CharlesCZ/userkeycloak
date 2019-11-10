@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Component
 public class Bootstrap implements CommandLineRunner {
-    public static final String INGREDIENT_NAME1 = "Cheddar";
+    public static final String INGREDIENT_NAME1 = "mozzarella";
     public static final String INGREDIENT_NAME2 = "sos pomidorowy";
     public static final String DISH_NAME_1 = "MargheritaCheeseX2";
 
@@ -45,87 +45,27 @@ private final RecipeRepository recipeRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        Order order1=new Order();
-        order1.setDescription("nowe zamowienie");
-        order1.setUser(USER1);
-        order1.setFinishedTime(new Timestamp(System.currentTimeMillis()));
-        order1.setPaymentKind(paymentKindRepository.findByName("Cash").get());
-        order1.setStatus(statusRepository.findByName("Ready").get());
-        order1.setPayed(false);
-        order1.setUser(USER1);
-        order1.setApartment(11);
-        order1.setCity("Poznan");
-        order1.setHouseNr(23);
-        order1.setStreet("Marszalkowska");
-        order1.setTelephone("123123123");
-        order1.setId(orderRepository.save(order1).getId());
-        orderRepository.save(order1);
-
-
-        Order order2=new Order();
-        order2.setDescription("nowe zamowienie");
-        order2.setUser(USER1);
-        order2.setFinishedTime(new Timestamp(System.currentTimeMillis()));
-        order2.setPaymentKind(paymentKindRepository.findByName("Cash").get());
-        order2.setStatus(statusRepository.findByName("Ready").get());
-        order2.setPayed(false);
-        order2.setUser(USER1);
-        order2.setApartment(11);
-        order2.setCity("Poznan");
-        order2.setHouseNr(23);
-        order2.setStreet("Marszalkowska");
-        order2.setTelephone("123123123");
-        order2.setId(orderRepository.save(order2).getId());
-        orderRepository.save(order2);
-
-
-
-        Dish dish=new Dish();
-        dish.setName("Lasagna");
-        dish.setCost(new BigDecimal("20.99"));
-        dishRepository.save(dish);
-
-        OrderDish orderDish = new OrderDish();
-        orderDish.setDish(dish);
-        orderDish.setOrder(order1);
-        orderDish.setSingleDishCost(new BigDecimal("25"));
-        orderDish.setQuantity(4);
-        orderDishRepository.save(orderDish);
-
-        dish.getOrderDishes().add(orderDish);
-
 
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setName("ser");
+        ingredient1.setName("cheddar");
         ingredient1.setCost(new BigDecimal("0.60"));
-      ingredient1=  ingredientRepository.save(ingredient1);
+       ingredientRepository.save(ingredient1);
 
         Ingredient ingredient2=new Ingredient();
         ingredient2.setName("oregano");
         ingredient2.setCost(new BigDecimal("0.30"));
-        ingredient2=  ingredientRepository.save(ingredient2);
+      ingredientRepository.save(ingredient2);
 
         Ingredient ingredient3=new Ingredient();
         ingredient3.setName("pietruszka");
-        ingredient3.setCost(new BigDecimal("99.77"));
-        ingredient3=  ingredientRepository.save(ingredient3);
+        ingredient3.setCost(new BigDecimal("1.24"));
+         ingredientRepository.save(ingredient3);
 
-        OrderIngredient orderIngredient1=new OrderIngredient();
-orderIngredient1.setIngredientDishOrderCost(ingredient1.getCost());
-orderIngredient1.setIngredient(ingredient1);
-orderIngredient1.setOrderDish(orderDish);
-orderIngredient1=orderIngredientRepository.save(orderIngredient1);
 
-orderDish.getOrderIngredients().add(orderIngredient1);
-
-        OrderIngredient orderIngredient2=new OrderIngredient();
-        orderIngredient2.setIngredientDishOrderCost(ingredient2.getCost());
-        orderIngredient2.setIngredient(ingredient2);
-        orderIngredient2.setOrderDish(orderDish);
-        orderIngredient2=orderIngredientRepository.save(orderIngredient2);
-
-        orderDish.getOrderIngredients().add(orderIngredient2);
-
+        Ingredient ingredient4=new Ingredient();
+        ingredient4.setName("krewetki");
+        ingredient4.setCost(new BigDecimal("2.0"));
+        ingredientRepository.save(ingredient4);
 
         loadingRecipes();
 
