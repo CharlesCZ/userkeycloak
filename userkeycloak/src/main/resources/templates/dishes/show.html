@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Dish show</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
 </head>
 <body>
 
 
 
-<div>
-    <table>
-        <thead>
+<div class="container">
+    <table class="table">
+        <thead class="thead-dark">
         <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>cost</th>
-            <th>size</th>
-            <th>Update</th>
-            <th>Delete</th>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">cost</th>
+            <th scope="col">size</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -33,13 +36,13 @@
     </table>
 </div>
 
-<div>
-
-<table>
+<div class="container">
+    <table class="table">
     <thead>
     <tr>
         <th>id</th>
         <th>name</th>
+        <th>quantity</th>
         <th>cost</th>
     </tr>
     </thead>
@@ -47,6 +50,7 @@
     <tr th:each="ingredient: ${dish.ingredientCommands}">
         <td th:text="${ingredient.id}"></td>
         <td th:text="${ingredient.name}"></td>
+        <td th:text="${ingredient.quantity}"></td>
         <td th:text="${ingredient.cost}"></td>
     </tr>
     </tbody>

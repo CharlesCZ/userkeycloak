@@ -60,6 +60,7 @@ class IngredientControllerIT {
 
         mockMvc.perform(get("/ingredients"))
                 .andExpect(status().isOk())
+                .andExpect(view().name("ingredients/list"))
                 .andExpect(content().contentType(MediaType.valueOf("text/html;charset=UTF-8")));
 
 
