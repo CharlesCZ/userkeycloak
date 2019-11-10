@@ -1,31 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Summary</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/dishesStyles.css}" />
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg  shadow-sm p-3 mb-5  rounded">
+    <div class="background container">
+        <ul class="navbar-nav mr-auto">
+            <div sec:authorize="!isAuthenticated()">
+                <li class="nav-item">
+                    <a  class="btn btn-outline-success" href="#" th:href="@{ '/logged'}">logIn</a>
+                </li>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                    <form  th:action="@{ '/logout'}" method="post">
+                        <button type="submit" class="btn btn-outline-warning">Logout</button>
+                    </form>
+                </li>
+            </div>
 
-<div>
-    <a href="#" th:href="@{'/orders/dishes/new'}">Back to shopping</a>
-</div>
+            <li class="background nav-item  ml-5">
+                <a class="btn btn-success" href="#" th:href="@{'/orders/dishes/new'}">Back to shopping</a>
+            </li>
+            <li class="background nav-item  ml-5">
+                <a class="btn btn-info" href="#" th:href="@{'/orders/checkout'}">Go to checkout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
+<div class="container">
+<h1 class="font-weight-light text-white">Your shopping bag:</h1>
+    <div class="card border-0 shadow my-5">
 
-<div>
-    <a href="#" th:href="@{'/orders/checkout'}">Go to checkout</a>
-</div>
-<h1>Your shopping bag:</h1>
-
-
-<table>
-
-    <tr>
-        <th>name</th>
-        <th>cost</th>
-        <th>amount</th>
-        <th>options</th>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+        <th scope="col">name</th>
+        <th scope="col">cost</th>
+        <th scope="col">amount</th>
+        <th scope="col">options</th>
     </tr>
+            </thead>
+            <tbody>
     <div th:each="orderDish: ${order.orderDishes}">
         <tr>
             <td> <h4 th:text="${orderDish.dish.name}+' '+(  (${orderDish.dish.size} <= 1)? 'Small' : 'Big' )"></h4> </td>
@@ -33,24 +58,25 @@
             <td th:text="${orderDish.quantity}"></td>
             <td>
         <span>
-            <a href="#" th:href="@{ '/orders/orderDish/'+${orderDish.id}+'/delete'}">Delete</a>
-            <a href="#" th:href="@{ '/orders/orderDish/'+${orderDish.id}+'/update'}">Update</a>
+            <a  class="btn btn-danger" href="#" th:href="@{ '/orders/orderDish/'+${orderDish.id}+'/delete'}">Delete</a>
+            <a class="btn btn-info" href="#" th:href="@{ '/orders/orderDish/'+${orderDish.id}+'/update'}">Update</a>
         </span>
             </td>
         </tr>
 
-                           <tr>
-                               <th>name</th>
-                                 <th>quantity</th>
-                       </tr>
-                        <tr th:each="orderIngredient : ${orderDish.getOrderIngredients()}" >
-                            <td th:text="${orderIngredient.ingredient.name}"></td>
-                            <td th:text="${orderIngredient.quantity}"></td>
-                        </tr>
+        <tr>
+            <th>name</th>
+            <th>quantity</th>
+        </tr>
+        <tr th:each="orderIngredient : ${orderDish.getOrderIngredients()}" >
+            <td th:text="${orderIngredient.ingredient.name}"></td>
+            <td th:text="${orderIngredient.quantity}"></td>
+        </tr>
 
                 </div>
-</table>
-
-
+            </tbody>
+        </table>
+</div>
+</div>
 </body>
 </html>
