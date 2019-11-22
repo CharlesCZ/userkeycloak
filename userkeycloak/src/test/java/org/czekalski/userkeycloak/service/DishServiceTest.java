@@ -138,7 +138,7 @@ private RecipeRepository recipeRepository;
         Dish dish = populatingDishRepo();
         populatingIngredientRepo();
 
-        given(dishRepository.InnerJoinRecipe(1L)).willReturn(Optional.of(dish));
+        given(dishRepository.LeftJoinRecipe(1L)).willReturn(Optional.of(dish));
 
         DishCommand returnedDishCommand=dishService.getDishById(1L);
 
@@ -176,7 +176,7 @@ private RecipeRepository recipeRepository;
     }
     @Test
     void getDishByIdNullPath() {
-       given(dishRepository.InnerJoinRecipe(1L)).willReturn(Optional.empty());
+       given(dishRepository.LeftJoinRecipe(1L)).willReturn(Optional.empty());
 
         DishCommand returnedDishCommand=dishService.getDishById(1L);
 

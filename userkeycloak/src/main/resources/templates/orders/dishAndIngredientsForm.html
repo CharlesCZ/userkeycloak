@@ -49,6 +49,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <input type="hidden"  th:field="*{description}"/>
 
+    <input type="hidden"  th:field="*{type.id}"/>
+    <input type="hidden"  th:field="*{type.name}"/>
+
     <label class="font-weight-normal" >Quantity of dishes</label>
     <input type="number" step="0.01" th:field="*{quantity}"/>
     <span  th:class="text-danger"  th:if="${#fields.hasErrors('quantity')}">
@@ -57,6 +60,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         </ul>
     </span>
 
+    <div th:if="${dish.type.id!=2}">
     <h3 class="font-weight-normal">Ingredients:</h3>
     <table  class="table table-striped">
         <thead>
@@ -86,7 +90,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         </tr>
         </tbody>
     </table>
-
+    </div>
     <button type="submit" class="btn btn-success" >Submit</button>
 </form>
 </div>

@@ -26,12 +26,26 @@ public class DishController {
         this.dishService = dishService;
     }
 
+
+ /*   @GetMapping("/orders/drinks/{id}/new")
+    public String getChosenDrink(@PathVariable Long id){
+
+
+        //  if(dishCommand.getQuantity()!=null )
+        dishService.addToCart( dishService.findDishCommandById(id));
+        //  else throw new RuntimeException("dishCommand.getQuantity"+dishCommand.getQuantity());
+
+        return "redirect:/orders/summary";
+    }
+*/
+
+
     @GetMapping("/orders/dishes/new")
     public String getAllDishes(Principal principal,Model model){
 
     model.addAttribute("principal",principal);
         model.addAttribute("dishes",dishService.getAllDishesWithIngredients());
-
+        model.addAttribute("drinks",dishService.getAllDrinks());
 
                 return "orders/dishes";
     }

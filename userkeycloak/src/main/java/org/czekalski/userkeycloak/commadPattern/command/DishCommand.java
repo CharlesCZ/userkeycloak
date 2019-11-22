@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.czekalski.userkeycloak.model.OrderDish;
 import org.czekalski.userkeycloak.model.Recipe;
+import org.czekalski.userkeycloak.model.Type;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -40,6 +41,8 @@ public class DishCommand {
 
     private Set<RecipeCommand> recipeCommands=new HashSet<>();
 
+    private TypeCommand type;
+
     @Override
     public String toString() {
         return "DishCommand{" +
@@ -47,6 +50,7 @@ public class DishCommand {
                 ", name='" + name + '\'' +
                 ", cost=" + cost +
                 ", size=" + size +
+                ", type=" + type +
                 ", quantity=" + quantity +
                 ", description='" + description + '\'' +
                 ", totalPrice=" + totalPrice +

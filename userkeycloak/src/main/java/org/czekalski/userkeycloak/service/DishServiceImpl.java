@@ -10,7 +10,6 @@ import org.czekalski.userkeycloak.repository.IngredientRepository;
 import org.czekalski.userkeycloak.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -67,7 +66,7 @@ public class DishServiceImpl implements DishService{
 public DishCommand getDishById(Long id){
 
 
-   Optional<Dish> dishOptional=dishRepository.InnerJoinRecipe(id);
+   Optional<Dish> dishOptional=dishRepository.LeftJoinRecipe(id);
 
    if(dishOptional.isPresent()) {
        DishCommand dishCommand = dishMapper.dishToDishCommand(dishOptional.get());
@@ -266,8 +265,13 @@ return null;
         return null;
     }
 
+    @Override
+    public List<DishCommand> getAllDrinks() {
+       return dishRepository.findAllWhereTypeId(2L)
+                .stream().map(dish -> dishMapper.dishToDishCommand(dish)).collect(Collectors.toList());
 
 
+    }
 
 
 }

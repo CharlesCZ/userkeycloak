@@ -22,4 +22,7 @@ public interface DishService {
     public DishCommand findDishCommandById(long id);
 
     DishCommand getDishByIdToEdit(Long id);
+
+
+    List<DishCommand> getAllDrinks();
 }

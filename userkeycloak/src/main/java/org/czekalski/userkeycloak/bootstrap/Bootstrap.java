@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,10 +25,11 @@ private final OrderIngredientRepository orderIngredientRepository;
 private final PaymentKindRepository paymentKindRepository;
 private final StatusRepository statusRepository;
 private final RecipeRepository recipeRepository;
+private final TypeRepository typeRepository;
 
-    public Bootstrap(OrderRepository orderRepository,  DishRepository dishRepository,
+    public Bootstrap(OrderRepository orderRepository, DishRepository dishRepository,
                      OrderDishRepository orderDishRepository, IngredientRepository ingredientRepository,
-                     OrderIngredientRepository orderIngredientRepository, PaymentKindRepository paymentKindRepository, StatusRepository statusRepository, RecipeRepository recipeRepository) {
+                     OrderIngredientRepository orderIngredientRepository, PaymentKindRepository paymentKindRepository, StatusRepository statusRepository, RecipeRepository recipeRepository, TypeRepository typeRepository) {
 
         this.orderRepository = orderRepository;
 
@@ -40,6 +40,7 @@ private final RecipeRepository recipeRepository;
         this.paymentKindRepository = paymentKindRepository;
         this.statusRepository = statusRepository;
         this.recipeRepository = recipeRepository;
+        this.typeRepository = typeRepository;
     }
 
 
@@ -74,13 +75,19 @@ private final RecipeRepository recipeRepository;
     }
 
     private void loadingRecipes() {
+        Type type1=new Type();
+        type1.setId(1L);
+        type1.setName("dish");
+        typeRepository.save(type1);
         System.out.println("/////////////////////Loading Recipes/////////////////////");
         Dish dish1=new Dish();
+        dish1.setType(type1);
         dish1.setName(DISH_NAME_1);
         dish1.setCost(new BigDecimal("15"));
         dish1.setSize(new BigDecimal("1"));
         dishRepository.save(dish1);
         Dish dish1Big=new Dish();
+        dish1Big.setType(type1);
         dish1Big.setName(DISH_NAME_1);
         dish1Big.setCost(new BigDecimal("30.00"));
         dish1Big.setSize(new BigDecimal("2"));
@@ -127,12 +134,14 @@ private final RecipeRepository recipeRepository;
         recipes.add(recipe2Big);
 
         Dish dish2=new Dish();
+        dish2.setType(type1);
         dish2.setName("Funghi");
         dish2.setSize(new BigDecimal("1"));
         dish2.setCost(new BigDecimal("10"));
         dishRepository.save(dish2);
 
         Dish dish2Big=new Dish();
+        dish2Big.setType(type1);
         dish2Big.setName("Funghi");
         dish2Big.setSize(new BigDecimal("2"));
         dish2Big.setCost(new BigDecimal("20"));
@@ -184,5 +193,33 @@ private final RecipeRepository recipeRepository;
         recipes.add(recipe5Big);
 
         recipeRepository.saveAll(recipes);
+
+
+        //fizy drinks
+        Dish drink=new Dish();
+        drink.setName("Cola 330ml");
+        drink.setCost(new BigDecimal("1"));
+        drink.setSize(new BigDecimal("1"));
+        Type type2=new Type();
+        type2.setId(2L);
+        type2.setName("Drink");
+        typeRepository.save(type2);
+
+        drink.setType(type2);
+        dishRepository.save( drink);
+        drink.setId(null);
+        drink.setName("Black Tea 330ml");
+        dishRepository.save( drink);
+        drink.setId(null);
+        drink.setName("Green Tea 330ml");
+        dishRepository.save( drink);
+        drink.setId(null);
+        drink.setName("Water 330ml");
+        drink.setCost(new BigDecimal("0.3"));
+        dishRepository.save( drink);
+
+
+
+
     }
 }

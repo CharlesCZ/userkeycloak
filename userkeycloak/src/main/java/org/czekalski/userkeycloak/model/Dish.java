@@ -43,6 +43,9 @@ public class Dish {
     @OneToMany(mappedBy = "dish",cascade = CascadeType.ALL)
     private Set<Recipe> recipes=new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private Type type;
 
     @Override
     public String toString() {
@@ -51,6 +54,7 @@ public class Dish {
                 ", name='" + name + '\'' +
                 ", cost=" + cost +
                 ", size=" + size +
+                ", type=" + type +
                 '}';
     }
 }
