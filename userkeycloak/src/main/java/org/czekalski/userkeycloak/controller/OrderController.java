@@ -99,4 +99,10 @@ public class OrderController {
 
         return "redirect:/orders/allOrders";
     }
+
+    @GetMapping("/policy")
+    public String getPolicy(){
+
+        return "policy";
+    }
 }

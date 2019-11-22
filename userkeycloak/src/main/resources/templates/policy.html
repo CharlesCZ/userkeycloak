@@ -7,7 +7,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-    <link rel="stylesheet" th:href="@{/dishAndIngredients.css}" />
+
 </head>
 <body>
 
@@ -26,7 +26,11 @@
                     </form>
                 </li>
             </div>
+
             <li class="background nav-item  ml-5">
+                <a class="btn btn-success" href="#" th:href="@{'/orders/dishes/new'}">Back to shopping</a>
+            </li>
+            <li class="nav-item ml-5">
                 <a class="btn btn-info" href="#" th:href="@{ '/orders/summary'}">Shopping bag</a>
             </li>
         </ul>
@@ -37,21 +41,20 @@
 
 
    <h2> 1. Zasady przetwarzania danych </h2>
-    Spis treści	1<br />
-    1.1. Administratorzy danych osobowych.	1<br />
-    1.2. Kontakt.	2<br />
-    1.3. Priorytet ochrony danych osobowych.	2<br />
-    1.4. Kontakt z Inspektorem Ochrony Danych?	2<br />
-    1.5. Prowadzenie i obsługa konta użytkownika.	2<br />
-    1.6. Składanie Zamówień.	3<br />
-    1.7. W jakim celu przetwarzane są dane osobowe?	4<br />
-    1.8. Twoje decyzje.	4<br />
-    1.9. Linki do innych stron i mediów społecznościowych	5<br />
-    1.10. Zmiany naszej polityki ochrony prywatności    6<br />
-
-    1.11 Prawa związane z przetwarzaniem danych osobowych	6<br />
-    1.12. Cele przetwarzania Twoich danych osobowych oraz podstawa prawna przetwarzania	7<br />
-    1.13. Jak korzystamy z plików cookie	8<br />
+    Spis treści	<br />
+    1.1. Administratorzy danych osobowych.	<br />
+    1.2. Kontakt.	<br />
+    1.3. Priorytet ochrony danych osobowych.	<br />
+    1.4. Kontakt z Inspektorem Ochrony Danych?	<br />
+    1.5. Prowadzenie i obsługa konta użytkownika.	<br />
+    1.6. Składanie Zamówień.	<br />
+    1.7. W jakim celu przetwarzane są dane osobowe?	<br />
+    1.8. Twoje decyzje.	<br />
+    1.9. Linki do innych stron i mediów społecznościowych	<br />
+    1.10. Zmiany naszej polityki ochrony prywatności    <br />
+    1.11 Prawa związane z przetwarzaniem danych osobowych	<br />
+    1.12. Cele przetwarzania Twoich danych osobowych oraz podstawa prawna przetwarzania<br />
+    1.13. Jak korzystamy z plików cookie	<br />
 
 
 <h2> 1.1. Administratorzy danych osobowych. </h2>
@@ -80,7 +83,7 @@
     9. Odrębne Usługi Zamawiania Posiłków obejmują restauracje<br />
 
                 <h2>  1.6. Składanie Zamówień.</h2>
-<br />   1. Zamówienia są realizowane okolicznych obszarach poszczególnych Restauracji.
+ 1. Zamówienia są realizowane okolicznych obszarach poszczególnych Restauracji.
     Informacje o możliwości realizacji dostawy pod wskazany przez Użytkownika adres i Restauracji, realizującej dostawę, dostępne są w Serwisie WWW i Aplikacji na początku składania Zamówienia. Sprawdzenie możliwości realizacji Zamówienia przez właściwą Restaurację następuje automatycznie. W wypadku braku możliwości realizacji Zamówienia dla wpisanego adresu Użytkownik zostanie o tym fakcie poinformowany komunikatem.
 
 <br />   2. Zapłata za Zamówienie może być, wedle wyboru Użytkownika, dokonana przy odbiorze – gotówką, kartą płatniczą VISA lub Master Card
@@ -130,18 +133,18 @@
     Prawo wniesienia skargi do organu
     Przysługuje Ci także prawo wniesienia skargi do organu nadzorczego zajmującego się ochroną danych osobowych, tj. Prezesa Urzędu Ochrony Danych Osobowych.
                                         <h2>   1.12. Cele przetwarzania Twoich danych osobowych oraz podstawa prawna przetwarzania</h2>
-    Będziemy przetwarzać Twoje dane osobowe, aby:
-    realizować nasz prawnie uzasadniony interes, który polega na umożliwieniu wykonania umowy zawartej przez restauracje z Twoim pracodawcą / zleceniodawcą;
-    rozpatrywać reklamacje oraz bronić się przed ewentualnymi roszczeniami lub dochodzić ewentualnych roszczeń związanych zumową – podstawą prawną przetwarzania danych jest nasz prawnie uzasadniony interes polegający na możliwości obrony przed roszczeniami lub dochodzenia roszczeń.
-    Okres przechowywania Twoich danych osobowych
-    Będziemy przetwarzać Twoje dane osobowe w okresie wykonywania ww. umowy, a także przez okres przedawnienia roszczeń z umowy.
-    Odbiorcy Twoich danych osobowych
-    Będziemy przekazywać Twoje dane osobowe:
-    naszym dostawcom, którym zlecimy usługi związane z przetwarzaniem danych osobowych, np.: dostawcom usług IT, podmiotom przeprowadzającym w naszym imieniu weryfikację kontrahentów, dostawcom usług komplementarnych względem przedmiotu ww. umowy. Takie podmioty przetwarzają dane na podstawie umowy z nami i tylko zgodnie z naszymi poleceniami.
-    Pliki cookie i inne technologie monitorujące: Definicja
-    Plik „cookie” jest plikiem tekstowym, który witryna internetowa wysyła do komputera odwiedzającego lub innego urządzenia połączonego z Internetem, aby zidentyfikować przeglądarkę odwiedzającego bądź aby zapisać informacje lub ustawienia w przeglądarce. Plik cookie zwykle zawiera nazwę domeny, z której został wysłany, „żywotność” pliku cookie oraz losowo wygenerowaną unikatową cyfrę lub inną zmienną.
+Przetwarzanie danych osobowych zostanie wykonane ze względu na potrzeby osób używających web serwisu jako osoby świadczące usługi, który polega na umożliwieniu wykonania umowy zawartej przez restauracje Twoim pracodawcą / zleceniodawcą;
+rozpatrywać reklamacje oraz bronić się przed ewentualnymi roszczeniami lub dochodzić ewentualnych roszczeń związanych z umową – podstawą prawną przetwarzania danych jest nasz prawnie uzasadniony interes polegający na możliwości obrony przed roszczeniami lub dochodzenia roszczeń.
+Okres przechowywania Twoich danych osobowych
+Przetwarzanie danych osobowych będzie wykonane w okresie wykonywania ww. umowy, a także przez okres przedawnienia roszczeń z umowy.
+Odbiorcy Twoich danych osobowych
+Dane osobowe zostaną przekazane:
+naszym dostawcom, którym zlecimy usługi związane z przetwarzaniem danych osobowych, np.: dostawcom usług IT, podmiotom przeprowadzającym w naszym imieniu weryfikację kontrahentów, dostawcom usług komplementarnych względem przedmiotu ww. umowy. Takie podmioty przetwarzają dane na podstawie umowy z nami i tylko zgodnie z naszymi poleceniami.
+Pliki cookie i inne technologie monitorujące: Definicja
+Plik „cookie” jest plikiem tekstowym, który witryna internetowa wysyła do komputera odwiedzającego lub innego urządzenia połączonego z Internetem, aby zidentyfikować przeglądarkę odwiedzającego bądź aby zapisać informacje lub ustawienia w przeglądarce. Plik cookie zwykle zawiera nazwę domeny, z której został wysłany, „żywotność” pliku cookie oraz losowo wygenerowaną unikatową cyfrę lub inną zmienną.
 
-    Możemy wykorzystywać inne technologie, w tym sygnalizatory sieciowe ( web beacons) i JavaScript, które w niektórych przypadkach współpracują wraz z plikami cookie i innymi środkami z naszymi Witrynami i Aplikacjami Mobilnymi, aby umożliwić identyfikację Twojego urządzenia. Te inne technologie pozwalają uaktywnić określone funkcje na naszych Witrynach i Aplikacjach Mobilnych. Możemy także korzystać z określonych technologii w celu określenia, czy otworzyłeś/otworzyłaś wiadomość e-mail lub kliknąłeś/kliknęłaś na link w niej umieszczony.
+Możemy wykorzystywać inne technologie, w tym sygnalizatory sieciowe ( web beacons) i JavaScript, które w niektórych przypadkach współpracują wraz z plikami cookie i innymi środkami z naszymi Witrynami i Aplikacjami Mobilnymi, aby umożliwić identyfikację Twojego urządzenia. Te inne technologie pozwalają uaktywnić określone funkcje na naszych Witrynach i Aplikacjach Mobilnych. Możemy także korzystać z określonych technologii w celu określenia, czy otworzyłeś/otworzyłaś wiadomość e-mail lub kliknąłeś/kliknęłaś na link w niej umieszczony.
+
                                             <h2>  1.13. Jak korzystamy z plików cookie </h2>
     W czasie korzystania z naszych usług sieciowych, zarówno my, jak i inne podmioty (takie jak nasze sieci reklamowe) mogą pozyskiwać informacje o użytkownikach na temat korzystania przez nich z sieci, korzystania z sieci w czasie oraz korzystania z witryn prowadzonych przez osoby trzecie. Są różne cele korzystania przez nas z plików cookie. Przykładowo prowadzimy monitoring łącznej liczby odwiedzających nasze Witryny i korzystających z naszych Aplikacji Mobilnych – na zasadach anonimowych i zagregowanych. Możemy także stosować pliki cookie, aby móc Ciebie zapamiętać w przypadku powtórnej wizyty na Witrynach, aby prowadzić obsługę konkursów i losowań oraz w celu personalizacji Twojego doświadczenia na Witrynach restauracji. W tej sytuacji z plikiem cookie mogą zostać powiązane pewne dane osobowe.
 
@@ -151,7 +154,7 @@
     Pliki cookie służące do analizy oraz oceny wydajności. Pliki cookie możemy wykorzystywać w celu oceny wydajności naszych Witryn i Aplikacji Mobilnych, w tym w ramach działań analitycznych mających na celu podniesienie jakości treści oferowanych za pośrednictwem Witryn i Aplikacji Mobilnych.
     Reklamowe pliki cookie. My sami oraz zewnętrzni reklamodawcy możemy korzystać z plików cookie, aby móc zaprezentować Tobie najlepiej dopasowane produkty, oferty oraz reklamy. Reklamowe pliki cookie pozwalają nam także przedstawić na Witrynach oraz Aplikacjach Mobilnych treści, które są dostosowane do Ciebie i Twoich indywidualnych zainteresowań.
     Ustawienia i usuwanie plików cookie
-    W ustawieniach Twojej przeglądarki internetowej możesz zablokować otrzymywanie plików cookie lub ustawić ją tak, że za każdym razem, kiedy otrzymasz plik cookie zostaniesz o tym poinformowany/poinformowana. Informacje o zmianie ustawień przeglądarki w związku z plikami cookie zawarte są w jej opcji pomocy „Help”. Całkowite zablokowanie plików cookie może uniemożliwić korzystanie z wszystkich funkcji naszych Witryn i Aplikacji Mobilnych.
+    W ustawieniach Twojej przeglądarki internetowej możesz zablokować otrzymywanie plików cookie lub ustawić ją tak, że za każdym razem, kiedy otrzymasz plik cookie zostaniesz o tym poinformowany/poinformowana. Całkowite zablokowanie plików cookie może uniemożliwić korzystanie z portalu.
 
 
 </p>
