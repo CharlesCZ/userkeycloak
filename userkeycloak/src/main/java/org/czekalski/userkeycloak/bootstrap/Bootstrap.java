@@ -13,7 +13,7 @@ import java.util.Set;
 @Component
 public class Bootstrap implements CommandLineRunner {
     public static final String INGREDIENT_NAME1 = "mozzarella";
-    public static final String INGREDIENT_NAME2 = "sos pomidorowy";
+    public static final String INGREDIENT_NAME2 = "tomato sauce";
     public static final String DISH_NAME_1 = "MargheritaCheeseX2";
 
     private static final String USER1 = "Czarek11";
@@ -57,13 +57,13 @@ private final RecipeRepository recipeRepository;
       ingredientRepository.save(ingredient2);
 
         Ingredient ingredient3=new Ingredient();
-        ingredient3.setName("pietruszka");
+        ingredient3.setName("parsley");
         ingredient3.setCost(new BigDecimal("1.24"));
          ingredientRepository.save(ingredient3);
 
 
         Ingredient ingredient4=new Ingredient();
-        ingredient4.setName("krewetki");
+        ingredient4.setName("prawns");
         ingredient4.setCost(new BigDecimal("2.0"));
         ingredientRepository.save(ingredient4);
 
@@ -139,7 +139,7 @@ private final RecipeRepository recipeRepository;
         dishRepository.save(dish2Big);
 
         Ingredient ingredient3=new Ingredient();
-        ingredient3.setName("pieczarki");
+        ingredient3.setName("mushrooms");
         ingredient3.setCost(new BigDecimal("1.00"));
         ingredientRepository.save(ingredient3);
 
