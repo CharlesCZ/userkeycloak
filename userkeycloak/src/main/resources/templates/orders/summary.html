@@ -44,10 +44,10 @@
         <table class="table">
             <thead class="thead-dark">
             <tr>
-        <th scope="col">name</th>
-        <th scope="col">cost</th>
-        <th scope="col">amount</th>
-        <th scope="col">options</th>
+        <th scope="col">Name</th>
+        <th scope="col">Cost</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Options</th>
     </tr>
             </thead>
             <tbody>
@@ -65,8 +65,8 @@
         </tr>
 
         <tr>
-            <th>name</th>
-            <th>quantity</th>
+            <th>Name</th>
+            <th>Quantity</th>
         </tr>
         <tr th:each="orderIngredient : ${orderDish.getOrderIngredients()}" >
             <td th:text="${orderIngredient.ingredient.name}"></td>

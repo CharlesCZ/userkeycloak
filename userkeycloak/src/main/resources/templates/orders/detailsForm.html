@@ -15,13 +15,13 @@
         <h1  class="font-weight-light">Order details</h1>
     <table class="table">
         <tr>
-            <td>id</td>
+            <td>Id</td>
             <td th:text="*{id}"></td>
                <input type="hidden"  th:field="*{id}"/>
 
         </tr>
         <tr>
-            <td>description</td>
+            <td>Description</td>
             <td> <input type="text"  th:field="*{description}"/>  </td>
         </tr>
 
@@ -30,16 +30,16 @@
 
 
         <tr>
-            <td>user</td>
+            <td>User</td>
             <td th:text="*{user}"></td>
             <input type="hidden"  th:field="*{user}"/>
         </tr>
         <tr>
-            <td>payed</td>
+            <td>Payed</td>
             <td>   <input type="text"  th:field="*{payed}"/> </td>
         </tr>
         <tr>
-            <td>status</td>
+            <td>Status</td>
             <td>
                 <select  name="status.id">
                     <option th:each="status: ${statuses}"
@@ -52,23 +52,23 @@
             </td>
         </tr>
         <tr>
-            <td>city</td>
+            <td>City</td>
             <td>  <input type="text"  th:field="*{city}"/>  </td>
         </tr>
         <tr>
-             <td>street</td>
+             <td>Street</td>
              <td>   <input type="text"  th:field="*{street}"/> </td>
         </tr>
         <tr>
-            <td>house nr</td>
+            <td>House nr</td>
             <td>    <input type="number"  th:field="*{houseNr}"/>  </td>
         </tr>
         <tr>
-            <td>apartment</td>
+            <td>Apartment</td>
             <td>     <input type="number"  th:field="*{apartment}"/>  </td>
         </tr>
         <tr>
-            <td>payment kinds</td>
+            <td>Payment kinds</td>
             <td>
                 <select  name="paymentKind.id">
                     <option th:each="paymentKind: ${paymentKinds}"
@@ -81,31 +81,31 @@
             </td>
         </tr>
     <tr>
-        <td>telephone</td>
+        <td>Telephone</td>
         <td>  <input type="text"  th:field="*{telephone}"/> </td>
     </tr>
         <tr>
-            <td>created Date</td>
+            <td>Created Date</td>
             <td th:text="*{createdDate}"></td>
               <input type="hidden" th:field="${order.createdDate}"/>
         </tr>
         <tr>
-            <td>created By</td>
+            <td>Created By</td>
             <td th:text="*{createdBy}"></td>
              <input type="hidden" th:field="${order.createdBy}"/>
         </tr>
         <tr>
-            <td>last modified date</td>
+            <td>Last modified date</td>
             <td th:text="*{lastModifiedDate}"></td>
             <input type="hidden" th:field="${order.lastModifiedDate}"/>
         </tr>
         <tr>
-            <td>last modified by</td>
+            <td>Last modified by</td>
             <td th:text="*{lastModifiedBy}"></td>
             <input type="hidden" th:field="${order.lastModifiedBy}"/>
         </tr>
         <tr>
-            <td>total price</td>
+            <td>Total price</td>
             <td th:text="*{totalPrice}"></td>
 
         </tr>
@@ -120,10 +120,10 @@
         <table class="table">
             <thead class="thead-dark">
         <tr>
-            <th scope="col">name</th>
-            <th scope="col">cost</th>
-            <th scope="col">amount</th>
-            <th scope="col">options</th>
+            <th scope="col">Name</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Options</th>
         </tr>
             </thead>
             <tbody>
@@ -141,8 +141,8 @@
             </tr>
 
             <tr>
-                <th>name</th>
-                <th>quantity</th>
+                <th>Name</th>
+                <th>Quantity</th>
             </tr>
             <tr th:each="orderIngredient : ${orderDish.getOrderIngredients()}" >
                 <td th:text="${orderIngredient.ingredient.name}"></td>
