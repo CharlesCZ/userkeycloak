@@ -1,12 +1,42 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Update orderDish Form</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/dishAndIngredients.css}" />
 </head>
 <body>
 
-<label>Name:</label>
+
+<nav class="navbar navbar-expand-lg  shadow-sm p-3 mb-5 rounded">
+    <div class="background container">
+        <ul class="navbar-nav mr-auto">
+            <div sec:authorize="!isAuthenticated()">
+                <li class="nav-item">
+                    <a  class="btn btn-outline-success" href="#" th:href="@{ '/logged'}">logIn</a>
+                </li>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                    <form  th:action="@{ '/logout'}" method="post">
+                        <button type="submit" class="btn btn-outline-warning">Logout</button>
+                    </form>
+                </li>
+            </div>
+            <li class="nav-item ml-5">
+                <a class="btn btn-info" href="#" th:href="@{ '/orders/summary'}">Shopping bag</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+<h2>Name:</h2>
 <p th:text="${orderDish.dish.name}+' '+(  (${orderDish.dish.size} <= 1)? 'Small' : 'Big' )"> </p>
 <form th:object="${orderDish}" th:action="@{'/orders/orderDish/'+${orderDish.id}+'/update'}" method="post">
 
@@ -23,7 +53,7 @@
 
     <input type="hidden"  th:field="*{dish.description}"/>
 
-    <label>Quantity of dishes</label>
+    <label >Quantity of dishes</label>
     <input type="number" step="0.01" th:field="*{dish.quantity}"/>
     <span  th:if="${#fields.hasErrors('quantity')}">
         <ul>
@@ -32,13 +62,13 @@
     </span>
 
     <p>Ingredients:</p>
-    <table>
+    <table  class="table table-striped">
         <thead>
         <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>cost</th>
-            <th>quantity</th>
+            <th  scope="col">id</th>
+            <th  scope="col">name</th>
+            <th  scope="col">cost</th>
+            <th  scope="col">quantity</th>
         </tr>
         </thead>
         <tbody>
@@ -61,7 +91,8 @@
         </tbody>
     </table>
 
-    <button type="submit" >Submit</button>
+    <button  class="btn btn-outline-success"  type="submit" >Submit</button>
 </form>
+</div>
 </body>
 </html>
