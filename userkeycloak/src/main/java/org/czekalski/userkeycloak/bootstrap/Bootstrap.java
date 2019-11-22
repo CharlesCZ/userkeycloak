@@ -197,7 +197,7 @@ private final TypeRepository typeRepository;
 
         //fizy drinks
         Dish drink=new Dish();
-        drink.setName("Cola 330ml");
+        drink.setName("Cola");
         drink.setCost(new BigDecimal("1"));
         drink.setSize(new BigDecimal("1"));
         Type type2=new Type();
@@ -208,13 +208,20 @@ private final TypeRepository typeRepository;
         drink.setType(type2);
         dishRepository.save( drink);
         drink.setId(null);
-        drink.setName("Black Tea 330ml");
+        drink.setName("Cola");
+        drink.setCost(new BigDecimal("2"));
+        drink.setSize(new BigDecimal("2"));
         dishRepository.save( drink);
         drink.setId(null);
-        drink.setName("Green Tea 330ml");
+        drink.setCost(new BigDecimal("1"));
+        drink.setSize(new BigDecimal("1"));
+        drink.setName("Black Tea");
         dishRepository.save( drink);
         drink.setId(null);
-        drink.setName("Water 330ml");
+        drink.setName("Green Tea ");
+        dishRepository.save( drink);
+        drink.setId(null);
+        drink.setName("Water");
         drink.setCost(new BigDecimal("0.3"));
         dishRepository.save( drink);
 
