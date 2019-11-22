@@ -106,7 +106,7 @@
         </tr>
         <tr>
             <td>Total price</td>
-            <td th:text="*{totalPrice}"></td>
+            <td th:text="*{totalPrice+' €'}"></td>
 
         </tr>
     </table>
@@ -130,7 +130,7 @@
         <div th:each="orderDish: ${order.orderDishes}">
             <tr>
                 <td> <h4 th:text="${orderDish.dish.name}+' '+(  (${orderDish.dish.size} <= 1)? 'Small' : 'Big' )"></h4> </td>
-                <td th:text="${orderDish.totalPrice}"></td>
+                <td th:text="${orderDish.totalPrice}+' €'"></td>
                 <td th:text="${orderDish.quantity}"></td>
                 <td>
         <span>

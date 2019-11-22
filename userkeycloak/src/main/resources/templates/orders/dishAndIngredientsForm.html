@@ -73,7 +73,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             <input type="hidden"  th:field="*{ingredientCommands[__${stat.index}__].id}"/>
             <td th:text="${ingredient.name}"></td>
             <input type="hidden"  th:field="*{ingredientCommands[__${stat.index}__].name}"/>
-            <td th:text="${ingredient.cost}"></td>
+            <td th:text="${ingredient.cost}+' €'"></td>
             <input type="hidden"  th:field="*{ingredientCommands[__${stat.index}__].cost}"/>
 
            <td> <input type="number"  th:field="*{ingredientCommands[__${stat.index}__].quantity}"/>

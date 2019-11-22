@@ -52,7 +52,7 @@
         <td  th:text="${dish.id}"></td>
         <td th:text="${dish.name}+' '+(  (${dish.size} <= 1)? 'Small' : 'Big' )"></td>
         <td th:text="${dish.description}"></td>
-        <td th:text="${dish.cost}"></td>
+        <td th:text="${dish.cost}+' €'"></td>
         <td><a href="#" th:href="@{ '/orders/dishes/'+${dish.id}+'/new'}">Add to cart</a></td>
     </tr>
     </tbody>

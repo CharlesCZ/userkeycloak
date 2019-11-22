@@ -21,7 +21,6 @@
         <th scope="col">Id</th>
         <th scope="col">Name</th>
         <th scope="col">Cost</th>
-        <th scope="col">Update</th>
         <th scope="col">Delete</th>
     </tr>
     </thead>
@@ -29,8 +28,7 @@
     <tr th:each="ingredient: ${ingredients}">
         <td th:text="${ingredient.id}"></td>
         <td th:text="${ingredient.name}"></td>
-        <td th:text="${ingredient.cost}"></td>
-        <td><a href="#"  class="btn btn-light" th:href="@{ '/ingredients/'+${ingredient.id}+'/update'}">Update</a></td>
+        <td th:text="${ingredient.cost}+' €'"></td>
         <td><a href="#" class="btn btn-danger" th:href="@{ '/ingredients/'+${ingredient.id}+'/delete'}">Delete</a></td>
     </tr>
     </tbody>

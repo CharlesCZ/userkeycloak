@@ -26,7 +26,7 @@
         <tr>
             <td th:text="${ingredient.id}"></td>
             <td th:text="${ingredient.name}"></td>
-            <td th:text="${ingredient.cost}"></td>
+            <td th:text="${ingredient.cost}+' €'"></td>
             <td><a href="#" class="btn btn-outline-info" th:href="@{ '/ingredients/'+${ingredient.id}+'/update'}">Update</a></td>
             <td><a href="#" class="btn btn-danger" th:href="@{ '/ingredients/'+${ingredient.id}+'/delete'}">Delete</a></td>
         </tr>
