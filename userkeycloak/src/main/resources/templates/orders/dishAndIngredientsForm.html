@@ -83,7 +83,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
            <td> <input type="number"  th:field="*{ingredientCommands[__${stat.index}__].quantity}"/>
                <span th:class="text-danger"  th:if="${#fields.hasErrors('ingredientCommands[__${stat.index}__].quantity')}">
                    <ul>
-                       <li th:each="error: ${#fields.errors('ingredientCommands[__${stat.index}__].quantity')}" th:text="${error}"/>
+                       <li th:each="error: ${#fields.errors('ingredientCommands[__${stat.index}__].quantity')}" th:text="${#strings.contains(error,'java')? 'wrong numbers': error}"/>
                   </ul>
                </span>
            </td>

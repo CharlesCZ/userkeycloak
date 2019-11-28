@@ -7,6 +7,8 @@ import org.czekalski.userkeycloak.model.Ingredient;
 import org.czekalski.userkeycloak.model.Recipe;
 
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,6 +21,9 @@ public class IngredientCommand {
     private Long id;
     private String name;
     private BigDecimal cost;
+
+    @NotNull
+    @Min(0)
     @Max(3)
     private Integer quantity;
 

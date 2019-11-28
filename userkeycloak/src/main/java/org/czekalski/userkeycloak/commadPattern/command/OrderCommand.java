@@ -3,6 +3,9 @@ package org.czekalski.userkeycloak.commadPattern.command;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -31,8 +34,11 @@ public class OrderCommand extends AuditBaseCommand{
     private String Street;
 
 
+    @Min(0)
+    @Max(1111111)
     private Integer houseNr;
-
+    @Min(0)
+    @Max(1111111)
     private Integer apartment;
 
     private String telephone;

@@ -54,9 +54,19 @@
 
                 <label for="houseNumber">House number:</label>
                 <input id="houseNumber"  class="form-control" type="number"  step="0.01" th:field="*{houseNr}">
-
+            <span th:class="text-danger"  th:if="${#fields.hasErrors('houseNr')}">
+                   <ul>
+                       <li th:each="error: ${#fields.errors('houseNr')}" th:text="${#strings.contains(error,'java')? 'wrong numbers': error}"/>
+                  </ul>
+               </span>
                 <label for="apartment">Apartment:</label>
-                <input  id="apartment" class="form-control" type="number"  step="0.01" th:field="*{apartment}"> </td>
+                <input  id="apartment" class="form-control" type="number"  step="0.01" th:field="*{apartment}">
+            <span th:class="text-danger"  th:if="${#fields.hasErrors('apartment')}">
+                   <ul>
+                       <li th:each="error: ${#fields.errors('apartment')}" th:text="${#strings.contains(error,'java')? 'wrong numbers': error}"/>
+                  </ul>
+               </span>
+
 
                 <label for="telephone">Telephone:</label>
                 <input id="telephone" class="form-control" type="text"  step="0.01" th:field="*{telephone}">
