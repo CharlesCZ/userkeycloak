@@ -34,6 +34,65 @@
     </div>
 </nav>
 
+
+
+<div id="cookieContainer" class="alert alert-warning alert-dismissible fade show" role="alert">
+     We use <strong>cookies</strong>. Click on the X button if you agree with that otherwise you cannot use this site
+    <button id="closebutton1" type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            if (Boolean(readCookie('cookieInfo1'))) {
+                $('#cookieContainer').hide();
+            }
+            $("#closebutton1").click(function (e) {
+
+                $('#cookieContainer').hide();
+                e.stopPropagation();
+
+                createCookie('cookieInfo1', true, 1)
+                return false;
+            });
+
+            function createCookie(name, value, days) {
+                var expires;
+                if (days == 1) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 ));
+                    expires = "; expires=" + date.toGMTString();
+                }
+                else expires = "";
+                document.cookie = name + "=" + value + "; expires=" + expires;
+            }
+
+            function readCookie(cname) {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for(var i = 0; i <ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return false;
+            }
+
+
+
+        });
+
+    </script>
+
+
 <div class="container">
     <div class="card border-0 shadow my-5">
     <table class="table">
