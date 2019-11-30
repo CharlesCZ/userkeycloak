@@ -67,6 +67,7 @@ class OrderServiceTest {
         Dish dish = new Dish();
         dish.setId(1L);
         dish.setName(DISH_NAME_1);
+        dish.setSize(new BigDecimal(1));
         dish.setCost(new BigDecimal("10.00"));
 
 
@@ -116,13 +117,15 @@ class OrderServiceTest {
         orderDishes.add(orderDish);
 
         Dish dish2 = new Dish();
-        dish2.setId(1L);
+        dish2.setId(2L);
         dish2.setName("schabowy");
+        dish2.setSize(new BigDecimal(1));
         dish2.setCost(new BigDecimal("20.00"));
 
         OrderDish orderDish1=new OrderDish();
         orderDish1.setQuantity(1);
         orderDish1.setSingleDishCost(dish2.getCost());
+        orderDish1.setDish(dish2);
         orderDishes.add(orderDish1);
 
         order.setOrderDishes(orderDishes);
@@ -321,5 +324,219 @@ class OrderServiceTest {
         assertEquals(new BigDecimal("48.0"),orderCommand.getTotalPrice());
     }
 
+    @Test
+    void mergeTheSameDishes(){
+        Order order=preparingFullOrder();
+        Dish dish = new Dish();
+        dish.setId(1L);
+        dish.setName(DISH_NAME_1);
+        dish.setCost(new BigDecimal("10.00"));
+        dish.setSize(new BigDecimal(1));
 
+
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setId(1L);
+        ingredient1.setName(INGREDIENT_NAME1);
+        ingredient1.setCost(new BigDecimal("0.50"));
+
+        Ingredient ingredient2 = new Ingredient();
+        ingredient2.setId(2L);
+        ingredient2.setName(INGREDIENT_NAME2);
+        ingredient2.setCost(new BigDecimal("0.20"));
+
+
+        OrderDish orderDish=new OrderDish();
+        orderDish.setId(null);
+        orderDish.setSingleDishCost(dish.getCost());
+        orderDish.setQuantity(1);
+        orderDish.setDish(dish);
+        orderDish.setOrder(order);
+
+
+        OrderIngredient orderIngredient1=new OrderIngredient();
+        orderIngredient1.setIngredient(ingredient1);
+        orderIngredient1.setIngredientDishOrderCost(ingredient1.getCost());
+        orderIngredient1.setOrderDish(orderDish);
+        orderIngredient1.setQuantity(2);
+        orderIngredient1.setId(1L);
+
+        OrderIngredient orderIngredient2=new OrderIngredient();
+        orderIngredient2.setIngredient(ingredient2);
+        orderIngredient2.setIngredientDishOrderCost(ingredient2.getCost());
+        orderIngredient2.setOrderDish(orderDish);
+        orderIngredient2.setQuantity(1);
+        orderIngredient2.setId(2L);
+
+        Set<OrderIngredient> orderIngredients=new HashSet<>();
+        orderIngredients.add(orderIngredient1);
+        orderIngredients.add(orderIngredient2);
+
+        orderDish.setOrderIngredients(orderIngredients);
+order.getOrderDishes().add(orderDish);
+        orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+OrderCommand returnedOrderComand=orderService.convertedShoppingCar();
+
+
+assertThat(returnedOrderComand.getOrderDishes()).hasSize(2);
+assertEquals(Integer.valueOf(5),returnedOrderComand.getOrderDishes().stream()
+                           .filter(orderDishCommand -> orderDishCommand.getDish().getName().equals(DISH_NAME_1)).findFirst()
+                            .get().getQuantity());
+
+    }
+
+    @Test
+    void mergeTheSameDishes_differentDishes(){
+        orderService=new OrderServiceImpl(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+
+        OrderCommand returnedOrderComand=orderService.convertedShoppingCar();
+
+
+        assertThat(returnedOrderComand.getOrderDishes()).hasSize(2);
+
+
+    }
+
+
+    @Test
+    void mergeTheSameDishes_DifferentIngredients(){
+        Order order=preparingFullOrder();
+        Dish dish = new Dish();
+        dish.setId(1L);
+        dish.setName(DISH_NAME_1);
+        dish.setCost(new BigDecimal("10.00"));
+        dish.setSize(new BigDecimal(1));
+
+
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setId(1L);
+        ingredient1.setName(INGREDIENT_NAME1);
+        ingredient1.setCost(new BigDecimal("0.50"));
+
+
+
+
+        OrderDish orderDish=new OrderDish();
+        orderDish.setId(null);
+        orderDish.setSingleDishCost(dish.getCost());
+        orderDish.setQuantity(1);
+        orderDish.setDish(dish);
+        orderDish.setOrder(order);
+
+
+        OrderIngredient orderIngredient1=new OrderIngredient();
+        orderIngredient1.setIngredient(ingredient1);
+        orderIngredient1.setIngredientDishOrderCost(ingredient1.getCost());
+        orderIngredient1.setOrderDish(orderDish);
+        orderIngredient1.setQuantity(2);
+        orderIngredient1.setId(1L);
+
+
+
+        Set<OrderIngredient> orderIngredients=new HashSet<>();
+        orderIngredients.add(orderIngredient1);
+
+
+        orderDish.setOrderIngredients(orderIngredients);
+        order.getOrderDishes().add(orderDish);
+        orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+        OrderCommand returnedOrderComand=orderService.convertedShoppingCar();
+
+
+        assertThat(returnedOrderComand.getOrderDishes()).hasSize(3);
+
+
+    }
+
+
+    @Test
+    void mergeTheSameDishes_differentSizes(){
+        Order order=preparingFullOrder();
+        Dish dish = new Dish();
+        dish.setId(1L);
+        dish.setName(DISH_NAME_1);
+        dish.setCost(new BigDecimal("10.00"));
+        dish.setSize(new BigDecimal(1.2));
+
+
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setId(1L);
+        ingredient1.setName(INGREDIENT_NAME1);
+        ingredient1.setCost(new BigDecimal("0.50"));
+
+        Ingredient ingredient2 = new Ingredient();
+        ingredient2.setId(2L);
+        ingredient2.setName(INGREDIENT_NAME2);
+        ingredient2.setCost(new BigDecimal("0.20"));
+
+
+        OrderDish orderDish=new OrderDish();
+        orderDish.setId(null);
+        orderDish.setSingleDishCost(dish.getCost());
+        orderDish.setQuantity(1);
+        orderDish.setDish(dish);
+        orderDish.setOrder(order);
+
+
+        OrderIngredient orderIngredient1=new OrderIngredient();
+        orderIngredient1.setIngredient(ingredient1);
+        orderIngredient1.setIngredientDishOrderCost(ingredient1.getCost());
+        orderIngredient1.setOrderDish(orderDish);
+        orderIngredient1.setQuantity(2);
+        orderIngredient1.setId(1L);
+
+        OrderIngredient orderIngredient2=new OrderIngredient();
+        orderIngredient2.setIngredient(ingredient2);
+        orderIngredient2.setIngredientDishOrderCost(ingredient2.getCost());
+        orderIngredient2.setOrderDish(orderDish);
+        orderIngredient2.setQuantity(1);
+        orderIngredient2.setId(2L);
+
+        Set<OrderIngredient> orderIngredients=new HashSet<>();
+        orderIngredients.add(orderIngredient1);
+        orderIngredients.add(orderIngredient2);
+
+        orderDish.setOrderIngredients(orderIngredients);
+        order.getOrderDishes().add(orderDish);
+        orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+        OrderCommand returnedOrderComand=orderService.convertedShoppingCar();
+
+
+        assertThat(returnedOrderComand.getOrderDishes()).hasSize(3);
+
+
+    }
+
+@Test
+    void cleanShoppingCart(){
+    Order order=preparingFullOrder();
+   order.setTelephone("123123123");
+    orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+  orderService.cleanShoppingCart();
+
+  assertThat(orderService.getShoppingCart().getOrderDishes()).isEmpty();
+    assertThat(orderService.getShoppingCart().getTelephone()).isNull();
+
+
+
+}
+
+
+@Test
+    void  save(){
+OrderCommand orderCommand=new OrderCommand();
+orderCommand.setUser("newUser");
+
+Order order=new Order();
+order.setUser("newUser");
+order.setId(1L);
+
+given(orderRepository.save(any(Order.class))).willReturn(order);
+
+OrderCommand returnedUser=orderService.save(orderCommand);
+
+    assertEquals("newUser",returnedUser.getUser());
+    assertEquals(Long.valueOf(1L),returnedUser.getId());
+
+
+}
 }

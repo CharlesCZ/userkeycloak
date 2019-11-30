@@ -40,7 +40,7 @@ public class DishController {
 */
 
 
-    @GetMapping("/orders/dishes/new")
+    @GetMapping({"/orders/dishes/new","","/"})
     public String getAllDishes(Principal principal,Model model){
 
     model.addAttribute("principal",principal);

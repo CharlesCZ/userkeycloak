@@ -39,11 +39,11 @@ OrderRepository orderRepository;
     }
 
 
-    @GetMapping("/")
+   /* @GetMapping("/")
     public String test(){
 
         return "helloKeyCloak";
-    }
+    }*/
 
     @GetMapping("/test2")
     public String test1(Principal currentUser){

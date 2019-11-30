@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -85,10 +82,99 @@ BigDecimal price=new BigDecimal(0);
         }
     }
 
+    /*private Order mergeTheSameDishes(Order order){
+        for(Iterator<OrderDish> it=order.getOrderDishes().iterator();it.hasNext();){
+         OrderDish od1 =  it.next();
+            for(Iterator<OrderDish> it2=order.getOrderDishes().iterator();it2.hasNext();) {
+                OrderDish od2 = it.next();
+
+                if (compareOrderDishes(od1, od2)) {
+
+                    od1.getOrderIngredients().forEach(i1 -> {
+                        od2.getOrderIngredients().forEach(i2 -> {
+                            if (i1.getId().equals(i2.getId())) {
+                                i1.setQuantity(i1.getQuantity() + i2.getQuantity());
+                            }
+
+                        });
+
+                    });
+
+                    od1.setQuantity(od1.getQuantity() + od2.getQuantity());
+
+
+                }
+
+            }
+
+        }
+
+
+
+    }*/
+
+
+
+
+
+    private Order mergeTheSameDishes(Order order){
+if(order.getOrderDishes().size()>1) {
+    List<OrderDish> orderDishes = new ArrayList<>(order.getOrderDishes());
+    for (int i = 0; i < orderDishes.size(); ++i)
+        for (int j = i + 1; j < orderDishes.size(); ++j) {
+            OrderDish od1 = orderDishes.get(i);
+            OrderDish od2 = orderDishes.get(j);
+
+            if (compareOrderDishes(od1, od2)) {
+
+
+                orderDishes.remove(od2);
+                od1.setQuantity(od1.getQuantity() + od2.getQuantity());
+            }
+
+
+
+        }
+
+    order.setOrderDishes(new HashSet<>(orderDishes));
+}
+        return order;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private Boolean compareOrderDishes(OrderDish od1, OrderDish od2) {
+
+       if( !od1.getDish().getId().equals(od2.getDish().getId()) || !od1.getDish().getSize().equals(od2.getDish().getSize()))
+           return false;
+       else{
+           if(   od1.getOrderIngredients().size() !=od2.getOrderIngredients().size())
+           return false;
+            else{
+               return od1.getOrderIngredients().containsAll(od2.getOrderIngredients());
+
+           }
+
+
+
+       }
+
+
+    }
 
     @Override
 public OrderCommand convertedShoppingCar(){
-
+mergeTheSameDishes(shoppingCart);
         OrderCommand orderCommand=orderMapper.orderToOrderCommand(shoppingCart);
         orderCommand.getOrderDishes().forEach(orderDishCommand -> {
             orderDishCommand.setTotalPrice( totalPriceForOrderDishCommand(orderDishCommand) );
@@ -172,7 +258,8 @@ public OrderCommand convertedShoppingCar(){
         shoppingCart.setPayed(null);
         shoppingCart.setDescription(null);
         shoppingCart.setTelephone(null);
-        jpaAuditingConfig.auditorAwareBean().getCurrentAuditor().ifPresent(shoppingCart::setUser);
+        shoppingCart.setUser(null);
+     //   jpaAuditingConfig.auditorAwareBean().getCurrentAuditor().ifPresent(shoppingCart::setUser);
     }
 
     @Override
