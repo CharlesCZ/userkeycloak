@@ -1,6 +1,7 @@
 package org.czekalski.userkeycloak.controller;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 
 import org.czekalski.userkeycloak.service.UserService;
@@ -44,6 +45,14 @@ public class UserController {
     public String loggedIn(Model model){
         model.addAttribute("token",   userService.getloggedInUser());
         return "users/logged";
+    }
+
+    @GetMapping({"/dashboard","index"})
+    public String getIndex(Principal principal,Model model){
+        model.addAttribute("principal",principal);
+        model.addAttribute("token",   userService.getloggedInUser());
+
+        return "index";
     }
 
 }

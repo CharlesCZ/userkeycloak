@@ -26,13 +26,7 @@ public class DishController {
         this.dishService = dishService;
     }
 
-    @GetMapping({"/index"})
-    public String getIndex(){
 
-
-
-        return "index";
-    }
     @GetMapping({"/charts"})
     public String getCharts(){
 
