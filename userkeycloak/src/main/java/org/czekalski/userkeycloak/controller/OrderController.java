@@ -2,17 +2,14 @@ package org.czekalski.userkeycloak.controller;
 
 import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
-import org.czekalski.userkeycloak.model.Order;
-import org.czekalski.userkeycloak.service.OrderDishService;
-import org.czekalski.userkeycloak.service.OrderService;
-import org.czekalski.userkeycloak.service.PaymentKindService;
-import org.czekalski.userkeycloak.service.StatusService;
+import org.czekalski.userkeycloak.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -26,12 +23,14 @@ public class OrderController {
     private final PaymentKindService paymentKindService;
 
     private final StatusService statusService;
+    private final UserService userService;
 
-    public OrderController(OrderService orderService, OrderDishService orderDishService, PaymentKindService paymentKindService, StatusService statusService) {
+    public OrderController(OrderService orderService, OrderDishService orderDishService, PaymentKindService paymentKindService, StatusService statusService, UserService userService) {
         this.orderService = orderService;
         this.orderDishService = orderDishService;
         this.paymentKindService = paymentKindService;
         this.statusService = statusService;
+        this.userService = userService;
     }
 
     @ModelAttribute("paymentKinds")
@@ -79,6 +78,16 @@ return paymentKindService.getListOfPaymentKinds();
 
         return "orders/ordersList";
     }
+
+    @GetMapping({"/dashboard", "index"})
+    public String getIndex(Principal principal, Model model) {
+        model.addAttribute("principal", principal);
+        model.addAttribute("token", userService.getloggedInUser());
+        model.addAttribute("orders", orderService.getAllOrders());
+
+        return "index";
+    }
+
 
 
     @GetMapping("/orders/{id}/details")

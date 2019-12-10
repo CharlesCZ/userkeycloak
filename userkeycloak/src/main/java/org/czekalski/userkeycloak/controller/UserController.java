@@ -47,13 +47,6 @@ public class UserController {
         return "users/logged";
     }
 
-    @GetMapping({"/dashboard","index"})
-    public String getIndex(Principal principal,Model model){
-        model.addAttribute("principal",principal);
-        model.addAttribute("token",   userService.getloggedInUser());
-
-        return "index";
-    }
 
     @GetMapping({"/charts"})
     public String getCharts(Principal principal, Model model) {
