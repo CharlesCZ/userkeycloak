@@ -34,4 +34,6 @@ public interface OrderService {
     OrderCommand save(OrderCommand orderCommand);
 
 
+    List<OrderCommand> newOrderList();
+
 }

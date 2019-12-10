@@ -2,6 +2,7 @@ package org.czekalski.userkeycloak.controller;
 
 import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
+import org.czekalski.userkeycloak.model.Order;
 import org.czekalski.userkeycloak.service.OrderDishService;
 import org.czekalski.userkeycloak.service.OrderService;
 import org.czekalski.userkeycloak.service.PaymentKindService;
@@ -9,10 +10,7 @@ import org.czekalski.userkeycloak.service.StatusService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.sql.Timestamp;
@@ -119,4 +117,14 @@ return paymentKindService.getListOfPaymentKinds();
 
         return "policy";
     }
+
+    @GetMapping("/newOrderList")
+    @ResponseBody
+    public List<OrderCommand> newOrderList() {
+
+
+        return orderService.newOrderList();
+    }
+
+
 }

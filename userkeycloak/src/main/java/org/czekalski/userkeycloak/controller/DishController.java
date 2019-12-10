@@ -27,53 +27,7 @@ public class DishController {
     }
 
 
-    @GetMapping({"/charts"})
-    public String getCharts(){
 
-
-
-        return "charts";
-    }
-
-
-    @GetMapping({"/login"})
-    public String getlogin(){
-
-
-
-        return "login";
-    }
-
-    @GetMapping({"/blank"})
-    public String getBlank(){
-
-
-
-        return "blank";
-    }
-
-    @GetMapping({"/tables"})
-    public String getTables(){
-
-
-
-        return "tables";
-    }
-    @GetMapping({"/forgot-password"})
-    public String getForgotPAssowrd(){
-
-
-
-        return "forgot-password";
-    }
-
-    @GetMapping({"/register"})
-    public String getreg(){
-
-
-
-        return "register";
-    }
 
 
 

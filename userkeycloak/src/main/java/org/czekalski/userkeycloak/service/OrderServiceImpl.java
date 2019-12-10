@@ -305,4 +305,12 @@ BigDecimal fullPrice=new BigDecimal(0);
                 orderRepository.save(
                         orderMapper.orderCommandToOrder(orderCommand)));
     }
+
+    @Override
+    public List<OrderCommand> newOrderList() {
+
+        Status status = statusRepository.findByName("Created").orElseThrow(() -> new RuntimeException("Not Found status with this name"));
+        return orderRepository.findByStatus(status).stream()
+                .map(order -> orderMapper.orderToOrderCommand(order)).collect(Collectors.toList());
+    }
 }

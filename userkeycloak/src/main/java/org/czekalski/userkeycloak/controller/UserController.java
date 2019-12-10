@@ -55,4 +55,57 @@ public class UserController {
         return "index";
     }
 
+    @GetMapping({"/charts"})
+    public String getCharts(Principal principal, Model model) {
+        model.addAttribute("principal", principal);
+        model.addAttribute("token", userService.getloggedInUser());
+
+
+        return "charts";
+    }
+
+
+    @GetMapping({"/login"})
+    public String getlogin(Principal principal, Model model) {
+        model.addAttribute("principal", principal);
+        model.addAttribute("token", userService.getloggedInUser());
+
+        return "login";
+    }
+
+    @GetMapping({"/blank"})
+    public String getBlank(Principal principal, Model model) {
+        model.addAttribute("principal", principal);
+        model.addAttribute("token", userService.getloggedInUser());
+
+
+        return "blank";
+    }
+
+    @GetMapping({"/tables"})
+    public String getTables(Principal principal, Model model) {
+        model.addAttribute("principal", principal);
+        model.addAttribute("token", userService.getloggedInUser());
+
+        return "tables";
+    }
+
+    @GetMapping({"/forgot-password"})
+    public String getForgotPAssowrd(Principal principal, Model model) {
+        model.addAttribute("principal", principal);
+        model.addAttribute("token", userService.getloggedInUser());
+
+        return "forgot-password";
+    }
+
+    @GetMapping({"/register"})
+    public String getreg(Principal principal, Model model) {
+        model.addAttribute("principal", principal);
+        model.addAttribute("token", userService.getloggedInUser());
+
+        return "register";
+    }
+
+
+
 }
