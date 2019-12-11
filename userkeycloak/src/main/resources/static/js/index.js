@@ -4,7 +4,7 @@ $(document)
             $.ajax({
                 url: "/newOrderList",
                 success: function (result) {
-                    $("#orderCount").text(result.length)
+                    $("#orderCount").text("New orders: " + result.length)
                 }
             });
         }
