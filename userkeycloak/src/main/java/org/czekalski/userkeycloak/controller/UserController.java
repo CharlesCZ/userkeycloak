@@ -48,14 +48,7 @@ public class UserController {
     }
 
 
-    @GetMapping({"/charts"})
-    public String getCharts(Principal principal, Model model) {
-        model.addAttribute("principal", principal);
-        model.addAttribute("token", userService.getloggedInUser());
 
-
-        return "charts";
-    }
 
 
     @GetMapping({"/login"})
@@ -66,37 +59,47 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping({"/blank"})
+
+    @GetMapping({"/dashboard/charts"})
+    public String getCharts(Principal principal, Model model) {
+        model.addAttribute("principal", principal);
+        model.addAttribute("token", userService.getloggedInUser());
+
+
+        return "users/charts";
+    }
+
+    @GetMapping({"/dashboard/blank"})
     public String getBlank(Principal principal, Model model) {
         model.addAttribute("principal", principal);
         model.addAttribute("token", userService.getloggedInUser());
 
 
-        return "blank";
+        return "users/blank";
     }
 
-    @GetMapping({"/tables"})
+    @GetMapping({"/dashboard/tables"})
     public String getTables(Principal principal, Model model) {
         model.addAttribute("principal", principal);
         model.addAttribute("token", userService.getloggedInUser());
 
-        return "tables";
+        return "users/tables";
     }
 
-    @GetMapping({"/forgot-password"})
+    @GetMapping({"/dashboard/forgot-password"})
     public String getForgotPAssowrd(Principal principal, Model model) {
         model.addAttribute("principal", principal);
         model.addAttribute("token", userService.getloggedInUser());
 
-        return "forgot-password";
+        return "users/forgot-password";
     }
 
-    @GetMapping({"/register"})
+    @GetMapping({"/dashboard/register"})
     public String getreg(Principal principal, Model model) {
         model.addAttribute("principal", principal);
         model.addAttribute("token", userService.getloggedInUser());
 
-        return "register";
+        return "users/register";
     }
 
 
