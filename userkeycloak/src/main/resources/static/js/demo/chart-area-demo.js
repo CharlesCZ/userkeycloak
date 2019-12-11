@@ -14,10 +14,10 @@ $(document).ready(function () {
             var ordersList;
             var regEx = /^\d{4}-\d{2}-\d{2}/;
             ordersList = result;
-            var patt3 = ordersList.map(order = > regEx.exec(order.createdDate)
+            var patt3 = ordersList.map(order => regEx.exec(order.createdDate)
         )
             ;
-            var preetyDateString = patt3.map(str = > str.input.split(":")[0]
+            var preetyDateString = patt3.map(str => str.input.split(":")[0]
         )
             ;
             var myMap = new Map();
