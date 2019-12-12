@@ -60,7 +60,7 @@ public class UserController {
     }
 
 
-    @GetMapping({"/dashboard/charts"})
+    @GetMapping({"/charts"})
     public String getCharts(Principal principal, Model model) {
         model.addAttribute("principal", principal);
         model.addAttribute("token", userService.getloggedInUser());
@@ -69,7 +69,7 @@ public class UserController {
         return "users/charts";
     }
 
-    @GetMapping({"/dashboard/blank"})
+    @GetMapping({"/blank"})
     public String getBlank(Principal principal, Model model) {
         model.addAttribute("principal", principal);
         model.addAttribute("token", userService.getloggedInUser());
@@ -78,7 +78,7 @@ public class UserController {
         return "users/blank";
     }
 
-    @GetMapping({"/dashboard/tables"})
+    @GetMapping({"/tables"})
     public String getTables(Principal principal, Model model) {
         model.addAttribute("principal", principal);
         model.addAttribute("token", userService.getloggedInUser());
@@ -86,15 +86,9 @@ public class UserController {
         return "users/tables";
     }
 
-    @GetMapping({"/dashboard/forgot-password"})
-    public String getForgotPAssowrd(Principal principal, Model model) {
-        model.addAttribute("principal", principal);
-        model.addAttribute("token", userService.getloggedInUser());
 
-        return "users/forgot-password";
-    }
 
-    @GetMapping({"/dashboard/register"})
+    @GetMapping({"/register"})
     public String getreg(Principal principal, Model model) {
         model.addAttribute("principal", principal);
         model.addAttribute("token", userService.getloggedInUser());

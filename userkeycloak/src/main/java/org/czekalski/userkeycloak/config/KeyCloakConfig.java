@@ -90,8 +90,8 @@ KeycloakConfigResolver keycloakConfigResolver;
                   //  .csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/test2*").hasRole("user") // only user with role user are allowed to access
-                    .antMatchers("/dish/**","/ingredients/**","/orders/allOrders","/orders/{id}/details","/orders/{id}/details/**","/dashboard/admin/**").hasRole("admin")
-                    .antMatchers("/logged*","/logout*").authenticated()
+                    .antMatchers("/dish/**","/ingredients/**","/orders/allOrders","/orders/{id}/details","/orders/{id}/details/**","/dashboard/**","/dishesToEdit*").hasRole("admin")
+                    .antMatchers("/logged*","/logout*","/dashboard*").authenticated()
                     .anyRequest().permitAll()
                     .and()
                         .logout()

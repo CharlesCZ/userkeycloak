@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Dishes to edit</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+
+
+
+    <div class="card border-0 shadow my-5">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Only dough price!</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="dish: ${dishes}">
+                <td  th:text="${dish.id}"></td>
+                <td th:text="${dish.name}+' '+(  (${dish.size} <= 1)? 'Small' : 'Big' )"></td>
+                <td th:text="${dish.description}"></td>
+                <td th:text="${dish.cost}+' €'"></td>
+                <td><a href="#" th:href="@{ '/dish/'+${dish.id}+'/update'}">Update dish</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Drinks</h2>
+        <h2> </h2>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="drink: ${drinks}">
+                <td  th:text="${drink.id}"></td>
+                <td th:text="${drink.name}+' '+(  (${drink.size} <= 1)? 'Small' : 'Big' )"></td>
+                <td th:text="${drink.cost}+' €'"></td>
+                <td><a href="#" th:href="@{ '/dish/'+${drink.id}+'/update'}">Update drink</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+
+
+
+</body>
+</html>

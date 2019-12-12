@@ -54,6 +54,19 @@ public class DishController {
                 return "orders/dishes";
     }
 
+    @GetMapping({"/dishesToEdit"})
+    public String getdishesToEdit(Principal principal,Model model){
+
+        model.addAttribute("principal",principal);
+        model.addAttribute("dishes",dishService.getAllDishesWithIngredients());
+        model.addAttribute("drinks",dishService.getAllDrinks());
+
+        return "orders/dishesToEdit";
+    }
+
+
+
+
     @GetMapping("/orders/dishes/{id}/new")
 public String dishDetails(@PathVariable Long id,Model model){
         model.addAttribute("dish",dishService.getDishById(id));

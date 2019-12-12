@@ -79,7 +79,7 @@ return paymentKindService.getListOfPaymentKinds();
         return "orders/ordersList";
     }
 
-    @GetMapping("/dashboard/admin")
+    @GetMapping("/dashboard")
     public String getIndex(Principal principal, Model model) {
         model.addAttribute("principal", principal);
         model.addAttribute("token", userService.getloggedInUser());
