@@ -3,6 +3,8 @@ package org.czekalski.userkeycloak.controller;
 import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
 import org.czekalski.userkeycloak.service.*;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class OrderController {
@@ -57,7 +61,7 @@ return paymentKindService.getListOfPaymentKinds();
     }
 
     @PostMapping("/orders/checkout")
-    public String checkout(@Valid @ModelAttribute("order") OrderCommand orderCommand, BindingResult bindingResult){
+    public String checkout(@Valid @ModelAttribute("order") OrderCommand orderCommand,Principal principal, BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {
 
@@ -65,7 +69,7 @@ return paymentKindService.getListOfPaymentKinds();
         }
 
 
-        orderService.addOrderToDatabase(orderCommand);
+        orderService.addOrderToDatabase(orderCommand,principal);
         orderService.cleanShoppingCart();
         return "orders/successView";
     }
@@ -85,7 +89,16 @@ return paymentKindService.getListOfPaymentKinds();
         model.addAttribute("token", userService.getloggedInUser());
         model.addAttribute("orders", orderService.getAllOrders());
 
-        return "users/admin";
+
+        KeycloakAuthenticationToken authToken=(KeycloakAuthenticationToken)principal;
+        for (GrantedAuthority authority : authToken.getAuthorities()) {
+            if(authority.getAuthority().equals("ROLE_admin")) {
+                return "users/admin";
+            }
+        }
+
+        return "users/user";
+
     }
 
 

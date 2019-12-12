@@ -1,9 +1,7 @@
 package org.czekalski.userkeycloak.controller;
 
 import org.czekalski.userkeycloak.commadPattern.command.*;
-import org.czekalski.userkeycloak.model.Dish;
 import org.czekalski.userkeycloak.model.Order;
-import org.czekalski.userkeycloak.model.OrderDish;
 import org.czekalski.userkeycloak.service.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,19 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.in;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -58,6 +53,9 @@ class OrderControllerIT {
 
     @MockBean
     StatusService statusService;
+
+    @MockBean
+    UserService userService;
 
     @Autowired
     MockMvc mockMvc;
@@ -116,9 +114,12 @@ class OrderControllerIT {
 
     }
 
+
     @Test
+    @WithMockUser(roles = {"admin"})
     void postCheckout() throws Exception {
-        given(orderService.addOrderToDatabase(any(OrderCommand.class))).willReturn(new Order());
+
+        given(orderService.addOrderToDatabase(any(OrderCommand.class), any(Principal.class))).willReturn(new Order());
 
 
         mockMvc.perform(post("/orders/checkout") .with(csrf()))
@@ -126,7 +127,7 @@ class OrderControllerIT {
 
                 .andExpect(view().name("orders/successView"));
 
-        then(orderService).should().addOrderToDatabase(any(OrderCommand.class));
+        then(orderService).should().addOrderToDatabase(any(OrderCommand.class),  any(Principal.class));
         then(orderService).should().cleanShoppingCart();
 
 

@@ -22,10 +22,14 @@
             </div>
             <div sec:authorize="isAuthenticated()">
             <li class="nav-item">
-<form  th:action="@{ '/logout'}" method="post">
-    <button type="submit" class="btn btn-outline-warning">Logout</button>
-</form>
-            </li>
+                <form  th:action="@{ '/logout'}" method="post">
+                     <button type="submit" class="btn btn-outline-warning">Logout</button>
+                </form>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <li class="nav-item ml-5">
+                    <a  class="btn btn-outline-success" href="#" th:href="@{ '/dashboard'}">Dashboard</a>
+                </li>
             </div>
             <li class="nav-item ml-5">
                 <a class="btn btn-info" href="#" th:href="@{ '/orders/summary'}">Shopping bag</a>

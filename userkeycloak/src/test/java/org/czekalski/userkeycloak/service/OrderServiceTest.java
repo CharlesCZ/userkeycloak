@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.AuditorAware;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -59,7 +60,7 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-   orderService=new OrderServiceImpl(new Order(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+   orderService=new OrderServiceImpl(new Order(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
 
     }
 
@@ -134,7 +135,7 @@ class OrderServiceTest {
     }
     @Test
     void calculatePrice() {
-       orderService=new OrderServiceImpl(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+       orderService=new OrderServiceImpl(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
 
         BigDecimal returnedPrice=orderService.calculateTotalPrice();
 
@@ -146,7 +147,7 @@ class OrderServiceTest {
 
         Order orderToReturn= preparingFullOrder();
         orderToReturn.setId(1L);
-        orderService=new OrderServiceImpl(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+        orderService=new OrderServiceImpl(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
 
         PaymentKind paymentKind=new PaymentKind();
         paymentKind.setId(1L);
@@ -157,14 +158,9 @@ class OrderServiceTest {
         status.setName("started");
         status.setId(1L);
         given(statusRepository.findById(1L)).willReturn(Optional.of(status));
-        AuditorAware<String> auditorAware=new AuditorAware<String>() {
-            @Override
-            public Optional<String> getCurrentAuditor() {
-                return Optional.of("nowy user");
-            }
-        };
 
-        given(jpaAuditingConfig.auditorAwareBean()).willReturn(auditorAware);
+
+
         given(orderRepository.save(houseNrCaptor.capture())).willReturn(orderToReturn);
 
         Long id=1L,orderIngredientId=1L;
@@ -184,7 +180,13 @@ class OrderServiceTest {
         PaymentKindCommand paymentKindCommand=new PaymentKindCommand();
         paymentKindCommand.setId(1L);
         orderAsArgument.setPaymentKind(paymentKindCommand);
-        Order returnedOrder=orderService.addOrderToDatabase(orderAsArgument);
+        Principal principal=new Principal() {
+            @Override
+            public String getName() {
+                return "123";
+            }
+        };
+        Order returnedOrder=orderService.addOrderToDatabase(orderAsArgument, principal);
 
         then(paymentKindRepository).should().findById(1L);
         then(orderRepository).should().save(any(Order.class));
@@ -373,7 +375,7 @@ class OrderServiceTest {
 
         orderDish.setOrderIngredients(orderIngredients);
 order.getOrderDishes().add(orderDish);
-        orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+        orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
 OrderCommand returnedOrderComand=orderService.convertedShoppingCar();
 
 
@@ -386,7 +388,7 @@ assertEquals(Integer.valueOf(5),returnedOrderComand.getOrderDishes().stream()
 
     @Test
     void mergeTheSameDishes_differentDishes(){
-        orderService=new OrderServiceImpl(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+        orderService=new OrderServiceImpl(preparingFullOrder(), orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
 
         OrderCommand returnedOrderComand=orderService.convertedShoppingCar();
 
@@ -438,7 +440,7 @@ assertEquals(Integer.valueOf(5),returnedOrderComand.getOrderDishes().stream()
 
         orderDish.setOrderIngredients(orderIngredients);
         order.getOrderDishes().add(orderDish);
-        orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+        orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
         OrderCommand returnedOrderComand=orderService.convertedShoppingCar();
 
 
@@ -497,7 +499,7 @@ assertEquals(Integer.valueOf(5),returnedOrderComand.getOrderDishes().stream()
 
         orderDish.setOrderIngredients(orderIngredients);
         order.getOrderDishes().add(orderDish);
-        orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+        orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
         OrderCommand returnedOrderComand=orderService.convertedShoppingCar();
 
 
@@ -510,7 +512,7 @@ assertEquals(Integer.valueOf(5),returnedOrderComand.getOrderDishes().stream()
     void cleanShoppingCart(){
     Order order=preparingFullOrder();
    order.setTelephone("123123123");
-    orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository, jpaAuditingConfig);
+    orderService=new OrderServiceImpl(order, orderRepository, orderMapper, paymentKindRepository, orderDishRepository, orderIngredientRepository, statusRepository);
   orderService.cleanShoppingCart();
 
   assertThat(orderService.getShoppingCart().getOrderDishes()).isEmpty();

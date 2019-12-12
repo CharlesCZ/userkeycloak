@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,10 +26,10 @@ public class OrderServiceImpl implements OrderService{
     private final OrderDishRepository orderDishRepository;
     private final OrderIngredientRepository orderIngredientRepository;
     private final StatusRepository statusRepository;
-    private final JpaAuditingConfig jpaAuditingConfig;
 
 
-    public OrderServiceImpl(Order shoppingCart, OrderRepository orderRepository, OrderMapper orderMapper, PaymentKindRepository paymentKindRepository, OrderDishRepository orderDishRepository, OrderIngredientRepository orderIngredientRepository, StatusRepository statusRepository, JpaAuditingConfig jpaAuditingConfig) {
+
+    public OrderServiceImpl(Order shoppingCart, OrderRepository orderRepository, OrderMapper orderMapper, PaymentKindRepository paymentKindRepository, OrderDishRepository orderDishRepository, OrderIngredientRepository orderIngredientRepository, StatusRepository statusRepository) {
         this.shoppingCart = shoppingCart;
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
@@ -37,7 +38,7 @@ public class OrderServiceImpl implements OrderService{
         this.orderIngredientRepository = orderIngredientRepository;
         this.statusRepository = statusRepository;
 
-        this.jpaAuditingConfig = jpaAuditingConfig;
+
     }
 
 
@@ -185,7 +186,7 @@ mergeTheSameDishes(shoppingCart);
 
 }
 
-    private  Order convertFromProxy(Order shoppingCart,JpaAuditingConfig jpaAuditingConfig){
+    private  Order convertFromProxy(Order shoppingCart,Principal principal){
 //TODO better solution
         Order shoppingCartToSave=new Order();
         shoppingCartToSave.setStatus(shoppingCart.getStatus());
@@ -200,11 +201,13 @@ mergeTheSameDishes(shoppingCart);
         shoppingCartToSave.setFinishedTime(shoppingCart.getFinishedTime());
         shoppingCartToSave.setDescription(shoppingCart.getDescription());
         shoppingCartToSave.setId(shoppingCart.getId());
-        shoppingCartToSave.setUser(shoppingCart.getUser());
+
         shoppingCartToSave.setPayed(shoppingCart.getPayed());
         shoppingCartToSave.setDescription(shoppingCart.getDescription());
         shoppingCartToSave.setTelephone(shoppingCart.getTelephone());
-        jpaAuditingConfig.auditorAwareBean().getCurrentAuditor().ifPresent(shoppingCartToSave::setUser);
+        if(principal!=null && principal.getName()!=null)
+            shoppingCartToSave.setUser(principal.getName());
+     //   jpaAuditingConfig.auditorAwareBean().getCurrentAuditor().ifPresent(shoppingCartToSave::setUser);
 
         return shoppingCartToSave;
 
@@ -212,7 +215,7 @@ mergeTheSameDishes(shoppingCart);
 
     @Override
     @Transactional
-    public Order addOrderToDatabase(OrderCommand orderCommand) {
+    public Order addOrderToDatabase(OrderCommand orderCommand, Principal principal) {
 
         shoppingCart.setApartment(orderCommand.getApartment());
         shoppingCart.setHouseNr(orderCommand.getHouseNr());
@@ -225,7 +228,7 @@ mergeTheSameDishes(shoppingCart);
         statusRepository.findById(1L).ifPresent( shoppingCart::setStatus);
 
 
-        Order shoppingCartToSave =convertFromProxy(shoppingCart,jpaAuditingConfig);
+        Order shoppingCartToSave =convertFromProxy(shoppingCart,principal);
 
         for(Iterator<OrderDish> it = shoppingCart.getOrderDishes().iterator(); it.hasNext();){
             OrderDish orderDish=it.next();

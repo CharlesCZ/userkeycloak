@@ -2,10 +2,10 @@ package org.czekalski.userkeycloak.service;
 
 import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.commadPattern.command.OrderDishCommand;
-import org.czekalski.userkeycloak.config.audit.JpaAuditingConfig;
 import org.czekalski.userkeycloak.model.Order;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 
 public interface OrderService {
@@ -21,7 +21,7 @@ public interface OrderService {
     OrderCommand convertedShoppingCar();
 
 
-    Order addOrderToDatabase(OrderCommand orderCommand);
+    Order addOrderToDatabase(OrderCommand orderCommand, Principal principal);
 
     void cleanShoppingCart();
 

@@ -27,6 +27,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     </form>
                 </li>
             </div>
+            <div sec:authorize="isAuthenticated()">
+                <li class="nav-item ml-5">
+                    <a  class="btn btn-outline-success" href="#" th:href="@{ '/dashboard'}">Dashboard</a>
+                </li>
+            </div>
             <li class="background nav-item  ml-5">
                 <a class="btn btn-info" href="#" th:href="@{ '/orders/summary'}">Shopping bag</a>
             </li>
