@@ -205,8 +205,10 @@ mergeTheSameDishes(shoppingCart);
         shoppingCartToSave.setPayed(shoppingCart.getPayed());
         shoppingCartToSave.setDescription(shoppingCart.getDescription());
         shoppingCartToSave.setTelephone(shoppingCart.getTelephone());
-        if(principal!=null && principal.getName()!=null)
+        if(principal!=null && principal.getName()!=null) {
             shoppingCartToSave.setUser(principal.getName());
+        }else
+            shoppingCartToSave.setUser("user unknown");
      //   jpaAuditingConfig.auditorAwareBean().getCurrentAuditor().ifPresent(shoppingCartToSave::setUser);
 
         return shoppingCartToSave;
@@ -315,5 +317,12 @@ BigDecimal fullPrice=new BigDecimal(0);
         Status status = statusRepository.findByName("Created").orElseThrow(() -> new RuntimeException("Not Found status with this name"));
         return orderRepository.findByStatus(status).stream()
                 .map(order -> orderMapper.orderToOrderCommand(order)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrderCommand> newOrderList(String id) {
+        Status status = statusRepository.findByName("Created").orElseThrow(() -> new RuntimeException("Not Found status with this name"));
+        return orderRepository.findByStatus(status).stream()
+                .map(order -> orderMapper.orderToOrderCommand(order)).filter(orderCommand -> orderCommand.getUser().equals(id)).collect(Collectors.toList());
     }
 }

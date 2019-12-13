@@ -87,16 +87,17 @@ return paymentKindService.getListOfPaymentKinds();
     public String getIndex(Principal principal, Model model) {
         model.addAttribute("principal", principal);
         model.addAttribute("token", userService.getloggedInUser());
-        model.addAttribute("orders", orderService.getAllOrders());
+
 
 
         KeycloakAuthenticationToken authToken=(KeycloakAuthenticationToken)principal;
         for (GrantedAuthority authority : authToken.getAuthorities()) {
             if(authority.getAuthority().equals("ROLE_admin")) {
+                model.addAttribute("orders", orderService.getAllOrders());
                 return "users/admin";
             }
         }
-
+        model.addAttribute("orders", orderService.newOrderList(principal.getName()));
         return "users/user";
 
     }
@@ -140,12 +141,21 @@ return paymentKindService.getListOfPaymentKinds();
         return "policy";
     }
 
+
     @GetMapping("/newOrderList")
     @ResponseBody
     public List<OrderCommand> newOrderList() {
 
 
         return orderService.newOrderList();
+    }
+
+    @GetMapping("/newOrderListForUser")
+    @ResponseBody
+    public List<OrderCommand> newOrderListForUser(@RequestParam(name = "user") String user) {
+
+
+        return orderService.newOrderList(user);
     }
 
 
