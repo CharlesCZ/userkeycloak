@@ -325,4 +325,10 @@ BigDecimal fullPrice=new BigDecimal(0);
         return orderRepository.findByStatus(status).stream()
                 .map(order -> orderMapper.orderToOrderCommand(order)).filter(orderCommand -> orderCommand.getUser().equals(id)).collect(Collectors.toList());
     }
+
+    @Override
+    public List<OrderCommand> getAllUserOrders(String name) {
+        return orderRepository.findAllByUserId(name).stream()
+                .map(orderMapper::orderToOrderCommand).collect(Collectors.toList());
+    }
 }

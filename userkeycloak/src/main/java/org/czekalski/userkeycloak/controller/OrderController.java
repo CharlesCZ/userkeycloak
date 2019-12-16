@@ -76,10 +76,17 @@ return paymentKindService.getListOfPaymentKinds();
 
 
     @GetMapping("/orders/allOrders")
-    public String getAllOrders(Model model){
+    public String getAllOrders(Model model,Principal principal){
 
-        model.addAttribute("orders",orderService.getAllOrders());
+        KeycloakAuthenticationToken authToken=(KeycloakAuthenticationToken)principal;
+        for (GrantedAuthority authority : authToken.getAuthorities()) {
+            if(authority.getAuthority().equals("ROLE_admin")) {
+                model.addAttribute("orders",orderService.getAllOrders());
+                return "orders/ordersList";
+            }
+        }
 
+        model.addAttribute("orders",orderService.getAllUserOrders(principal.getName()));
         return "orders/ordersList";
     }
 
@@ -105,7 +112,7 @@ return paymentKindService.getListOfPaymentKinds();
 
 
     @GetMapping("/orders/{id}/details")
-    public String getOrderDetails(@PathVariable Long id, Model model){
+    public String getOrderDetails(@PathVariable Long id, Model model,Principal principal){
 
     OrderCommand orderCommand=orderService.getOrderDetailsById(id);
 
@@ -118,7 +125,16 @@ return paymentKindService.getListOfPaymentKinds();
         model.addAttribute("paymentKinds",paymentKindService.getListOfPaymentKinds());
         model.addAttribute("statuses",statusService.findAll());
 
-        return "orders/detailsForm";
+
+        KeycloakAuthenticationToken authToken=(KeycloakAuthenticationToken)principal;
+        for (GrantedAuthority authority : authToken.getAuthorities()) {
+            if(authority.getAuthority().equals("ROLE_admin")) {
+                model.addAttribute("orders", orderService.getAllOrders());
+                return "orders/detailsForm";
+            }
+        }
+
+     return "orders/detailsFormUser";
     }
 
     @PostMapping("/orders/{id}/details")

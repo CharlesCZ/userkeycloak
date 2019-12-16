@@ -7,6 +7,7 @@ import org.czekalski.userkeycloak.model.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,4 +18,7 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
    Optional<Order> getOrderDetailsById(Long orderId);
 
     List<Order> findByStatus(Status status);
+
+    @Query("SELECT  o FROM  Order  o WHERE o.user=:name ")
+    List<Order> findAllByUserId(String name);
 }

@@ -37,4 +37,7 @@ public interface OrderService {
     List<OrderCommand> newOrderList();
 
     List<OrderCommand> newOrderList(String id);
+
+
+    List<OrderCommand> getAllUserOrders(String name);
 }

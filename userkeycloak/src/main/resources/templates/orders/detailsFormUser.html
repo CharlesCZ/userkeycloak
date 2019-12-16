@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Details form</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+    <div class="container">
+        <h1  class="font-weight-light">Order details</h1>
+        <table class="table">
+            <tr>
+                <td>Id</td>
+                <td th:text="${order.id}"></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td th:text="${order.description}"></td>
+            </tr>
+            <tr>
+                <td>Payed</td>
+                <td th:text="${order.payed}"></td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td th:text="${order.status}"></td>
+                </td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td th:text="${order.city}"> </td>
+            </tr>
+            <tr>
+                <td>Street</td>
+                <td th:text="${order.street}"> </td>
+            </tr>
+            <tr>
+                <td>House nr</td>
+                <td th:text="${order.houseNr}">  </td>
+            </tr>
+            <tr>
+                <td>Apartment</td>
+                <td th:text="${order.apartment}">  </td>
+            </tr>
+            <tr>
+                <td>Payment kinds</td>
+                <td th:text="${order.paymentKind}">  </td>
+
+            </tr>
+            <tr>
+                <td>Telephone</td>
+                <td th:text="${order.telephone}"> </td>
+            </tr>
+            <tr>
+                <td>Created Date</td>
+                <td th:text="${order.createdDate}"></td>
+            </tr>
+            <tr>
+                <td>Created By</td>
+                <td th:text="${order.createdBy}"></td>
+            </tr>
+            <tr>
+                <td>Last modified date</td>
+                <td th:text="${order.lastModifiedDate}"></td>
+            </tr>
+            <tr>
+                <td>Last modified by</td>
+                <td th:text="${order.lastModifiedBy}"></td>
+            </tr>
+            <tr>
+                <td>Total price</td>
+                <td th:text="${order.totalPrice+' €'}"></td>
+
+            </tr>
+        </table>
+    </div>
+
+    <div class="container">
+        <h2 class="font-weight-light">Ordered dishes</h2>
+
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <div th:each="orderDish: ${order.orderDishes}">
+                <tr>
+                    <td> <h4 th:text="${orderDish.dish.name}+' '+(  (${orderDish.dish.size} <= 1)? 'Small' : 'Big' )"></h4> </td>
+                    <td th:text="${orderDish.totalPrice}+' €'"></td>
+                    <td th:text="${orderDish.quantity}"></td>
+                </tr>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                </tr>
+                <tr th:each="orderIngredient : ${orderDish.getOrderIngredients()}" >
+                    <td th:text="${orderIngredient.ingredient.name}"></td>
+                    <td th:text="${orderIngredient.quantity}"></td>
+                </tr>
+
+            </div>
+            </tbody>
+        </table>
+    </div>
+
+
+
+</body>
+</html>
