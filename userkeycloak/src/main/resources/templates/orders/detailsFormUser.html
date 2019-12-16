@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <td>Status</td>
-                <td th:text="${order.status}"></td>
+                <td th:text="${order.status.name}"></td>
                 </td>
             </tr>
             <tr>
@@ -49,7 +49,7 @@
             </tr>
             <tr>
                 <td>Payment kinds</td>
-                <td th:text="${order.paymentKind}">  </td>
+                <td th:text="${order.paymentKind.name}">  </td>
 
             </tr>
             <tr>
