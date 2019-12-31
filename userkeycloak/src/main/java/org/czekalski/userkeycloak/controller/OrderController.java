@@ -4,6 +4,7 @@ import org.czekalski.userkeycloak.commadPattern.command.OrderCommand;
 import org.czekalski.userkeycloak.commadPattern.command.PaymentKindCommand;
 import org.czekalski.userkeycloak.service.*;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -76,10 +77,9 @@ return paymentKindService.getListOfPaymentKinds();
 
 
     @GetMapping("/orders/allOrders")
-    public String getAllOrders(Model model,Principal principal){
+    public String getAllOrders(Model model,Principal principal,Authentication authentication){
 
-        KeycloakAuthenticationToken authToken=(KeycloakAuthenticationToken)principal;
-        for (GrantedAuthority authority : authToken.getAuthorities()) {
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
             if(authority.getAuthority().equals("ROLE_admin")) {
                 model.addAttribute("orders",orderService.getAllOrders());
                 return "orders/ordersList";
@@ -112,7 +112,7 @@ return paymentKindService.getListOfPaymentKinds();
 
 
     @GetMapping("/orders/{id}/details")
-    public String getOrderDetails(@PathVariable Long id, Model model,Principal principal){
+    public String getOrderDetails(@PathVariable Long id, Model model, Principal principal, Authentication authentication){
 
     OrderCommand orderCommand=orderService.getOrderDetailsById(id);
 
@@ -125,9 +125,7 @@ return paymentKindService.getListOfPaymentKinds();
         model.addAttribute("paymentKinds",paymentKindService.getListOfPaymentKinds());
         model.addAttribute("statuses",statusService.findAll());
 
-
-        KeycloakAuthenticationToken authToken=(KeycloakAuthenticationToken)principal;
-        for (GrantedAuthority authority : authToken.getAuthorities()) {
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
             if(authority.getAuthority().equals("ROLE_admin")) {
                 model.addAttribute("orders", orderService.getAllOrders());
                 return "orders/detailsForm";
