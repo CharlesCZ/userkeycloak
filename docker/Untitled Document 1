@@ -1,5 +1,0 @@
-./standalone.sh -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/keycloak-6.0.1/bin/config
-
-bin/standalone.sh -Dkeycloak.migration.action=import
--Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/keycloak-6.0.1/bin/config
--Dkeycloak.migration.strategy=OVERWRITE_EXISTING

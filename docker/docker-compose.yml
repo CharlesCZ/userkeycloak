@@ -1,42 +1,15 @@
 version: '3'
-
-volumes:
-  mysql_data:
-      driver: local
-
 services:
-  mysql:
-      image: mysql:5.7
-      environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: keycloak
-        MYSQL_USER: keycloak
-        MYSQL_PASSWORD: password
   keycloak:
-      image: jboss/keycloak
-      restart: on-failure
-      command:
-       - "-b"
-       - "0.0.0.0"
-       - "-Dkeycloak.migration.action=import"
-       - "-Dkeycloak.migration.provider=dir"
-       - "-Dkeycloak.migration.dir=/config/"
-       - "-Dkeycloak.migration.strategy=IGNORE_EXISTING"	
-       - "-Djboss.socket.binding.port-offset=100"
-      volumes:
-       - ./config:/config/
-       - /opt/keycloak-6.0.1/bin/docker/restaurant:/opt/jboss/keycloak/themes/restaurant
-      environment:
-        DB_VENDOR: MYSQL
-        DB_ADDR: mysql
-        DB_DATABASE: keycloak
-        DB_USER: keycloak
-        DB_PASSWORD: password
-        KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: admin
-        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the MySQL JDBC driver documentation in order to use it.
-        #JDBC_PARAMS: "connectTimeout=30000"
-      ports:
-        - 8180:8180
-      depends_on:
-        - mysql
+    image: jboss/keycloak:7.0.1
+    container_name: keycloak
+    command: ["-Djboss.socket.binding.port-offset=0 -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/jboss/keycloak/bin/config -Dkeycloak.migration.strategy=OVERWRITE_EXISTING"]
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+    ports:
+      - 8080:8080
+      - 8443:8443
+    volumes:
+      - ./restaurant/:/opt/jboss/keycloak/themes/restaurant
+      - ./config:/opt/jboss/keycloak/bin/config
