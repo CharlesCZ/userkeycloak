@@ -3,12 +3,12 @@ services:
   keycloak:
     image: jboss/keycloak:7.0.1
     container_name: keycloak
-    command: ["-Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/jboss/keycloak/bin/config -Dkeycloak.migration.strategy=OVERWRITE_EXISTING"]
+    command: ["-Djboss.socket.binding.port-offset=0 -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/opt/jboss/keycloak/bin/config -Dkeycloak.migration.strategy=OVERWRITE_EXISTING"]
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
     ports:
-      - 8180:8180
+      - 8080:8080
       - 8443:8443
     volumes:
       - ./restaurant/:/opt/jboss/keycloak/themes/restaurant
